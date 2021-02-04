@@ -1,0 +1,17 @@
+asgiref
+autopep8
+django==2.2.10
+pycodestyle
+pytz
+sqlparse
+Unipath
+dj-database-url
+python-decouple
+gunicorn
+whitenoise
+django-bootstrap4
+django_plotly_dash
+channels_redis
+dpd_static_support
+pandas
+dash_bootstrap_components

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_c46b2f21194347418e72b52b01b109d3 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+    <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_c46b2f21194347418e72b52b01b109d3" ></div>
+        
+</body>
+<script>    
+    
+            var map_c46b2f21194347418e72b52b01b109d3 = L.map(
+                "map_c46b2f21194347418e72b52b01b109d3",
+                {
+                    center: [-22.732391682348542, -47.647584031127465],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 11,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_96fab627491f476e95088a697e671306 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_c46b2f21194347418e72b52b01b109d3);
+        
+    
+            var heat_map_f91eea7d27cb4e2da106c94d78dc537f = L.heatLayer(
+                [[-22.66934058560597, -47.66190546265624], [-22.744715022180532, -47.65339456080586], [-22.734290279641648, -47.627684303135176], [-22.67519848874477, -47.70733570923607], [-22.68514441452588, -47.66411884546518], [-22.704032451180957, -47.66811887060336], [-22.738007310051533, -47.66277784786666], [-22.738007310051533, -47.66277784786666], [-22.66934058560597, -47.66190546265624], [-22.67519848874477, -47.70733570923607], [-22.740982416334962, -47.62257573622157], [-22.74199577491913, -47.52607619999211], [-22.66934058560597, -47.66190546265624], [-22.734383341469712, -47.54100605526072], [-22.842508347897745, -47.60161731533176], [-22.71699132678268, -47.65817532513119], [-22.709349108463325, -47.68270236875471], [-22.84301623730337, -47.606499068751724], [-22.73568940585241, -47.63457452882773], [-22.84301623730337, -47.606499068751724], [-22.66934058560597, -47.66190546265624], [-22.780872179541714, -47.66667300313416], [-22.71699132678268, -47.65817532513119], [-22.84301623730337, -47.606499068751724], [-22.730337100624705, -47.64263035895776], [-22.738056005123145, -47.62546095341215], [-22.501686612599908, -47.77324734731774], [-22.736718083154372, -47.64203895895764], [-22.730022946928298, -47.63923084361578], [-22.740982416334962, -47.62257573622157], [-22.741538137576942, -47.59620230368915], [-22.714390280544, -47.65486330128703], [-22.751059397963985, -47.65073958964128], [-22.730337100624705, -47.64263035895776], [-22.50674827043385, -47.77792054731776], [-22.726176547177577, -47.67179945951196], [-22.84172962290717, -47.682314630119706], [-22.58364229525391, -47.695372194882424], [-22.679572109177872, -47.65910177430083], [-22.77057152182735, -47.58450589999146], [-22.736718083154372, -47.64203895895764], [-22.73508285683926, -47.62606232827366], [-22.758253023829745, -47.616064147312144], [-22.67519848874477, -47.70733570923607], [-22.77149884837635, -47.597243928272896], [-22.734290279641648, -47.627684303135176], [-22.730022946928298, -47.63923084361578], [-22.736718083154372, -47.64203895895764], [-22.68265000400769, -47.66712794546515], [-22.738007310051533, -47.66277784786666], [-22.71699132678268, -47.65817532513119], [-22.730325173905353, -47.64984184361568], [-22.835751638839287, -47.615509736959716], [-22.740982416334962, -47.62257573622157], [-22.7159677463264, -47.6363536478671], [-22.740982416334962, -47.62257573622157], [-22.676314996953174, -47.658928058959035], [-22.72880351511251, -47.64418397855089], [-22.72880351511251, -47.64418397855089], [-22.68288640942899, -47.63169273012323]],
+                {"blur": 15, "max": 1.0, "maxZoom": 18, "minOpacity": 0.5, "radius": 25}
+            ).addTo(map_c46b2f21194347418e72b52b01b109d3);
+        
+</script>

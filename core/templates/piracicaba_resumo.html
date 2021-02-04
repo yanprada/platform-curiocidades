@@ -1,0 +1,1436 @@
+{% extends "layouts/base_piracicaba.html" %}
+{%load static%}
+{%load plotly_dash%}
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="panel-header  bg-info-gradient " >
+			<div class="page-inner py-5">
+				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+					<div>
+						<h2 class="text-white pb-2 fw-bold big" style="font-size:2.5em;">PIRACICABA</h2>
+						<h5 class="text-white op-7 mb-2">Resumo</h5>
+					</div>
+					<div class="ml-md-auto py-2 py-md-0">
+						<a href="#" class="btn btn-white btn-border btn-round mr-2">Reportar Erro</a>
+						<a href="#" class="btn btn-secondary btn-round">Contribua</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-inner mt--5">
+			<div class="row mt--2">
+				<div class="col-md-6">
+					<div class="card full-height">
+						<div class="card-body">
+							<div class="card-title">Câmara Municipal</div>
+							<div class="card-category">Estatísticas da Câmara</div>
+							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-1"></div>
+									<h6 class="fw-bold mt-3 mb-0">Vereadores Reeleitos</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-2"></div>
+									<h6 class="fw-bold mt-3 mb-0"> Nº Vereadoras</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-3"></div>
+									<h6 class="fw-bold mt-3 mb-0">Partidos de Esquerda</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card full-height">
+						<div class="card-body">
+							<div class="card-title">Prefeitura de Piracicaba</div>
+							<div class="row py-3">
+								<div class="col-md-4 d-flex flex-column justify-content-around">
+									<div>
+										<h6 class="fw-bold text-uppercase text-success op-8">Receitas Totais</h6>
+										<h3 class="fw-bold">R$289 mi</h3>
+									</div>
+									<div>
+										<h6 class="fw-bold text-uppercase text-danger op-8">Despesas Totais</h6>
+										<h3 class="fw-bold">R$257 mi</h3>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div id="chart-container">
+										<canvas id="totalIncomeChart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-head-row">
+								<div class="card-title">Gastos Correntes	 (Prefeitura)</div>
+								<div class="card-tools">
+									<a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2">
+										<span class="btn-label">
+											<i class="fa fa-pencil"></i>
+										</span>
+										Exportar
+									</a>
+									<a href="#" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fa fa-print"></i>
+										</span>
+										Imprimir
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container" style="min-height: 375px">
+								<canvas id="statisticsChart"></canvas>
+							</div>
+							<div id="myChartLegend"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card card-primary">
+						<div class="card-header">
+							<div class="card-title">Impostos</div>
+							<div class="card-category">Jan-Dez 2020</div>
+						</div>
+						<div class="card-body pb-0">
+							<div class="mb-4 mt-2">
+								<h1>R$ 71 mi</h1> <h6> (5º bi 2020)</h6>
+							</div>
+							<div class="pull-in">
+								<canvas id="dailySalesChart"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body pb-0">
+							<div class="h1 fw-bold float-right text-warning">+7%</div>
+							<h2 class="mb-2">0,785</h2>
+							<p class="text-muted">IDHM</p>
+							<div class="pull-in sparkline-fix">
+								<div id="lineChart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row row-card-no-pd">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-head-row card-tools-still-right">
+								<h4 class="card-title">Votação Prefeito</h4>
+								<div class="card-tools">
+									<button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-angle-down"></span></button>
+									<button class="btn btn-icon btn-link btn-primary btn-xs btn-refresh-card"><span class="fa fa-sync-alt"></span></button>
+									<button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-times"></span></button>
+								</div>
+							</div>
+							<p class="card-category">
+							Sessões eleitorais mais votadas Luciano Almeida</p>
+						</div>
+						<div class="card-body">
+							<<div class="{%plotly_class name='Pref_luci'%}" style="height:100: width:100%">
+								{%plotly_app name="Pref_luci" ratio=0.6	%}
+							</div>
+
+							<div class="row">
+
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Economia</div>
+						</div>
+						<div class="card-body pb-0">
+							<div class="d-flex">
+								<div class="avatar">
+									<img src="/static/assets/img/dinheiro.svg" alt="..." class="avatar-img">
+								</div>
+								<div class="flex-1 pt-1 ml-2">
+									<h6 class="fw-bold mb-1">PIB per Capta</h6>
+									<small class="text-muted">2018</small>
+								</div>
+								<div class="d-flex ml-auto align-items-center">
+									<h3 class="text-info fw-bold">$65 mil</h3>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar">
+									<img src="/static/assets/img/maleta.svg" alt="..." class="avatar-img ">
+								</div>
+								<div class="flex-1 pt-1 ml-2">
+									<h6 class="fw-bold mb-1">Pop Ocupada</h6>
+									<small class="text-muted">2018</small>
+								</div>
+								<div class="d-flex ml-auto align-items-center">
+									<h3 class="text-info fw-bold">35,2%</h3>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar">
+									<img src="/static/assets/img/salario.svg" alt="..." class="avatar-img">
+								</div>
+								<div class="flex-1 pt-1 ml-2">
+									<h6 class="fw-bold mb-1">Salário Médio Mensal</h6>
+									<small class="text-muted">Trab formais, 2018, salário mínimo</small>
+								</div>
+								<div class="d-flex ml-auto align-items-center">
+									<h3 class="text-info fw-bold">3,4</h3>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="pull-in">
+
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Educação</div>
+						</div>
+						<div class="card-body pb-0">
+							<div class="d-flex">
+								<div class="avatar">
+									<img src="/static/assets/img/presentation.svg" alt="..." class="avatar-img">
+								</div>
+								<div class="flex-1 pt-1 ml-2">
+									<h6 class="fw-bold mb-1">Taxa Escolarização</h6>
+									<small class="text-muted">de 6 a 14 anos, 2010</small>
+								</div>
+								<div class="d-flex ml-auto align-items-center">
+									<h3 class="text-info fw-bold">97,5%</h3>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar">
+									<img src="/static/assets/img/binder.svg" alt="..." class="avatar-img">
+								</div>
+								<div class="flex-1 pt-1 ml-2">
+									<h6 class="fw-bold mb-1">IDEB - Anos iniciais</h6>
+									<small class="text-muted">Ensino fundamental, <br> Rede pública, 2017</small>
+								</div>
+								<div class="d-flex ml-auto align-items-center">
+									<h3 class="text-info fw-bold">6,8</h3>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar">
+									<img src="/static/assets/img/graduated.svg" alt="..." class="avatar-img">
+								</div>
+								<div class="flex-1 pt-1 ml-2">
+									<h6 class="fw-bold mb-1">IDEB - Anos finais</h6>
+									<small class="text-muted">Ensino fundamental, <br> Rede pública, 2017</small>
+								</div>
+								<div class="d-flex ml-auto align-items-center">
+									<h3 class="text-info fw-bold">5,2</h3>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="card-title fw-mediumbold">Vereadores Reeleitos</div>
+							<div class="card-list">
+
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Paraná.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Aldisa Marques</div>
+										<div class="status">Cidadania (CID)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/parana"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/André Bandeira.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">André Bandeira</div>
+										<div class="status">Partido da Social Democracia Brasileira (PSDB)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/andrebandeira"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Ary Pedroso Jr.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Ary Pedroso Jr.</div>
+										<div class="status">Solidariedade (SOL)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/arypedrosojr"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Gilmar Rotta.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Gilmar Rotta</div>
+										<div class="status">Cidadania (CID)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/gilmarrotta"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<imgsrc="/static/assets/img/vereador/Laércio Trevisan Jr.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Laércio Trevisan Jr</div>
+										<div class="status">Partido Liberal (PL)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/laerciotrevisanjr"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Paulo Roberto de Campos.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Paulo Campos</div>
+										<div class="status">Podemos (PODE)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/paulocampos"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Paulo Henrique Ribeiro.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Paulo Henrique</div>
+										<div class="status">Republicanos (REP)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/paulohenrique"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Pedro Kawai.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Pedro Kawai</div>
+										<div class="status">Partido da Social Democracia Brasileira (PSDB)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/pedrokawai"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Relinho.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Rerlison Rezende</div>
+										<div class="status">Partido da Social Democracia Brasileira (PSDB)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/relinho"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Wagnão.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Wagner Oliveira</div>
+										<div class="status">Cidadania (CID)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/wagnao"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="card-title fw-mediumbold">Vereadores Novos</div>
+							<div class="card-list">
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Acácio Godoy.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Acácio Godoy</div>
+										<div class="status">Partido Progressista (PP)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/acaciogodoy"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Alessandra Protetora Animais.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Alessandra Bellucci</div>
+										<div class="status">Republicanos (REP)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/alessandrabellucci"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Ana Lúcia Pavão.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Ana Pavão</div>
+										<div class="status">Partido Liberal (PL)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/anapavao"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Anilton Rissato.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Anilton Rissato</div>
+										<div class="status">Patriota (PAT)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/aniltonrissato"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Cássio Luiz Fala Pira.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Cassio Luiz</div>
+										<div class="status">Partido Liberal (PL)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/cassioluiz"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Fabricio Polezi.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Fabricio Polezi</div>
+										<div class="status">Patriota (PAT)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/fabriciopolezi"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Gustavo Pompeo.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Gustavo Pompeo</div>
+										<div class="status">Avante</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/gustavopompeo"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Josef Borges.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Josef Borges</div>
+										<div class="status">Soliedariedade (SD)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/josefborges"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Paulo Camolesi.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Paulo Camolesi</div>
+										<div class="status">Partido Democrático Trabalhista (PDT)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/paulocamolesi"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Rai de Almeida.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Rai de Almeida</div>
+										<div class="status">Partido dos Trabalhadores (PT)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/raidealmeida"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Silvia Mandato Coletivo.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Silvia Morales "Mandato Coletivo"</div>
+										<div class="status">Partido Verde (PV)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/silviamorales"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Thiago Augusto Ribeiro.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Thiago Ribeiro</div>
+										<div class="status">Partido Social Cristão (PSC)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/thiagoribeiro"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+								<div class="item-list">
+									<div class="avatar">
+										<img src="/static/assets/img/vereador/Zezinho Pereira.png" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<div class="info-user ml-3">
+										<div class="username">Zezinho Pereira</div>
+										<div class="status">Democratas (DEM)</div>
+									</div>
+									<a target="_blank" href="https://www.camarapiracicaba.sp.gov.br/vereador/zezinhopereira"><button class="btn btn-icon btn-primary btn-round btn-xs">
+										<i class="fa fa-plus"></i>
+									</button></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card card-primary bg-primary-gradient">
+						<div class="card-body">
+							<h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Vacinação COVID-19</h4>
+							<h1 class="mb-4 fw-bold">1</h1>
+							<h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">Pessoas vacinadas</h4>
+							<div id="activeUsersChart"></div>
+							<h4 class="mt-5 pb-3 mb-0 fw-bold">Quantidade por Grupo</h4>
+							<ul class="list-unstyled">
+								<li class="d-flex justify-content-between pb-1 pt-1"><small>Grupo Prioritário 1</small> <span>1</span></li>
+								<li class="d-flex justify-content-between pb-1 pt-1"><small>Grupo Prioritário 2</small> <span>0</span></li>
+							</ul>
+						</div>
+					</div>
+
+
+
+				</div>
+				<div class="col-md-6">
+					<div class="card card-primary bg-primary-gradient">
+					<div class="card-body">
+						<h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Active user right now</h4>
+						<h1 class="mb-4 fw-bold">17</h1>
+						<h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">Page view per minutes</h4>
+						<div id="activeUsersChart"></div>
+						<h4 class="mt-5 pb-3 mb-0 fw-bold">Top active pages</h4>
+						<ul class="list-unstyled">
+							<li class="d-flex justify-content-between pb-1 pt-1"><small>/product/readypro/index.html</small> <span>7</span></li>
+							<li class="d-flex justify-content-between pb-1 pt-1"><small>/product/atlantis/demo.html</small> <span>10</span></li>
+						</ul>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card full-height">
+						<div class="card-header">
+							<div class="card-title">Atividades Câmara</div>
+						</div>
+						<div class="card-body">
+							<ol class="activity-feed">
+								<li class="feed-item feed-item-secondary">
+									<time class="date" datetime="9-25">Sep 25</time>
+									<span class="text">Responded to need <a href="#">"Volunteer opportunity"</a></span>
+								</li>
+								<li class="feed-item feed-item-success">
+									<time class="date" datetime="9-24">Sep 24</time>
+									<span class="text">Added an interest <a href="#">"Volunteer Activities"</a></span>
+								</li>
+								<li class="feed-item feed-item-info">
+									<time class="date" datetime="9-23">Sep 23</time>
+									<span class="text">Joined the group <a href="single-group.php">"Boardsmanship Forum"</a></span>
+								</li>
+								<li class="feed-item feed-item-warning">
+									<time class="date" datetime="9-21">Sep 21</time>
+									<span class="text">Responded to need <a href="#">"In-Kind Opportunity"</a></span>
+								</li>
+								<li class="feed-item feed-item-danger">
+									<time class="date" datetime="9-18">Sep 18</time>
+									<span class="text">Created need <a href="#">"Volunteer Opportunity"</a></span>
+								</li>
+								<li class="feed-item">
+									<time class="date" datetime="9-17">Sep 17</time>
+									<span class="text">Attending the event <a href="single-event.php">"Some New Event"</a></span>
+								</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card full-height">
+						<div class="card-header">
+							<div class="card-head-row">
+								<div class="card-title">Notícias</div>
+								<div class="card-tools">
+									<ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm" id="pills-tab" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Prefeitura</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Câmara</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">MP</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="d-flex">
+								<div class="avatar avatar-online">
+									<span class="avatar-title rounded-circle border border-white bg-info">J</span>
+								</div>
+								<div class="flex-1 ml-3 pt-1">
+									<h6 class="text-uppercase fw-bold mb-1">Joko Subianto <span class="text-warning pl-3">pending</span></h6>
+									<span class="text-muted">I am facing some trouble with my viewport. When i start my</span>
+								</div>
+								<div class="float-right pt-1">
+									<small class="text-muted">8:40 PM</small>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar avatar-offline">
+									<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
+								</div>
+								<div class="flex-1 ml-3 pt-1">
+									<h6 class="text-uppercase fw-bold mb-1">Prabowo Widodo <span class="text-success pl-3">open</span></h6>
+									<span class="text-muted">I have some query regarding the license issue.</span>
+								</div>
+								<div class="float-right pt-1">
+									<small class="text-muted">1 Day Ago</small>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar avatar-away">
+									<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
+								</div>
+								<div class="flex-1 ml-3 pt-1">
+									<h6 class="text-uppercase fw-bold mb-1">Lee Chong Wei <span class="text-muted pl-3">closed</span></h6>
+									<span class="text-muted">Is there any update plan for RTL version near future?</span>
+								</div>
+								<div class="float-right pt-1">
+									<small class="text-muted">2 Days Ago</small>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar avatar-offline">
+									<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
+								</div>
+								<div class="flex-1 ml-3 pt-1">
+									<h6 class="text-uppercase fw-bold mb-1">Peter Parker <span class="text-success pl-3">open</span></h6>
+									<span class="text-muted">I have some query regarding the license issue.</span>
+								</div>
+								<div class="float-right pt-1">
+									<small class="text-muted">2 Day Ago</small>
+								</div>
+							</div>
+							<div class="separator-dashed"></div>
+							<div class="d-flex">
+								<div class="avatar avatar-away">
+									<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
+								</div>
+								<div class="flex-1 ml-3 pt-1">
+									<h6 class="text-uppercase fw-bold mb-1">Logan Paul <span class="text-muted pl-3">closed</span></h6>
+									<span class="text-muted">Is there any update plan for RTL version near future?</span>
+								</div>
+								<div class="float-right pt-1">
+									<small class="text-muted">2 Days Ago</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo.js"></script>
+	<script src="/static/assets/js/demo.js"></script>
+
+	<script>
+		Circles.create({
+			id:'circles-1',
+			radius:45,
+			value:10,
+			maxValue:23,
+			width:7,
+			text: 10,
+			colors:['#f1f1f1', '#FF9E27'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-2',
+			radius:45,
+			value:4,
+			maxValue:23,
+			width:7,
+			text: 4,
+			colors:['#f1f1f1', '#2BB930'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-3',
+			radius:45,
+			value:3,
+			maxValue:23,
+			width:7,
+			text: 3,
+			colors:['#f1f1f1', '#F25961'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+
+		var mytotalIncomeChart = new Chart(totalIncomeChart, {
+			type: 'bar',
+			data: {
+				labels: ["1ºbi", "2ºbi", "3ºbi", "4ºbi", "5ºbi"],
+				datasets : [{
+					label: "Receita-Despesas",
+					backgroundColor: '#ff9e27',
+					borderColor: 'rgb(23, 125, 255)',
+					data: [303-235, 331-265, 266-279, 303-241, 289-257],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						},
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}],
+					xAxes : [ {
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}]
+				},
+			}
+		});
+
+		$('#lineChart').sparkline([0.580,0.710,0.785], {
+			type: 'line',
+			height: '70',
+			width: '100%',
+			lineWidth: '2',
+			lineColor: '#ffa534',
+			fillColor: 'rgba(255, 165, 52, .14)'
+		});
+	</script>
+
+	<script>
+	var ctx = document.getElementById('statisticsChart').getContext('2d');
+
+	var statisticsChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: {{data|safe}},
+			datasets: [ {
+				label: "Despesas",
+				borderColor: '#f3545d',
+				pointBackgroundColor: 'rgba(243, 84, 93, 0.6)',
+				pointRadius: 0,
+				backgroundColor: 'rgba(243, 84, 93, 0.4)',
+				legendColor: '#f3545d',
+				fill: true,
+				borderWidth: 2,
+				data: {{dados_des_corr_liq|safe}},
+				borderDash: [10,5],
+			}, {
+				label: "Receitas",
+				borderColor: '#177dff',
+				pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
+				pointRadius: 0,
+				backgroundColor: 'rgba(23, 125, 255, 0.4)',
+				legendColor: '#177dff',
+				fill: true,
+				borderWidth: 2,
+				data: {{dados_rec_corr_round|safe}}
+			}]
+		},
+		options : {
+			responsive: true,
+			maintainAspectRatio: false,
+			legend: {
+				display: false
+			},
+			tooltips: {
+				bodySpacing: 4,
+				mode:"nearest",
+				intersect: 0,
+				position:"nearest",
+				xPadding:10,
+				yPadding:10,
+				caretPadding:10
+			},
+			layout:{
+				padding:{left:5,right:5,top:15,bottom:15}
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						fontStyle: "500",
+						beginAtZero: false,
+						maxTicksLimit: 5,
+						padding: 10
+					},
+					gridLines: {
+						drawTicks: false,
+						display: false
+					}
+				}],
+				xAxes: [{
+					gridLines: {
+						zeroLineColor: "transparent"
+					},
+					ticks: {
+						padding: 10,
+						fontStyle: "500"
+					}
+				}]
+			},
+			legendCallback: function(chart) {
+				var text = [];
+				text.push('<ul class="' + chart.id + '-legend html-legend">');
+				for (var i = 0; i < chart.data.datasets.length; i++) {
+					text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+					if (chart.data.datasets[i].label) {
+						text.push(chart.data.datasets[i].label);
+					}
+					text.push('</li>');
+				}
+				text.push('</ul>');
+				return text.join('');
+			}
+		}
+	});
+	var myLegendContainer = document.getElementById("myChartLegend");
+
+	// generate HTML legend
+	myLegendContainer.innerHTML = statisticsChart.generateLegend();
+
+	// bind onClick event to all LI-tags of the legend
+	var legendItems = myLegendContainer.getElementsByTagName('li');
+	for (var i = 0; i < legendItems.length; i += 1) {
+		legendItems[i].addEventListener("click", legendClickCallback, false);
+	}
+
+	var dailySalesChart = document.getElementById('dailySalesChart').getContext('2d');
+
+	var myDailySalesChart = new Chart(dailySalesChart, {
+		type: 'line',
+		data: {
+			labels:["2º Bi 2019",
+			"3º Bi 2019",
+			"4º Bi 2019",
+			"5º Bi 2019",
+			"6º Bi 2019",
+			"1º Bi 2020",
+			"2º Bi 2020",
+			"3º Bi 2020",
+			"4º Bi 2020",
+			"5º Bi 2020"],
+			datasets:[ {
+				label: "Receita Impostos", fill: !0, backgroundColor: "rgba(255,255,255,0.2)", borderColor: "#fff", borderCapStyle: "butt", borderDash: [], borderDashOffset: 0, pointBorderColor: "#fff", pointBackgroundColor: "#fff", pointBorderWidth: 1, pointHoverRadius: 5, pointHoverBackgroundColor: "#fff", pointHoverBorderColor: "#fff", pointHoverBorderWidth: 1, pointRadius: 1, pointHitRadius: 5, data: [56,110,70, 67, 68, 72, 62, 108, 59, 70, 71]
+			}]
+		},
+		options : {
+			maintainAspectRatio:!1, legend: {
+				display: !1
+			}
+			, animation: {
+				easing: "easeInOutBack"
+			}
+			, scales: {
+				yAxes:[ {
+					display:!1, ticks: {
+						fontColor: "rgba(0,0,0,0.5)", fontStyle: "bold", beginAtZero: !0, maxTicksLimit: 10, padding: 0
+					}
+					, gridLines: {
+						drawTicks: !1, display: !1
+					}
+				}
+				], xAxes:[ {
+					display:!1, gridLines: {
+						zeroLineColor: "transparent"
+					}
+					, ticks: {
+						padding: -20, fontColor: "rgba(255,255,255,0.2)", fontStyle: "bold"
+					}
+				}
+				]
+			}
+		}
+	});
+</script>
+
+
+
+
+	<script>
+		var lineChart = document.getElementById('lineChart').getContext('2d'),
+		barChart = document.getElementById('barChart').getContext('2d'),
+		pieChart = document.getElementById('pieChart').getContext('2d'),
+		doughnutChart = document.getElementById('doughnutChart').getContext('2d'),
+		radarChart = document.getElementById('radarChart').getContext('2d'),
+		bubbleChart = document.getElementById('bubbleChart').getContext('2d'),
+		multipleLineChart = document.getElementById('multipleLineChart').getContext('2d'),
+		multipleBarChart = document.getElementById('multipleBarChart').getContext('2d'),
+		htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
+
+		var myLineChart = new Chart(lineChart, {
+			type: 'line',
+			data: {
+				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				datasets: [{
+					label: "Active Users",
+					borderColor: "#1d7af3",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#1d7af3",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900]
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'bottom',
+					labels : {
+						padding: 10,
+						fontColor: '#1d7af3',
+					}
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+
+		var myBarChart = new Chart(barChart, {
+			type: 'bar',
+			data: {
+				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				datasets : [{
+					label: "Sales",
+					backgroundColor: 'rgb(23, 125, 255)',
+					borderColor: 'rgb(23, 125, 255)',
+					data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero:true
+						}
+					}]
+				},
+			}
+		});
+
+		var myPieChart = new Chart(pieChart, {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: [50, 35, 15],
+					backgroundColor :["#1d7af3","#f3545d","#fdaf4b"],
+					borderWidth: 0
+				}],
+				labels: ['New Visitors', 'Subscribers', 'Active Users']
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position : 'bottom',
+					labels : {
+						fontColor: 'rgb(154, 154, 154)',
+						fontSize: 11,
+						usePointStyle : true,
+						padding: 20
+					}
+				},
+				pieceLabel: {
+					render: 'percentage',
+					fontColor: 'white',
+					fontSize: 14,
+				},
+				tooltips: false,
+				layout: {
+					padding: {
+						left: 20,
+						right: 20,
+						top: 20,
+						bottom: 20
+					}
+				}
+			}
+		})
+
+		var myDoughnutChart = new Chart(doughnutChart, {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [10, 20, 30],
+					backgroundColor: ['#f3545d','#fdaf4b','#1d7af3']
+				}],
+
+				labels: [
+				'Red',
+				'Yellow',
+				'Blue'
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend : {
+					position: 'bottom'
+				},
+				layout: {
+					padding: {
+						left: 20,
+						right: 20,
+						top: 20,
+						bottom: 20
+					}
+				}
+			}
+		});
+
+		var myRadarChart = new Chart(radarChart, {
+			type: 'radar',
+			data: {
+				labels: ['Running', 'Swimming', 'Eating', 'Cycling', 'Jumping'],
+				datasets: [{
+					data: [20, 10, 30, 2, 30],
+					borderColor: '#1d7af3',
+					backgroundColor : 'rgba(29, 122, 243, 0.25)',
+					pointBackgroundColor: "#1d7af3",
+					pointHoverRadius: 4,
+					pointRadius: 3,
+					label: 'Team 1'
+				}, {
+					data: [10, 20, 15, 30, 22],
+					borderColor: '#716aca',
+					backgroundColor: 'rgba(113, 106, 202, 0.25)',
+					pointBackgroundColor: "#716aca",
+					pointHoverRadius: 4,
+					pointRadius: 3,
+					label: 'Team 2'
+				},
+				]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend : {
+					position: 'bottom'
+				}
+			}
+		});
+
+		var myBubbleChart = new Chart(bubbleChart,{
+			type: 'bubble',
+			data: {
+				datasets:[{
+					label: "Car",
+					data:[{x:25,y:17,r:25},{x:30,y:25,r:28}, {x:35,y:30,r:8}],
+					backgroundColor:"#716aca"
+				},
+				{
+					label: "Motorcycles",
+					data:[{x:10,y:17,r:20},{x:30,y:10,r:7}, {x:35,y:20,r:10}],
+					backgroundColor:"#1d7af3"
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'bottom'
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero:true
+						}
+					}],
+					xAxes: [{
+						ticks: {
+							beginAtZero:true
+						}
+					}]
+				},
+			}
+		});
+
+		var myMultipleLineChart = new Chart(multipleLineChart, {
+			type: 'line',
+			data: {
+				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				datasets: [{
+					label: "Python",
+					borderColor: "#1d7af3",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#1d7af3",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: [30, 45, 45, 68, 69, 90, 100, 158, 177, 200, 245, 256]
+				},{
+					label: "PHP",
+					borderColor: "#59d05d",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#59d05d",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: [10, 20, 55, 75, 80, 48, 59, 55, 23, 107, 60, 87]
+				}, {
+					label: "Ruby",
+					borderColor: "#f3545d",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#f3545d",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: [10, 30, 58, 79, 90, 105, 117, 160, 185, 210, 185, 194]
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+
+		var myMultipleBarChart = new Chart(multipleBarChart, {
+			type: 'bar',
+			data: {
+				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				datasets : [{
+					label: "First time visitors",
+					backgroundColor: '#59d05d',
+					borderColor: '#59d05d',
+					data: [95, 100, 112, 101, 144, 159, 178, 156, 188, 190, 210, 245],
+				},{
+					label: "Visitors",
+					backgroundColor: '#fdaf4b',
+					borderColor: '#fdaf4b',
+					data: [145, 256, 244, 233, 210, 279, 287, 253, 287, 299, 312,356],
+				}, {
+					label: "Pageview",
+					backgroundColor: '#177dff',
+					borderColor: '#177dff',
+					data: [185, 279, 273, 287, 234, 312, 322, 286, 301, 320, 346, 399],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position : 'bottom'
+				},
+				title: {
+					display: true,
+					text: 'Traffic Stats'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false
+				},
+				responsive: true,
+				scales: {
+					xAxes: [{
+						stacked: true,
+					}],
+					yAxes: [{
+						stacked: true
+					}]
+				}
+			}
+		});
+
+		// Chart with HTML Legends
+
+		var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+		gradientStroke.addColorStop(0, '#177dff');
+		gradientStroke.addColorStop(1, '#80b6f4');
+
+		var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+		gradientFill.addColorStop(0, "rgba(23, 125, 255, 0.7)");
+		gradientFill.addColorStop(1, "rgba(128, 182, 244, 0.3)");
+
+		var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+		gradientStroke2.addColorStop(0, '#f3545d');
+		gradientStroke2.addColorStop(1, '#ff8990');
+
+		var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+		gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
+		gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
+
+		var gradientStroke3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+		gradientStroke3.addColorStop(0, '#fdaf4b');
+		gradientStroke3.addColorStop(1, '#ffc478');
+
+		var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+		gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+		gradientFill3.addColorStop(1, "rgba(255, 196, 120, 0.3)");
+
+		var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
+			type: 'line',
+			data: {
+				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				datasets: [ {
+					label: "Subscribers",
+					borderColor: gradientStroke2,
+					pointBackgroundColor: gradientStroke2,
+					pointRadius: 0,
+					backgroundColor: gradientFill2,
+					legendColor: '#f3545d',
+					fill: true,
+					borderWidth: 1,
+					data: [154, 184, 175, 203, 210, 231, 240, 278, 252, 312, 320, 374]
+				}, {
+					label: "New Visitors",
+					borderColor: gradientStroke3,
+					pointBackgroundColor: gradientStroke3,
+					pointRadius: 0,
+					backgroundColor: gradientFill3,
+					legendColor: '#fdaf4b',
+					fill: true,
+					borderWidth: 1,
+					data: [256, 230, 245, 287, 240, 250, 230, 295, 331, 431, 456, 521]
+				}, {
+					label: "Active Users",
+					borderColor: gradientStroke,
+					pointBackgroundColor: gradientStroke,
+					pointRadius: 0,
+					backgroundColor: gradientFill,
+					legendColor: '#177dff',
+					fill: true,
+					borderWidth: 1,
+					data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900]
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							fontColor: "rgba(0,0,0,0.5)",
+							fontStyle: "500",
+							beginAtZero: false,
+							maxTicksLimit: 5,
+							padding: 20
+						},
+						gridLines: {
+							drawTicks: false,
+							display: false
+						}
+					}],
+					xAxes: [{
+						gridLines: {
+							zeroLineColor: "transparent"
+						},
+						ticks: {
+							padding: 20,
+							fontColor: "rgba(0,0,0,0.5)",
+							fontStyle: "500"
+						}
+					}]
+				},
+				legendCallback: function(chart) {
+					var text = [];
+					text.push('<ul class="' + chart.id + '-legend html-legend">');
+					for (var i = 0; i < chart.data.datasets.length; i++) {
+						text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+						if (chart.data.datasets[i].label) {
+							text.push(chart.data.datasets[i].label);
+						}
+						text.push('</li>');
+					}
+					text.push('</ul>');
+					return text.join('');
+				}
+			}
+		});
+
+		var myLegendContainer = document.getElementById("myChartLegend");
+
+		// generate HTML legend
+		myLegendContainer.innerHTML = myHtmlLegendsChart.generateLegend();
+
+		// bind onClick event to all LI-tags of the legend
+		var legendItems = myLegendContainer.getElementsByTagName('li');
+		for (var i = 0; i < legendItems.length; i += 1) {
+			legendItems[i].addEventListener("click", legendClickCallback, false);
+		}
+
+	</script>
+{% endblock javascripts %}

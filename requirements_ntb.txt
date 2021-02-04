@@ -1,0 +1,12 @@
+selenium
+requests
+pathlib
+pandas
+matplotlib
+numpy
+seaborn
+datetime
+plotly
+xlrd
+camelot
+folium
