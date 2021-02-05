@@ -8972,5 +8972,16 @@ body {
 /*# sourceMappingURL=atlantis.css.map */
 
 .titulo-terminal{
-  font-size: 5.035rem;
+  font-size: 3.035rem;
+}
+
+.intro{
+  padding: 10px 3px 100px 3px;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 30px 10px;
+  text-align: center;
 }

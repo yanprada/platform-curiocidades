@@ -13,7 +13,7 @@
 				<div class="page-inner py-5">
 					<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 						<div>
-							<h2 class="text-white pb-2 fw-bold big" style="font-size:2.5em;">Bem vindo(a)	{{ request.user.username }} !</h2>
+							<h2 class="text-white pb-2 fw-bold big" style="font-size:2.5em;">Bem vindo(a) <br>	{{ request.user.username }} !</h2>
 							<h5 class="text-white op-7 mb-2">Conheça Piracicaba com dados</h5>
 						</div>
 						<div class="ml-md-auto py-2 py-md-0">
@@ -23,7 +23,34 @@
 					</div>
 				</div>
 			</div>
+			<div class="content">
+				<div class="page-inner py-5">
 
+					<div class="container intro">
+							<h1 class='titulo-terminal'>Uma <strong> plataforma</strong> para os <strong>dados</strong> de Piracicaba!</h1>
+					</div>
+					<div class="row">
+		        <div class="col-md-8">
+							<img src="/static/assets/img/piracicaba.jpeg" width="100%" alt="">
+						</div>
+						<div class="col-md-4 center">
+								<a href="{%url 'pira_resumo'%}">
+								<button class="btn btn-default btn-lg btn-round">
+									<span class="btn-label">
+										<i class="fa fa-archive"></i>
+									</span>
+									Acessar o Terminal
+								</button>
+								</a>
+						</div>
+					</div>
+
+					<br><br><br> <hr>
+					<h1>Conheça um pouco mais sobre o terminal:</h1>
+					<br><br><br>
+					<img src="/static/assets/media/django-dashboard-atlantis-dark-intro.gif" width="80%" alt="">
+				</div>
+			</div>
 		</div>
 
 
@@ -46,10 +73,12 @@
 		</div>
 		<div class="content">
 			<div class="page-inner py-5">
-				<br>
-				<h1 class='titulo-terminal'>Uma <strong> plataforma</strong> para os <strong>dados</strong> de Piracicaba!</h1>
-				<br><br><br>
-				<h1>Quer sabermais sobre:</h1>
+
+				<div class="container intro">
+						<h1 class='titulo-terminal'>Uma <strong> plataforma</strong> para os <strong>dados</strong> de Piracicaba!</h1>
+				</div>
+
+				<h1>Quer saber mais sobre:</h1>
 				<br>
 				<ul>
 					<li><h2>a distribuição das vacinas da covid no município?</h2></li>
@@ -57,7 +86,7 @@
 					<li><h2>o mapa das sessões eleitorais mais votadas por candidato?</h2></li>
 					<li><h2>dados econômicos de setores de Piracicaba? </h2></li>
 				</ul>
-				<br><br><br>
+				<br><br><br> <hr>
 				<h1>Conheça um pouco mais sobre o terminal:</h1>
 				<br><br><br>
 				<img src="/static/assets/media/django-dashboard-atlantis-dark-intro.gif" width="80%" alt="">
