@@ -184,7 +184,7 @@
             </div>
             <div class="card-body">
               <div class="chart-container">
-                <canvas id="multipleLineChart"></canvas>
+                <canvas id="multipleBarChart"></canvas>
               </div>
             </div>
           </div>
@@ -324,7 +324,7 @@
             </div>
             <div class="card-body">
               <div class="chart-container">
-                <canvas id="multipleBarChart"></canvas>
+                <canvas id="multipleLineChart_agr"></canvas>
               </div>
             </div>
           </div>
@@ -336,7 +336,7 @@
             </div>
             <div class="card-body">
               <div class="chart-container">
-                <canvas id="multipleBarChart"></canvas>
+                <canvas id="multipleLineChart_desp"></canvas>
               </div>
             </div>
           </div>
@@ -384,7 +384,8 @@
 
   <script>
 		var
-		multipleLineChart = document.getElementById('multipleLineChart').getContext('2d'),
+    htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
+		multipleLineChart_desp = document.getElementById('multipleLineChart_desp').getContext('2d'),
     multipleLineChart_saude = document.getElementById('multipleLineChart_saude').getContext('2d'),
     multipleLineChart_edu = document.getElementById('multipleLineChart_edu').getContext('2d'),
     multipleLineChart_san = document.getElementById('multipleLineChart_san').getContext('2d'),
@@ -395,6 +396,7 @@
     multipleLineChart_seg= document.getElementById('multipleLineChart_seg').getContext('2d'),
     multipleLineChart_trab= document.getElementById('multipleLineChart_trab').getContext('2d'),
     multipleLineChart_cult= document.getElementById('multipleLineChart_cult').getContext('2d'),
+    multipleLineChart_agr= document.getElementById('multipleLineChart_agr').getContext('2d'),
     radarChart = document.getElementById('radarChart').getContext('2d'),
 		multipleBarChart = document.getElementById('multipleBarChart').getContext('2d');
 
@@ -403,25 +405,16 @@
     var myRadarChart = new Chart(radarChart, {
 			type: 'radar',
 			data: {
-				labels: ['Running', 'Swimming', 'Eating', 'Cycling', 'Jumping'],
+				labels: {{lst_nome|safe}},
 				datasets: [{
-					data: [20, 10, 30, 2, 30],
+					data:  {{lst_valor|safe}},
 					borderColor: '#1d7af3',
 					backgroundColor : 'rgba(29, 122, 243, 0.25)',
 					pointBackgroundColor: "#1d7af3",
 					pointHoverRadius: 4,
 					pointRadius: 3,
-					label: 'Team 1'
-				}, {
-					data: [10, 20, 15, 30, 22],
-					borderColor: '#716aca',
-					backgroundColor: 'rgba(113, 106, 202, 0.25)',
-					pointBackgroundColor: "#716aca",
-					pointHoverRadius: 4,
-					pointRadius: 3,
-					label: 'Team 2'
-				},
-				]
+					label: '2020'
+				}]
 			},
 			options : {
 				responsive: true,
@@ -1040,91 +1033,172 @@
       }
     });
 
-    var myMultipleLineChart = new Chart(multipleLineChart, {
-			type: 'line',
-			data: {
-				labels: {{data|safe}},
-				datasets: [{
-					label: "Gastos Saúde",
-					borderColor: "#1d7af3",
-					pointBorderColor: "#FFF",
-					pointBackgroundColor: "#1d7af3",
-					pointBorderWidth: 2,
-					pointHoverRadius: 4,
-					pointHoverBorderWidth: 1,
-					pointRadius: 4,
-					backgroundColor: 'transparent',
-					fill: true,
-					borderWidth: 2,
-					data: {{dados_des_sau|safe}}
-				},{
-					label: "Gastos Educação",
-					borderColor: "#59d05d",
-					pointBorderColor: "#FFF",
-					pointBackgroundColor: "#59d05d",
-					pointBorderWidth: 2,
-					pointHoverRadius: 4,
-					pointHoverBorderWidth: 1,
-					pointRadius: 4,
-					backgroundColor: 'transparent',
-					fill: true,
-					borderWidth: 2,
-					data: {{dados_des_edu|safe}}
-				}, {
-					label: "Gastos Saneamento",
-					borderColor: "#f3545d",
-					pointBorderColor: "#FFF",
-					pointBackgroundColor: "#f3545d",
-					pointBorderWidth: 2,
-					pointHoverRadius: 4,
-					pointHoverBorderWidth: 1,
-					pointRadius: 4,
-					backgroundColor: 'transparent',
-					fill: true,
-					borderWidth: 2,
-					data: {{dados_des_san|safe}}
-				}]
-			},
-			options : {
-				responsive: true,
-				maintainAspectRatio: false,
-				legend: {
-					position: 'top',
-				},
-				tooltips: {
-					bodySpacing: 4,
-					mode:"nearest",
-					intersect: 0,
-					position:"nearest",
-					xPadding:10,
-					yPadding:10,
-					caretPadding:10
-				},
-				layout:{
-					padding:{left:15,right:15,top:15,bottom:15}
-				}
-			}
-		});
+    var myMultipleLineChart_agr = new Chart(multipleLineChart_agr, {
+      type: 'line',
+      data: {
+        labels: {{data2|safe}},
+        datasets: [{
+          label: "Abastecimento",
+          borderColor: "#f3545d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#f3545d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{agr1|safe}}
+        },{
+          label: "Extensão Rural",
+          borderColor: "#59d05d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#59d05d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{agr2|safe}}
+        },{
+          label: "Administração Geral",
+          borderColor: "#fdaf4b",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#fdaf4b",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{agr3|safe}}
+        }]
+      },
+      options : {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'top',
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode:"nearest",
+          intersect: 0,
+          position:"nearest",
+          xPadding:10,
+          yPadding:10,
+          caretPadding:10
+        },
+        layout:{
+          padding:{left:15,right:15,top:15,bottom:15}
+        }
+      }
+    });
+
+    var myMultipleLineChart_desp = new Chart(multipleLineChart_desp, {
+      type: 'line',
+      data: {
+        labels: {{data2|safe}},
+        datasets: [{
+          label: "Desporto de Rendimento",
+          borderColor: "#f3545d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#f3545d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{desp1|safe}}
+        },{
+          label: "Desporto Comunitário",
+          borderColor: "#59d05d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#59d05d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{desp2|safe}}
+        },{
+          label: "Lazer",
+          borderColor: "#fdaf4b",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#fdaf4b",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{desp3|safe}}
+        },{
+          label: "Administração Geral",
+          borderColor: "#1d7af3",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#1d7af3",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{desp4|safe}}
+        }]
+      },
+      options : {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'top',
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode:"nearest",
+          intersect: 0,
+          position:"nearest",
+          xPadding:10,
+          yPadding:10,
+          caretPadding:10
+        },
+        layout:{
+          padding:{left:15,right:15,top:15,bottom:15}
+        }
+      }
+    });
+
+
 
   	var myMultipleBarChart = new Chart(multipleBarChart, {
   			type: 'bar',
   			data: {
-  				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  				labels: {{data2|safe}},
   				datasets : [{
-  					label: "First time visitors",
+  					label: "Saúde",
   					backgroundColor: '#59d05d',
   					borderColor: '#59d05d',
-  					data: [95, 100, 112, 101, 144, 159, 178, 156, 188, 190, 210, 245],
+  					data: {{dados_des_sau|safe}},
   				},{
-  					label: "Visitors",
+  					label: "Educação",
   					backgroundColor: '#fdaf4b',
   					borderColor: '#fdaf4b',
-  					data: [145, 256, 244, 233, 210, 279, 287, 253, 287, 299, 312,356],
+  					data: {{dados_des_edu|safe}},
   				}, {
-  					label: "Pageview",
+  					label: "Saneamento",
   					backgroundColor: '#177dff',
   					borderColor: '#177dff',
-  					data: [185, 279, 273, 287, 234, 312, 322, 286, 301, 320, 346, 399],
+  					data: {{dados_des_san|safe}},
   				}],
   			},
   			options: {
@@ -1153,8 +1227,6 @@
   			}
   		});
 
-    var htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
-    // Chart with HTML Legends
 
     var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
     gradientStroke.addColorStop(0, '#177dff');
@@ -1264,6 +1336,17 @@
         }
       }
     });
+
+    var myLegendContainer = document.getElementById("myChartLegend");
+
+		// generate HTML legend
+		myLegendContainer.innerHTML = myHtmlLegendsChart.generateLegend();
+
+		// bind onClick event to all LI-tags of the legend
+		var legendItems = myLegendContainer.getElementsByTagName('li');
+		for (var i = 0; i < legendItems.length; i += 1) {
+			legendItems[i].addEventListener("click", legendClickCallback, false);
+		}
 	</script>
 
 {% endblock javascripts %}

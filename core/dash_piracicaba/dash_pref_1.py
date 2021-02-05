@@ -13,7 +13,7 @@ from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 import base64
 
-app1 = DjangoDash('Pref_1')
+app1 = DjangoDash('Pref_1',add_bootstrap_links=True)
 
 #Abre em um chrome com diferentes caminhos para cada sistema peracional
 cwd = os.getcwd()
@@ -52,67 +52,68 @@ app1.layout = html.Div(children=[
                 style={'height':'3em','background-color':'rgba(252, 152, 3,0.2)',})]),
     html.Br(),
     html.Br(),
+    dbc.Row(
+            [
+                dbc.Col([
+
+                    html.Div(children=[
+                            html.Br(),
+
+                            html.H1(id='nome'),
+                            html.P(id='email'),
+                            html.P(id='votos'),
+                            html.Hr(),
+                            html.Br(),
+                            html.Div(
+                                    html.Img(id='photo',width='60%',height='60%'),style={ 'padding': '2em'}
+                            ),
+                            html.Br(),
+                            html.Div([
+                                    html.P('Partido: '),
+                                    html.P('Coligação: '),
+                                    html.P('Instrução: '),
+                                    html.P('Ocupação: '),
+                                    html.P('Idade: '),
+                                    html.P('Cidade de Nasc: '),
+                                    html.P('Estado Civil: '),
+                                    html.P('Gênero: '),
+                                    html.P('Cor/Raça: '),
+                                    html.P('Bens Declarados: '),
+                                    ],
+                                    style={ 'display': 'inline-block','padding':'0 1em 0 1em'}
+                            ),
+
+                            html.Div([
+                                    html.P(id='partido'),
+                                    html.P(id='coligacao'),
+                                    html.P(id='grau_instrucao'),
+                                    html.P(id='ocupacao'),
+                                    html.P(id='idade'),
+                                    html.P(id='cidade_nasc'),
+                                    html.P(id='estado_civil'),
+                                    html.P(id='genero'),
+                                    html.P(id='cor_raca'),
+                                    html.P(id='bens')
+                                    ],
+                                    style={ 'display': 'inline-block'}
+                            )],
+
+                            style={ 'display': 'inline-block', 'padding':'0 1em 0 0'}
+                    )
+                ], md=4),
 
 
 
-
-
-    html.Div(children=[
-            html.Br(),
-
-            html.H1(id='nome'),
-            html.P(id='email'),
-            html.P(id='votos'),
-            html.Hr(),
-            html.Br(),
-            html.Div(
-                    html.Img(id='photo',width='50%',height='50%')
-            ),
-            html.Br(),
-            html.Div([
-                    html.P('Partido: '),
-                    html.P('Coligação: '),
-                    html.P('Instrução: '),
-                    html.P('Ocupação: '),
-                    html.P('Idade: '),
-                    html.P('Cidade de Nasc: '),
-                    html.P('Estado Civil: '),
-                    html.P('Gênero: '),
-                    html.P('Cor/Raça: '),
-                    html.P('Bens Declarados: '),
-                    ],
-                    style={ 'display': 'inline-block','padding':'0 2em 0 0'}
-            ),
-
-            html.Div([
-                    html.P(id='partido'),
-                    html.P(id='coligacao'),
-                    html.P(id='grau_instrucao'),
-                    html.P(id='ocupacao'),
-                    html.P(id='idade'),
-                    html.P(id='cidade_nasc'),
-                    html.P(id='estado_civil'),
-                    html.P(id='genero'),
-                    html.P(id='cor_raca'),
-                    html.P(id='bens')
-                    ],
-                    style={ 'display': 'inline-block'}
-            )],
-
-            style={ 'display': 'inline-block', 'padding':'0 1em 0 0'}
-    ),
-
-    html.Br(),
-    html.Br(),
-    html.Hr(),
-    html.Br(),
-    html.Br(),
-    html.H2('Mapa das Sessões com maior votação do candidato:'),
-    html.Br(),
-    html.Br(),
-    html.Div(
-        html.Iframe(id='map',width='90%',height='400')
-    )
+                dbc.Col([html.Br(),
+                html.Br(),
+                html.H2('Sessões com maior votação do candidato(a):'),
+                html.Br(),
+                html.Br(),
+                html.Div(
+                    html.Iframe(id='map',width='100%',height='500px'),style = {'margin': 'auto',  'width': '90%'}
+                )],md=8)
+            ]
+        )
     ])
 
 @app1.callback(

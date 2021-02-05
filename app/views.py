@@ -153,7 +153,10 @@ def piraprefdes(request):
     df_pct.sort_values('Diferença Absoluto',inplace=True,ascending=False)
     df_pct.drop(['Porcentagem Absoluto','Diferença Absoluto'],axis=1,inplace=True)
 
-
+    df_valor_temp1 = df_pct.sort_values('Valor',ascending=False)
+    df_valor_temp1['Valor_round'] = ['%.2f' % elem for elem in df_valor_temp1['Valor'] ]
+    lst_valor = df_valor_temp1[:10]['Valor_round'].tolist()
+    lst_nome = df_valor_temp1[:10].index.tolist()
 
     nome_1 = df_pct.index.tolist()[0]
 
@@ -352,7 +355,39 @@ def piraprefdes(request):
     cult2 =['%.2f' % elem for elem in cult2_temp ]
 
 
+# ----------Agricultura-------------
 
+    df_agr = pd.read_csv(path_agr)
+
+    listaAgr=['Abastecimento', 'Extensão Rural', 'Irrigação',
+        'Promoção da Produção Agropecuária', 'Defesa Agropecuária','FU20 - Administração Geral']
+
+    agr1_temp = df_agr[df_agr['Despesas Orçamentárias']=='Abastecimento']['DESPESAS LIQUIDADAS NO BIMESTRE'].values.tolist()
+    agr1 =['%.2f' % elem for elem in agr1_temp ]
+
+    agr2_temp = df_agr[df_agr['Despesas Orçamentárias']=='Extensão Rural']['DESPESAS LIQUIDADAS NO BIMESTRE'].values.tolist()
+    agr2 =['%.2f' % elem for elem in agr2_temp ]
+
+    agr3_temp = df_agr[df_agr['Despesas Orçamentárias']=='FU20 - Administração Geral']['DESPESAS LIQUIDADAS NO BIMESTRE'].values.tolist()
+    agr3 =['%.2f' % elem for elem in agr3_temp ]
+
+# ----------Desporto------------
+
+    df_desp = pd.read_csv(path_desp)
+
+    listaDesp=['Desporto de Rendimento', 'Desporto Comunitário', 'Lazer','FU27 - Administração Geral']
+
+    desp1_temp = df_desp[df_desp['Despesas Orçamentárias']=='Desporto de Rendimento']['DESPESAS LIQUIDADAS NO BIMESTRE'].values.tolist()
+    desp1 =['%.2f' % elem for elem in desp1_temp ]
+
+    desp2_temp = df_desp[df_desp['Despesas Orçamentárias']=='Desporto Comunitário']['DESPESAS LIQUIDADAS NO BIMESTRE'].values.tolist()
+    desp2 =['%.2f' % elem for elem in desp2_temp ]
+
+    desp3_temp = df_desp[df_desp['Despesas Orçamentárias']=='Lazer']['DESPESAS LIQUIDADAS NO BIMESTRE'].values.tolist()
+    desp3 =['%.2f' % elem for elem in desp3_temp ]
+
+    desp4_temp = df_desp[df_desp['Despesas Orçamentárias']=='FU27 - Administração Geral']['DESPESAS LIQUIDADAS NO BIMESTRE'].values.tolist()
+    desp4 =['%.2f' % elem for elem in desp4_temp ]
 
 
 
@@ -360,11 +395,13 @@ def piraprefdes(request):
     context = {'data':data,'data2':data2, 'nome_1':nome_1 ,'nome_2':nome_2 ,'nome_3':nome_3 ,'nome_4':nome_4 ,'nome_5':nome_5 ,'nome_6':nome_6,
     'pct_1':pct_1 ,'pct_2':pct_2 ,'pct_3':pct_3 ,'pct_4':pct_4 ,'pct_5':pct_5,'pct_6':pct_6,
     'valor_1':valor_1 ,'valor_2':valor_2 ,'valor_3':valor_3 ,'valor_4':valor_4 ,'valor_5':valor_5,'valor_6':valor_6,
+    'lst_valor':lst_valor,'lst_nome':lst_nome,
     'dados_des_sau':dados_des_sau, 'dados_des_edu':dados_des_edu, 'dados_des_san':dados_des_san, 'dados_des_corr_liq':dados_des_corr_liq,'dados_des_corr_emp':dados_des_corr_emp,
     'saude1':saude1,'saude2':saude2,'saude3':saude3,'edu1':edu1,'edu2':edu2,'edu3':edu3,'edu4':edu4,'edu5':edu5,'san1':san1,'san2':san2,'ass1':ass1,'ass2':ass2,'gest_amb1':gest_amb1,
     'gest_amb2':gest_amb2,'gest_amb3':gest_amb3,
     'urb1':urb1,'urb2':urb2,'urb3':urb3,'adm1':adm1,'adm2':adm2,'adm3':adm3,'adm4':adm4,'adm5':adm5,'seg1':seg1,'seg2':seg2,'seg3':seg3,
-    'trab1':trab1,'trab2':trab2,'cult1':cult1,'cult2':cult2,}
+    'trab1':trab1,'trab2':trab2,'cult1':cult1,'cult2':cult2,'agr1':agr1,'agr2':agr2,'agr3':agr3,
+    'desp1':desp1,'desp2':desp2,'desp3':desp3,'desp4':desp4,}
 
 
     html_template = loader.get_template( 'piracicaba_pref_despesas.html' )

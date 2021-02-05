@@ -13,7 +13,7 @@ from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 import base64
 
-app1 = DjangoDash('Vereadores',external_stylesheets=[dbc.themes.CYBORG],add_bootstrap_links=True)
+app1 = DjangoDash('Vereadores',add_bootstrap_links=True)
 
 #Abre em um chrome com diferentes caminhos para cada sistema peracional
 #Abre em um chrome com diferentes caminhos para cada sistema peracional
@@ -68,67 +68,59 @@ app1.layout = html.Div(children=[
                 )]),
     html.Br(),
     html.Br(),
+    dbc.Row(
+            [
+                dbc.Col([
+                html.Br(),
+
+                html.H1(id='nome'),
+                html.P(id='email'),
+                html.P(id='votos'),
+                html.Hr(),
+                html.Br(),
+                html.Div(
+                        html.Img(id='photo',width='50%',height='50%'),style = {'padding':'2em 2em 2em 2em'}
+                ),
+                html.Br(),
+                html.Div([
+                        html.P('Partido: '),
+                        html.P('Instrução: '),
+                        html.P('Ocupação: '),
+                        html.P('Idade: '),
+                        html.P('Cidade de Nasc: '),
+                        html.P('Estado Civil: '),
+                        html.P('Gênero: '),
+                        html.P('Cor/Raça: '),
+                        html.P('Bens Declarados: '),
+                        ],
+                        style={ 'display': 'inline-block','padding':'0 1em 0 1em'}
+                ),
+
+                html.Div([
+                        html.P(id='partido'),
+                        html.P(id='grau_instrucao'),
+                        html.P(id='ocupacao'),
+                        html.P(id='idade'),
+                        html.P(id='cidade_nasc'),
+                        html.P(id='estado_civil'),
+                        html.P(id='genero'),
+                        html.P(id='cor_raca'),
+                        html.P(id='bens')
+                        ],
+                        style={ 'display': 'inline-block'})], md=4)
+                ,
 
 
+                dbc.Col([
+                html.Br(),
+                html.Br(),html.H3('Sessões com maior votação do candidato:'),
+                html.Br(),
+                html.Br(),
+                html.Div(
 
-
-
-
-    html.Div(children=[
-            html.Br(),
-
-            html.H1(id='nome'),
-            html.P(id='email'),
-            html.P(id='votos'),
-            html.Hr(),
-            html.Br(),
-            html.Div(
-                    html.Img(id='photo',width='50%',height='50%')
-            ),
-            html.Br(),
-            html.Div([
-                    html.P('Partido: '),
-                    html.P('Instrução: '),
-                    html.P('Ocupação: '),
-                    html.P('Idade: '),
-                    html.P('Cidade de Nasc: '),
-                    html.P('Estado Civil: '),
-                    html.P('Gênero: '),
-                    html.P('Cor/Raça: '),
-                    html.P('Bens Declarados: '),
-                    ],
-                    style={ 'display': 'inline-block','padding':'0 2em 0 0'}
-            ),
-
-            html.Div([
-                    html.P(id='partido'),
-                    html.P(id='grau_instrucao'),
-                    html.P(id='ocupacao'),
-                    html.P(id='idade'),
-                    html.P(id='cidade_nasc'),
-                    html.P(id='estado_civil'),
-                    html.P(id='genero'),
-                    html.P(id='cor_raca'),
-                    html.P(id='bens')
-                    ],
-                    style={ 'display': 'inline-block'}
-            )],
-
-            style={ 'display': 'inline-block', 'padding':'0 1em 0 0'}
-            ),
-
-    html.Br(),
-    html.Br(),
-    html.Hr(),
-    html.Br(),
-    html.Br(),
-    html.H2('Mapa das Sessões com maior votação do candidato:'),
-    html.Br(),
-    html.Br(),
-    html.Div(
-
-        html.Iframe(id='map',width='90%',height='500px')
-        )
+                    html.Iframe(id='map',width='100%',height='500px'),style = {'margin': 'auto',  'width': '90%'}
+                    )],md=8)
+        ])
     ])
 
 @app1.callback(
