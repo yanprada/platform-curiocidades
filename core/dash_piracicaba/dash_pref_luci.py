@@ -13,7 +13,7 @@ from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 import base64
 
-app1 = DjangoDash('Pref_luci',external_stylesheets=[dbc.themes.CYBORG])
+app1 = DjangoDash('Pref_luci')
 
 #Abre em um chrome com diferentes caminhos para cada sistema peracional
 cwd = os.getcwd()
