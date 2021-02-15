@@ -89,11 +89,22 @@ def piraprefrec(request):
     dados_rec_serv = df_final[df_final['Receitas Orçamentárias']=='RECEITA DE SERVIÇOS']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_serv_round=['%.2f' % elem for elem in dados_rec_serv ]
 
+# -------------Top 10 receitas--------------------------
+    df_fim = df_final[df_final['Unnamed: 0']=='outubro 2020']
+    df_fim.sort_values('Receitas Realizadas no Bimestre (b)',inplace=True,ascending=False)
+    top10_value_temp = df_fim.iloc[:11]['Receitas Realizadas no Bimestre (b)'].tolist()
+
+    top10_value_temp =['%.2f' % elem for elem in top10_value_temp ]
+    top10_value=top10_value_temp[1:]
+    top10_name_temp= df_fim.iloc[:11]['Receitas Orçamentárias'].tolist()
+    top10_name = top10_name_temp[1:]
+
+
 
 # -------------Contexto-------------------------
 
     context = {'data':data,'dados_rec_imp_round':dados_rec_imp_round,'dados_rec_corr_round':dados_rec_corr_round,'dados_rec_transf_round':dados_rec_transf_round,
-    'dados_rec_serv_round':dados_rec_serv_round}
+    'dados_rec_serv_round':dados_rec_serv_round,'top10_value':top10_value,'top10_name':top10_name}
 
 
     html_template = loader.get_template( 'piracicaba_pref_receitas.html' )
@@ -155,9 +166,10 @@ def piraprefdes(request):
 
     df_valor_temp1 = df_pct.sort_values('Valor',ascending=False)
     df_valor_temp1['Valor_round'] = ['%.2f' % elem for elem in df_valor_temp1['Valor'] ]
+    # -------------radius-------------
     lst_valor = df_valor_temp1[:10]['Valor_round'].tolist()
     lst_nome = df_valor_temp1[:10].index.tolist()
-
+    # -------------------------
     nome_1 = df_pct.index.tolist()[0]
 
     pct_1 = round(df_pct['Porcentagem'].tolist()[0])

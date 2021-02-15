@@ -34,7 +34,7 @@
     <!-- Specific Page CSS goes HERE  -->
     {% block stylesheets %}{% endblock stylesheets %}
 
-
+{% plotly_header %}
 </head>
 <body data-background-color="bg3">
 	<div class="wrapper">
@@ -51,7 +51,7 @@
 
 		</div>
 
-		
+
 	</div>
 
 	{% include 'includes/scripts.html' %}
@@ -60,4 +60,5 @@
     {% block javascripts %}{% endblock javascripts %}
 
 </body>
+{% plotly_footer %}
 </html>

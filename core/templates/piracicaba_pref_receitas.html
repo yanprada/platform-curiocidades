@@ -52,6 +52,32 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
+              <div class="card-title">TOP 10: Despesas <span class="small2">(milhões de reais , ano 2020)</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="radarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">TOP 3 : Despesas Correntes <span class="small2">(milhões de reais , 2016-2020)</span></div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleBarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
               <div class="card-title">TOP 3 : Receitas Correntes Prefeitura (milhões de reais , 2016-2020)</div>
             </div>
             <div class="card-body">
@@ -146,7 +172,31 @@
 		var
 		multipleLineChart = document.getElementById('multipleLineChart').getContext('2d'),
 		multipleBarChart = document.getElementById('multipleBarChart').getContext('2d'),
+    radarChart = document.getElementById('radarChart').getContext('2d'),
     pieChart = document.getElementById('pieChart').getContext('2d');
+
+    var myRadarChart = new Chart(radarChart, {
+			type: 'radar',
+			data: {
+				labels: {{top10_name|safe}},
+				datasets: [{
+					data:  {{top10_value|safe}},
+					borderColor: '#1d7af3',
+					backgroundColor : 'rgba(29, 122, 243, 0.25)',
+					pointBackgroundColor: "#1d7af3",
+					pointHoverRadius: 4,
+					pointRadius: 3,
+					label: '2020'
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend : {
+					position: 'bottom'
+				}
+			}
+		});
 
 
     var myPieChart = new Chart(pieChart, {
