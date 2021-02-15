@@ -45,5 +45,5 @@ app1.layout =  html.Div([
     Output('map','srcDoc'),
     [Input('yaxis-column', 'value')])
 def update_figure(selected_name):
-    path_download2 = Path(path_download,"mapa_pref_{}.html".format('Luciano Almeida'))
+    path_download2 = Path(path_download,"mapa_pref_{}.html".format(selected_name))
     return open(path_download2,'r').read()
