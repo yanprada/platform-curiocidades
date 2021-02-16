@@ -38,7 +38,7 @@ def piraresumo(request):
     df_final = pd.read_csv(path_download1)
 
 # -------------Periodo--------------------------
-    data_temp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
+    data_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
     # -------------Receita corrente--------------------------
@@ -49,6 +49,7 @@ def piraresumo(request):
 # -------------Despesas Correntes-------------
     dados_des_corr_liq_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['DESPESAS LIQUIDADAS NO BIMESTRE'].tolist()
     dados_des_corr_liq =['%.2f' % elem for elem in dados_des_corr_liq_temp ]
+
 
 
     context = {'data':data,'dados_rec_corr_round':dados_rec_corr_round,'dados_des_corr_liq':dados_des_corr_liq}
@@ -64,33 +65,37 @@ def piraprefrec(request):
 
     parente = pathlib.Path().absolute()
 
-    path_download1 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
+    path_download1 = Path(parente,"notebook/bases/piracicaba/receita_funcao.csv")
+    path_download2 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
 
     df_final = pd.read_csv(path_download1)
-
+    df = pd.read_csv(path_download2)
 # -------------Periodo--------------------------
     data_temp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
+    data2_temp = df[df['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
+    data2=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data2_temp ]
+
 
 # -------------Receita corrente--------------------------
 
-    dados_rec_corr = df_final[df_final['Receitas Orçamentárias']=='RECEITAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_corr = df[df['Receitas Orçamentárias']=='RECEITAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_corr_round=['%.2f' % elem for elem in dados_rec_corr ]
 
 # -------------Top 3 receitas--------------------------
 
-    dados_rec_imp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_imp = df[df['Receitas Orçamentárias']=='Impostos']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_imp_round=['%.2f' % elem for elem in dados_rec_imp ]
 
-    dados_rec_transf = df_final[df_final['Receitas Orçamentárias']=='TRANSFERÊNCIAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_transf = df[df['Receitas Orçamentárias']=='TRANSFERÊNCIAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_transf_round=['%.2f' % elem for elem in dados_rec_transf ]
 
-    dados_rec_serv = df_final[df_final['Receitas Orçamentárias']=='RECEITA DE SERVIÇOS']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_serv = df[df['Receitas Orçamentárias']=='RECEITA DE SERVIÇOS']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_serv_round=['%.2f' % elem for elem in dados_rec_serv ]
 
 # -------------Top 10 receitas--------------------------
-    df_fim = df_final[df_final['Unnamed: 0']=='outubro 2020']
+    df_fim = df_final[df_final['Unnamed: 0']=='dezembro 2020']
     df_fim.sort_values('Receitas Realizadas no Bimestre (b)',inplace=True,ascending=False)
     top10_value_temp = df_fim.iloc[:11]['Receitas Realizadas no Bimestre (b)'].tolist()
 
@@ -103,7 +108,7 @@ def piraprefrec(request):
 
 # -------------Contexto-------------------------
 
-    context = {'data':data,'dados_rec_imp_round':dados_rec_imp_round,'dados_rec_corr_round':dados_rec_corr_round,'dados_rec_transf_round':dados_rec_transf_round,
+    context = {'data':data,'data2':data2,'dados_rec_imp_round':dados_rec_imp_round,'dados_rec_corr_round':dados_rec_corr_round,'dados_rec_transf_round':dados_rec_transf_round,
     'dados_rec_serv_round':dados_rec_serv_round,'top10_value':top10_value,'top10_name':top10_name}
 
 
@@ -137,14 +142,14 @@ def piraprefdes(request):
 
 
     df_final = pd.read_csv(path_download2) #Despesa por função
-    df=pd.read_csv(path_download3)  #Despesa Corrente
+    df=pd.read_csv(path_download3)#Despesa Corrente
+    df_data=pd.read_csv(path_topo)
 
 # -------------Periodo--------------------------
-    data_temp = df_final[df_final['Despesas Orçamentárias']=='Legislativa']['Unnamed: 0'].tolist()
+    data_temp = df_data[df_data['Despesas Orçamentárias']=='Legislativa']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
-
-    data2_temp = df_final[df_final['Despesas Orçamentárias']=='Legislativa']['Unnamed: 0'].tolist()[6:]
+    data2_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['Unnamed: 0'].tolist()
     data2=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data2_temp ]
 
 # -------------Elementos soltos do inicio-------------
@@ -404,7 +409,7 @@ def piraprefdes(request):
 
 
 
-    context = {'data':data,'data2':data2, 'nome_1':nome_1 ,'nome_2':nome_2 ,'nome_3':nome_3 ,'nome_4':nome_4 ,'nome_5':nome_5 ,'nome_6':nome_6,
+    context = {'data':data, 'data2':data2,'nome_1':nome_1 ,'nome_2':nome_2 ,'nome_3':nome_3 ,'nome_4':nome_4 ,'nome_5':nome_5 ,'nome_6':nome_6,
     'pct_1':pct_1 ,'pct_2':pct_2 ,'pct_3':pct_3 ,'pct_4':pct_4 ,'pct_5':pct_5,'pct_6':pct_6,
     'valor_1':valor_1 ,'valor_2':valor_2 ,'valor_3':valor_3 ,'valor_4':valor_4 ,'valor_5':valor_5,'valor_6':valor_6,
     'lst_valor':lst_valor,'lst_nome':lst_nome,

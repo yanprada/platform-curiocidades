@@ -8,5 +8,5 @@ seaborn
 datetime
 plotly
 xlrd
-camelot
+camelot-py
 folium
