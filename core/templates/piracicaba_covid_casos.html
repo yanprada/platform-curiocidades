@@ -1,0 +1,788 @@
+{% extends "layouts/base_piracicaba.html" %}
+ {% load plotly_dash %}
+{% block title %} Covid - Casos {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">CASOS COVID-19</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="/index.html">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="{%url 'pira_resumo'%}">Piracicaba</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<p>Coronavírus-Casos</p>
+					</li>
+				</ul>
+			</div>
+      <h2>Estatísticas Coronavírus em Piracicaba:</h2>
+      <div class="row">
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_casos_diarios <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_casos_diarios|safe}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_casos_diarios > 0 %}
+              <div class="text-right text-success">
+                {{pct_casos_diarios|safe}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">{{valor_casos_diarios}}</div>
+              <div class="text-muted2 mb-3">Casos Novos</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_casos_acumulados <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_casos_acumulados}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_casos_acumulados > 0 %}
+              <div class="text-right text-success">
+                {{pct_casos_acumulados}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">{{valor_casos_acumulados}}</div>
+              <div class="text-muted2 mb-3">Casos Acumulados</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_obt_diarios <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_obt_diarios}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_obt_diarios > 0 %}
+              <div class="text-right text-success">
+                {{pct_obt_diarios}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">{{valor_obt_diarios}}</div>
+              <div class="text-muted2 mb-3">Óbitos Novos</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_obitos_acum <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_obitos_acum}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_obitos_acum > 0 %}
+              <div class="text-right text-success">
+                {{pct_obitos_acum}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">{{valor_obitos_acum}}</div>
+              <div class="text-muted2 mb-3">Óbitos Acumulados</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_casos_trat <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_casos_trat}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_casos_trat > 0 %}
+              <div class="text-right text-success">
+                {{pct_casos_trat}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">{{valor_casos_trat}}</div>
+              <div class="text-muted2 mb-3">Casos em Tratamento</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_casos_suspeitos <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_casos_suspeitos}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_casos_suspeitos > 0 %}
+              <div class="text-right text-success">
+                {{pct_casos_suspeitos}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">{{valor_casos_suspeitos}}</div>
+              <div class="text-muted2 mb-3">Casos Suspeitos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Casos diários</div>
+						</div>
+						<div class="card-body">
+
+							<div class="chart-container">
+								<canvas id="htmlLegendsChart"></canvas>
+							</div>
+							<div id="myChartLegend"></div>
+						</div>
+					</div>
+				</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Casos Acumulados</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart4"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Casos em Tratamento</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart3"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Casos Suspeitos</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart8"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Casos Recuperados</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart7"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Casos Diários <span class="small2">(homens/mulheres)</span></div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart5"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Óbitos diários</div>
+						</div>
+						<div class="card-body">
+
+							<div class="chart-container">
+								<canvas id="htmlLegendsChart2"></canvas>
+							</div>
+							<div id="myChartLegend2"></div>
+						</div>
+					</div>
+				</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Óbitos Acumulados</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart2"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+  <script>
+    $('#lineChart').sparkline([102,109,120,99,110,105,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#177dff',
+      fillColor: 'rgba(23, 125, 255, 0.14)'
+    });
+
+    $('#lineChart2').sparkline([99,125,122,105,110,124,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#f3545d',
+      fillColor: 'rgba(243, 84, 93, .14)'
+    });
+
+    $('#lineChart3').sparkline([105,103,123,100,95,105,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#ffa534',
+      fillColor: 'rgba(255, 165, 52, .14)'
+    });
+
+  </script>
+
+  <script>
+		var
+    multipleLineChart2 = document.getElementById('multipleLineChart2').getContext('2d'),
+    multipleLineChart3 = document.getElementById('multipleLineChart3').getContext('2d'),
+    multipleLineChart4 = document.getElementById('multipleLineChart4').getContext('2d'),
+    multipleLineChart5 = document.getElementById('multipleLineChart5').getContext('2d'),
+    multipleLineChart7 = document.getElementById('multipleLineChart7').getContext('2d'),
+    multipleLineChart8 = document.getElementById('multipleLineChart8').getContext('2d');
+
+
+
+
+
+
+    var myMultipleLineChart2 = new Chart(multipleLineChart2, {
+			type: 'line',
+			data: {
+				labels: {{data|safe}},
+				datasets: [{
+					label: "Óbitos Acumulados",
+					borderColor: "#c42da6",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#c42da6",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 0,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{obitos_acum|safe}}
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+    var myMultipleLineChart3 = new Chart(multipleLineChart3, {
+			type: 'line',
+			data: {
+				labels: {{data_trat|safe}},
+				datasets: [{
+					label: "Casos em Tratamento",
+					borderColor: "#11c900",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#11c900",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 0,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{casos_trat|safe}}
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+    var myMultipleLineChart4 = new Chart(multipleLineChart4, {
+			type: 'line',
+			data: {
+				labels: {{data|safe}},
+				datasets: [{
+					label: "Casos Acumulados",
+					borderColor: "#11c900",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#11c900",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 0,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{casos_acumulados|safe}}
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+    var myMultipleLineChart5 = new Chart(multipleLineChart5, {
+			type: 'line',
+			data: {
+				labels: {{data|safe}},
+				datasets: [{
+					label: "Homens",
+					borderColor: "#1d7af3",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#1d7af3",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 0,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{homens|safe}}
+				},{
+					label: "Mulheres",
+					borderColor: "#f3545d",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#f3545d",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 0,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{mulheres|safe}}
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+    var myMultipleLineChart7 = new Chart(multipleLineChart7, {
+			type: 'line',
+			data: {
+				labels: {{data|safe}},
+				datasets: [{
+					label: "Casos Recuperados",
+					borderColor: "#11c900",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#11c900",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 0,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{casos_recuperados|safe}}
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+    var myMultipleLineChart8 = new Chart(multipleLineChart8, {
+			type: 'line',
+			data: {
+				labels: {{data|safe}},
+				datasets: [{
+					label: "Casos Suspeitos",
+					borderColor: "#11c900",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#11c900",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 0,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{casos_suspeitos|safe}}
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+
+
+
+  var htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
+  // Chart with HTML Legends
+
+  var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke.addColorStop(0, '#11c900');
+  gradientStroke.addColorStop(1, '#1bb30c');
+
+  var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill.addColorStop(0, "rgba(21, 166, 7, 0.5)");
+  gradientFill.addColorStop(1, "rgba(21, 166, 7, 0.3)");
+
+  var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke2.addColorStop(0, '#f3545d');
+  gradientStroke2.addColorStop(1, '#ff8990');
+
+  var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
+  gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
+
+  var gradientStroke3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke3.addColorStop(0, '#fdaf4b');
+  gradientStroke3.addColorStop(1, '#ffc478');
+
+  var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+  gradientFill3.addColorStop(1, "rgba(253, 175, 75, 0.7)");
+
+  var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
+    type: 'line',
+    data: {
+      labels: {{data_diarios|safe}},
+      datasets: [  {
+        label: "Novos casos diários",
+        borderColor: gradientStroke,
+        pointBackgroundColor: gradientStroke,
+        pointRadius: 0,
+        backgroundColor: gradientFill,
+        legendColor: '#11c900',
+        fill: true,
+        borderWidth: 1,
+        data: {{casos_diarios|safe}}
+      }]
+    },
+    options : {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        bodySpacing: 4,
+        mode:"nearest",
+        intersect: 0,
+        position:"nearest",
+        xPadding:10,
+        yPadding:10,
+        caretPadding:10
+      },
+      layout:{
+        padding:{left:15,right:15,top:15,bottom:15}
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500",
+            beginAtZero: false,
+            maxTicksLimit: 5,
+            padding: 20
+          },
+          gridLines: {
+            drawTicks: false,
+            display: false
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            zeroLineColor: "transparent"
+          },
+          ticks: {
+            padding: 20,
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500"
+          }
+        }]
+      },
+      legendCallback: function(chart) {
+        var text = [];
+        text.push('<ul class="' + chart.id + '-legend html-legend">');
+        for (var i = 0; i < chart.data.datasets.length; i++) {
+          text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+          if (chart.data.datasets[i].label) {
+            text.push(chart.data.datasets[i].label);
+          }
+          text.push('</li>');
+        }
+        text.push('</ul>');
+        return text.join('');
+      }
+    }
+  });
+
+
+
+
+
+
+
+
+  var htmlLegendsChart2 = document.getElementById('htmlLegendsChart2').getContext('2d');
+  // Chart with HTML Legends
+
+  var gradientStroke4 = htmlLegendsChart2.createLinearGradient(500, 0, 100, 0);
+  gradientStroke4.addColorStop(0, '#11c900');
+  gradientStroke4.addColorStop(1, '#1bb30c');
+
+  var gradientFill4 = htmlLegendsChart2.createLinearGradient(500, 0, 100, 0);
+  gradientFill4.addColorStop(0, "rgba(21, 166, 7, 0.5)");
+  gradientFill4.addColorStop(1, "rgba(21, 166, 7, 0.3)");
+
+  var gradientStroke5 = htmlLegendsChart2.createLinearGradient(500, 0, 100, 0);
+  gradientStroke5.addColorStop(0, '#c42da6');
+  gradientStroke5.addColorStop(1, '#f567d9');
+
+  var gradientFill5 = htmlLegendsChart2.createLinearGradient(500, 0, 100, 0);
+  gradientFill5.addColorStop(0, "rgba(196, 45, 166, 0.7)");
+  gradientFill5.addColorStop(1, "rgba(196, 45, 166, 0.3)");
+
+  var gradientStroke6= htmlLegendsChart2.createLinearGradient(500, 0, 100, 0);
+  gradientStroke6.addColorStop(0, '#fdaf4b');
+  gradientStroke6.addColorStop(1, '#ffc478');
+
+  var gradientFill6 = htmlLegendsChart2.createLinearGradient(500, 0, 100, 0);
+  gradientFill6.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+  gradientFill6.addColorStop(1, "rgba(253, 175, 75, 0.7)");
+
+  var myHtmlLegendsChart2 = new Chart(htmlLegendsChart2, {
+    type: 'line',
+    data: {
+      labels: {{data_diarios|safe}},
+      datasets: [  {
+        label: "Novos Óbitos diários",
+        borderColor: gradientStroke5,
+        pointBackgroundColor: gradientStroke5,
+        pointRadius: 0,
+        backgroundColor: gradientFill5,
+        legendColor: '#c42da6',
+        fill: true,
+        borderWidth: 1,
+        data: {{obitos_diarios|safe}}
+      }]
+    },
+    options : {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        bodySpacing: 4,
+        mode:"nearest",
+        intersect: 0,
+        position:"nearest",
+        xPadding:10,
+        yPadding:10,
+        caretPadding:10
+      },
+      layout:{
+        padding:{left:15,right:15,top:15,bottom:15}
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500",
+            beginAtZero: false,
+            maxTicksLimit: 5,
+            padding: 20
+          },
+          gridLines: {
+            drawTicks: false,
+            display: false
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            zeroLineColor: "transparent"
+          },
+          ticks: {
+            padding: 20,
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500"
+          }
+        }]
+      },
+      legendCallback: function(chart) {
+        var text = [];
+        text.push('<ul class="' + chart.id + '-legend html-legend">');
+        for (var i = 0; i < chart.data.datasets.length; i++) {
+          text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+          if (chart.data.datasets[i].label) {
+            text.push(chart.data.datasets[i].label);
+          }
+          text.push('</li>');
+        }
+        text.push('</ul>');
+        return text.join('');
+      }
+    }
+  });
+
+	</script>
+
+{% endblock javascripts %}

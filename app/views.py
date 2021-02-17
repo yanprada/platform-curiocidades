@@ -424,6 +424,101 @@ def piraprefdes(request):
     html_template = loader.get_template( 'piracicaba_pref_despesas.html' )
     return HttpResponse(html_template.render(context, request))
 
+
+# ---------------------------------------COVID-Casos-------------------------------------------------
+
+@login_required(login_url="/login/")
+def covidcasos(request):
+    parente = pathlib.Path().absolute()
+    path_download1 = Path(parente,"notebook/bases/piracicaba/covid.csv")
+
+    covid=pd.read_csv(path_download1)
+
+    # -------------Periodo--------------------------
+    data = covid['Data'].tolist()
+    data_trat = data[5:]
+    data_diarios = data[1:]
+    # -------------casos acumulados--------------------------
+    casos_acumulados_temp = covid['Total Casos Confirmados'].tolist()
+    casos_acumulados = ['%.0f' % elem for elem in casos_acumulados_temp ]
+
+    # -------------casos diários--------------------------
+    casos_diarios_temp = covid['Casos Diários'].tolist()
+    casos_diarios = ['%.0f' % elem for elem in casos_diarios_temp ]
+    casos_diarios = casos_diarios[1:]
+    # -------------Homens--------------------------
+    homens_temp = covid['Homens'].tolist()
+    homens = ['%.0f' % elem for elem in homens_temp ]
+
+    # -------------Mulheres--------------------------
+    mulheres_temp = covid['Mulheres'].tolist()
+    mulheres = ['%.0f' % elem for elem in mulheres_temp ]
+
+    # -------------Casos descartados-------------
+    casos_descartados_temp = covid['Total Casos Descartados'].tolist()
+    casos_descartados = ['%.0f' % elem for elem in casos_descartados_temp ]
+
+    # -------------Casos recuperados-------------
+    casos_recuperados_temp = covid['Total Casos Recuperados'].tolist()
+    casos_recuperados = ['%.0f' % elem for elem in casos_recuperados_temp ]
+
+    # -------------Casos suspeitos-------------
+    casos_suspeitos_temp = covid['Total Casos Suspeitos'].tolist()
+    casos_suspeitos = ['%.0f' % elem for elem in casos_suspeitos_temp ]
+
+    # -------------Casos em tratamento-------------
+    casos_trat_temp = covid['Total Casos em Tratamento'].tolist()
+    casos_trat = ['%.0f' % elem for elem in casos_trat_temp ]
+    casos_trat = casos_trat[5:]
+
+    # -------------obitos totais-------------
+    obitos_acum_temp = covid['Total Óbitos'].tolist()
+    obitos_acum = ['%.0f' % elem for elem in obitos_acum_temp ]
+
+    # -------------obitos diários-------------
+    obitos_diarios_temp = covid['Óbitos Diários'].tolist()
+    obitos_diarios = ['%.0f' % elem for elem in obitos_diarios_temp ]
+    obitos_diarios = obitos_diarios[1:]
+
+
+    # -------------porcentagens/valores-------------
+    valor_obt_diarios = obitos_diarios[-1]
+    pct_obt_diarios = round((int(obitos_diarios[-1])-int(obitos_diarios[-15]))/int(obitos_diarios[-15])*100)
+
+    valor_casos_trat = casos_trat[-1]
+    pct_casos_trat = round((int(casos_trat[-1])-int(casos_trat[-15]))/int(casos_trat[-15])*100)
+
+    valor_obitos_acum = obitos_acum[-1]
+    pct_obitos_acum = round((int(obitos_acum[-1])-int(obitos_acum[-15]))/int(obitos_acum[-15])*100)
+
+    valor_casos_suspeitos = casos_suspeitos[-1]
+    pct_casos_suspeitos = round((int(casos_suspeitos[-1])-int(casos_suspeitos[-15]))/int(casos_suspeitos[-15])*100)
+
+    valor_casos_diarios = casos_diarios[-1]
+    pct_casos_diarios = round((int(casos_diarios[-1])-int(casos_diarios[-15]))/int(casos_diarios[-15])*100)
+
+    valor_casos_acumulados = casos_acumulados[-1]
+    pct_casos_acumulados = round((int(casos_acumulados[-1])-int(casos_acumulados[-15]))/int(casos_acumulados[-15])*100)
+
+
+
+
+
+
+
+
+    context = {'data':data,'data_diarios':data_diarios,'data_trat':data_trat,'casos_acumulados':casos_acumulados,'casos_diarios':casos_diarios,'homens':homens,
+    'mulheres':mulheres,'casos_descartados':casos_descartados,'casos_recuperados':casos_recuperados,
+    'casos_suspeitos':casos_suspeitos,'casos_trat':casos_trat,'obitos_acum':obitos_acum,'obitos_diarios':obitos_diarios,
+    'valor_obt_diarios':valor_obt_diarios,'pct_obt_diarios':pct_obt_diarios,'valor_casos_trat':valor_casos_trat,'pct_casos_trat':pct_casos_trat,
+    'valor_obitos_acum':valor_obitos_acum,'pct_obitos_acum':pct_obitos_acum,'valor_casos_suspeitos':valor_casos_suspeitos,'pct_casos_suspeitos':pct_casos_suspeitos,
+    'valor_casos_diarios':valor_casos_diarios,'pct_casos_diarios':pct_casos_diarios,'valor_casos_acumulados':valor_casos_acumulados,'pct_casos_acumulados':pct_casos_acumulados,}
+
+    context['segment'] = 'casos'
+
+    html_template = loader.get_template( 'piracicaba_covid_casos.html' )
+    return HttpResponse(html_template.render(context, request))
+
 # --------------------------------------DEMAIS PÁGINAS---------------------------------------------------------
 @login_required(login_url="/login/")
 def pages(request):
