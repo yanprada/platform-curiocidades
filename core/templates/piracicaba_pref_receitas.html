@@ -52,7 +52,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">TOP 10: Despesas <span class="small2">(milhões de reais , ano 2020)</div>
+              <div class="card-title">TOP 10: Receitas <span class="small2">(milhões de reais , ano 2020)</div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -64,59 +64,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">TOP 3 : Despesas Correntes <span class="small2">(milhões de reais , 2016-2020)</span></div>
-            </div>
-            <div class="card-body">
-              <div class="chart-container">
-                <canvas id="multipleBarChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">TOP 3 : Receitas Correntes Prefeitura (milhões de reais , 2016-2020)</div>
-            </div>
-            <div class="card-body">
-              <div class="chart-container">
-                <canvas id="multipleLineChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Impostos (milhões de reais, 2020)</div>
-            </div>
-            <div class="card-body">
-              <div class="chart-container">
-                <canvas id="multipleBarChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Composição das Transferências ( Estados, União)</div>
-          </div>
-          <div class="card-body">
-            <div class="chart-container">
-              <canvas id="pieChart" style="width: 50%; height: 50%"></canvas>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Outras Receitas  (milhões de reais , 2016-2020)</div>
+              <div class="card-title">TOP 3 : Receitas Correntes <span class="small2">(milhões de reais , 2016-2020)</span></div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -126,6 +74,33 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Composição Impostos (milhões de reais , 2019-2020)</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleBarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Composição das Transferências ( Estados, União etc)</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="pieChart" style="width: 50%; height: 50%"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
 
 
 
@@ -181,9 +156,9 @@
 				labels: {{top10_name|safe}},
 				datasets: [{
 					data:  {{top10_value|safe}},
-					borderColor: '#1d7af3',
-					backgroundColor : 'rgba(29, 122, 243, 0.25)',
-					pointBackgroundColor: "#1d7af3",
+					borderColor: '#54f75a',
+					backgroundColor : 'rgba(84, 247, 90, 0.2)',
+					pointBackgroundColor: "#54f75a",
 					pointHoverRadius: 4,
 					pointRadius: 3,
 					label: '2020'
@@ -241,7 +216,7 @@
     var myMultipleLineChart = new Chart(multipleLineChart, {
 			type: 'line',
 			data: {
-				labels: {{data|safe}},
+				labels: {{data2|safe}},
 				datasets: [{
 					label: "Transf: Estados/União",
 					borderColor: "#1d7af3",
@@ -355,12 +330,12 @@
   // Chart with HTML Legends
 
   var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientStroke.addColorStop(0, '#177dff');
-  gradientStroke.addColorStop(1, '#80b6f4');
+  gradientStroke.addColorStop(0, '#11c900');
+  gradientStroke.addColorStop(1, '#1bb30c');
 
   var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.5)");
-  gradientFill.addColorStop(1, "rgba(128, 182, 244, 0.3)");
+  gradientFill.addColorStop(0, "rgba(21, 166, 7, 0.5)");
+  gradientFill.addColorStop(1, "rgba(21, 166, 7, 0.3)");
 
   var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
   gradientStroke2.addColorStop(0, '#f3545d');
@@ -381,27 +356,17 @@
   var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
     type: 'line',
     data: {
-      labels: {{data|safe}},
+      labels: {{data2|safe}},
       datasets: [  {
         label: "Receitas Correntes",
-        borderColor: gradientStroke3,
-        pointBackgroundColor: gradientStroke3,
-        pointRadius: 0,
-        backgroundColor: gradientFill3,
-        legendColor: '#fdaf4b',
-        fill: true,
-        borderWidth: 1,
-        data: {{dados_rec_imp_round|safe}}
-      }, {
-        label: "Active Users",
         borderColor: gradientStroke,
         pointBackgroundColor: gradientStroke,
         pointRadius: 0,
         backgroundColor: gradientFill,
-        legendColor: '#177dff',
+        legendColor: '#11c900',
         fill: true,
         borderWidth: 1,
-        data: {{dados_rec_imp_round|safe}}
+        data: {{dados_rec_corr_round|safe}}
       }]
     },
     options : {

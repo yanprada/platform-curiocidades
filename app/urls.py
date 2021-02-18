@@ -29,6 +29,9 @@ urlpatterns = [
     # pira pref despesas
     path('pira_pref_des', views.piraprefdes, name='pira_pref_des'),
 
+    # covid-casos
+    path('pira_covid_casos', views.covidcasos, name='pira_covid_casos'),
+
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
 

@@ -38,7 +38,7 @@ def piraresumo(request):
     df_final = pd.read_csv(path_download1)
 
 # -------------Periodo--------------------------
-    data_temp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
+    data_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
     # -------------Receita corrente--------------------------
@@ -49,6 +49,7 @@ def piraresumo(request):
 # -------------Despesas Correntes-------------
     dados_des_corr_liq_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['DESPESAS LIQUIDADAS NO BIMESTRE'].tolist()
     dados_des_corr_liq =['%.2f' % elem for elem in dados_des_corr_liq_temp ]
+
 
 
     context = {'data':data,'dados_rec_corr_round':dados_rec_corr_round,'dados_des_corr_liq':dados_des_corr_liq}
@@ -64,33 +65,37 @@ def piraprefrec(request):
 
     parente = pathlib.Path().absolute()
 
-    path_download1 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
+    path_download1 = Path(parente,"notebook/bases/piracicaba/receita_funcao.csv")
+    path_download2 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
 
     df_final = pd.read_csv(path_download1)
-
+    df = pd.read_csv(path_download2)
 # -------------Periodo--------------------------
     data_temp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
+    data2_temp = df[df['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
+    data2=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data2_temp ]
+
 
 # -------------Receita corrente--------------------------
 
-    dados_rec_corr = df_final[df_final['Receitas Orçamentárias']=='RECEITAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_corr = df[df['Receitas Orçamentárias']=='RECEITAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_corr_round=['%.2f' % elem for elem in dados_rec_corr ]
 
 # -------------Top 3 receitas--------------------------
 
-    dados_rec_imp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_imp = df[df['Receitas Orçamentárias']=='Impostos']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_imp_round=['%.2f' % elem for elem in dados_rec_imp ]
 
-    dados_rec_transf = df_final[df_final['Receitas Orçamentárias']=='TRANSFERÊNCIAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_transf = df[df['Receitas Orçamentárias']=='TRANSFERÊNCIAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_transf_round=['%.2f' % elem for elem in dados_rec_transf ]
 
-    dados_rec_serv = df_final[df_final['Receitas Orçamentárias']=='RECEITA DE SERVIÇOS']['Receitas Realizadas no Bimestre (b)'].tolist()
+    dados_rec_serv = df[df['Receitas Orçamentárias']=='RECEITA DE SERVIÇOS']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_serv_round=['%.2f' % elem for elem in dados_rec_serv ]
 
 # -------------Top 10 receitas--------------------------
-    df_fim = df_final[df_final['Unnamed: 0']=='outubro 2020']
+    df_fim = df_final[df_final['Unnamed: 0']=='dezembro 2020']
     df_fim.sort_values('Receitas Realizadas no Bimestre (b)',inplace=True,ascending=False)
     top10_value_temp = df_fim.iloc[:11]['Receitas Realizadas no Bimestre (b)'].tolist()
 
@@ -103,7 +108,7 @@ def piraprefrec(request):
 
 # -------------Contexto-------------------------
 
-    context = {'data':data,'dados_rec_imp_round':dados_rec_imp_round,'dados_rec_corr_round':dados_rec_corr_round,'dados_rec_transf_round':dados_rec_transf_round,
+    context = {'data':data,'data2':data2,'dados_rec_imp_round':dados_rec_imp_round,'dados_rec_corr_round':dados_rec_corr_round,'dados_rec_transf_round':dados_rec_transf_round,
     'dados_rec_serv_round':dados_rec_serv_round,'top10_value':top10_value,'top10_name':top10_name}
 
 
@@ -137,14 +142,14 @@ def piraprefdes(request):
 
 
     df_final = pd.read_csv(path_download2) #Despesa por função
-    df=pd.read_csv(path_download3)  #Despesa Corrente
+    df=pd.read_csv(path_download3)#Despesa Corrente
+    df_data=pd.read_csv(path_topo)
 
 # -------------Periodo--------------------------
-    data_temp = df_final[df_final['Despesas Orçamentárias']=='Legislativa']['Unnamed: 0'].tolist()
+    data_temp = df_data[df_data['Despesas Orçamentárias']=='Legislativa']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
-
-    data2_temp = df_final[df_final['Despesas Orçamentárias']=='Legislativa']['Unnamed: 0'].tolist()[6:]
+    data2_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['Unnamed: 0'].tolist()
     data2=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data2_temp ]
 
 # -------------Elementos soltos do inicio-------------
@@ -404,7 +409,7 @@ def piraprefdes(request):
 
 
 
-    context = {'data':data,'data2':data2, 'nome_1':nome_1 ,'nome_2':nome_2 ,'nome_3':nome_3 ,'nome_4':nome_4 ,'nome_5':nome_5 ,'nome_6':nome_6,
+    context = {'data':data, 'data2':data2,'nome_1':nome_1 ,'nome_2':nome_2 ,'nome_3':nome_3 ,'nome_4':nome_4 ,'nome_5':nome_5 ,'nome_6':nome_6,
     'pct_1':pct_1 ,'pct_2':pct_2 ,'pct_3':pct_3 ,'pct_4':pct_4 ,'pct_5':pct_5,'pct_6':pct_6,
     'valor_1':valor_1 ,'valor_2':valor_2 ,'valor_3':valor_3 ,'valor_4':valor_4 ,'valor_5':valor_5,'valor_6':valor_6,
     'lst_valor':lst_valor,'lst_nome':lst_nome,
@@ -417,6 +422,101 @@ def piraprefdes(request):
 
 
     html_template = loader.get_template( 'piracicaba_pref_despesas.html' )
+    return HttpResponse(html_template.render(context, request))
+
+
+# ---------------------------------------COVID-Casos-------------------------------------------------
+
+@login_required(login_url="/login/")
+def covidcasos(request):
+    parente = pathlib.Path().absolute()
+    path_download1 = Path(parente,"notebook/bases/piracicaba/covid.csv")
+
+    covid=pd.read_csv(path_download1)
+
+    # -------------Periodo--------------------------
+    data = covid['Data'].tolist()
+    data_trat = data[5:]
+    data_diarios = data[1:]
+    # -------------casos acumulados--------------------------
+    casos_acumulados_temp = covid['Total Casos Confirmados'].tolist()
+    casos_acumulados = ['%.0f' % elem for elem in casos_acumulados_temp ]
+
+    # -------------casos diários--------------------------
+    casos_diarios_temp = covid['Casos Diários'].tolist()
+    casos_diarios = ['%.0f' % elem for elem in casos_diarios_temp ]
+    casos_diarios = casos_diarios[1:]
+    # -------------Homens--------------------------
+    homens_temp = covid['Homens'].tolist()
+    homens = ['%.0f' % elem for elem in homens_temp ]
+
+    # -------------Mulheres--------------------------
+    mulheres_temp = covid['Mulheres'].tolist()
+    mulheres = ['%.0f' % elem for elem in mulheres_temp ]
+
+    # -------------Casos descartados-------------
+    casos_descartados_temp = covid['Total Casos Descartados'].tolist()
+    casos_descartados = ['%.0f' % elem for elem in casos_descartados_temp ]
+
+    # -------------Casos recuperados-------------
+    casos_recuperados_temp = covid['Total Casos Recuperados'].tolist()
+    casos_recuperados = ['%.0f' % elem for elem in casos_recuperados_temp ]
+
+    # -------------Casos suspeitos-------------
+    casos_suspeitos_temp = covid['Total Casos Suspeitos'].tolist()
+    casos_suspeitos = ['%.0f' % elem for elem in casos_suspeitos_temp ]
+
+    # -------------Casos em tratamento-------------
+    casos_trat_temp = covid['Total Casos em Tratamento'].tolist()
+    casos_trat = ['%.0f' % elem for elem in casos_trat_temp ]
+    casos_trat = casos_trat[5:]
+
+    # -------------obitos totais-------------
+    obitos_acum_temp = covid['Total Óbitos'].tolist()
+    obitos_acum = ['%.0f' % elem for elem in obitos_acum_temp ]
+
+    # -------------obitos diários-------------
+    obitos_diarios_temp = covid['Óbitos Diários'].tolist()
+    obitos_diarios = ['%.0f' % elem for elem in obitos_diarios_temp ]
+    obitos_diarios = obitos_diarios[1:]
+
+
+    # -------------porcentagens/valores-------------
+    valor_obt_diarios = obitos_diarios[-1]
+    pct_obt_diarios = round((int(obitos_diarios[-1])-int(obitos_diarios[-15]))/int(obitos_diarios[-15])*100)
+
+    valor_casos_trat = casos_trat[-1]
+    pct_casos_trat = round((int(casos_trat[-1])-int(casos_trat[-15]))/int(casos_trat[-15])*100)
+
+    valor_obitos_acum = obitos_acum[-1]
+    pct_obitos_acum = round((int(obitos_acum[-1])-int(obitos_acum[-15]))/int(obitos_acum[-15])*100)
+
+    valor_casos_suspeitos = casos_suspeitos[-1]
+    pct_casos_suspeitos = round((int(casos_suspeitos[-1])-int(casos_suspeitos[-15]))/int(casos_suspeitos[-15])*100)
+
+    valor_casos_diarios = casos_diarios[-1]
+    pct_casos_diarios = round((int(casos_diarios[-1])-int(casos_diarios[-15]))/int(casos_diarios[-15])*100)
+
+    valor_casos_acumulados = casos_acumulados[-1]
+    pct_casos_acumulados = round((int(casos_acumulados[-1])-int(casos_acumulados[-15]))/int(casos_acumulados[-15])*100)
+
+
+
+
+
+
+
+
+    context = {'data':data,'data_diarios':data_diarios,'data_trat':data_trat,'casos_acumulados':casos_acumulados,'casos_diarios':casos_diarios,'homens':homens,
+    'mulheres':mulheres,'casos_descartados':casos_descartados,'casos_recuperados':casos_recuperados,
+    'casos_suspeitos':casos_suspeitos,'casos_trat':casos_trat,'obitos_acum':obitos_acum,'obitos_diarios':obitos_diarios,
+    'valor_obt_diarios':valor_obt_diarios,'pct_obt_diarios':pct_obt_diarios,'valor_casos_trat':valor_casos_trat,'pct_casos_trat':pct_casos_trat,
+    'valor_obitos_acum':valor_obitos_acum,'pct_obitos_acum':pct_obitos_acum,'valor_casos_suspeitos':valor_casos_suspeitos,'pct_casos_suspeitos':pct_casos_suspeitos,
+    'valor_casos_diarios':valor_casos_diarios,'pct_casos_diarios':pct_casos_diarios,'valor_casos_acumulados':valor_casos_acumulados,'pct_casos_acumulados':pct_casos_acumulados,}
+
+    context['segment'] = 'casos'
+
+    html_template = loader.get_template( 'piracicaba_covid_casos.html' )
     return HttpResponse(html_template.render(context, request))
 
 # --------------------------------------DEMAIS PÁGINAS---------------------------------------------------------
