@@ -425,10 +425,35 @@ def piraprefdes(request):
     return HttpResponse(html_template.render(context, request))
 
 
+# ---------------------------------------SESSÕES CÂMARA-------------------------------------------------
+
+@login_required(login_url="/login/")
+def piracamsessoes(request):
+    parente = pathlib.Path().absolute()
+    path_download1 = Path(parente,"notebook/bases/piracicaba/sessoes.csv")
+
+    sessoes=pd.read_csv(path_download1)
+    sessoes.drop(['Unnamed: 0','Abstenções','Ausentes'],axis=1,inplace=True)
+    
+
+
+    context = {'sessoes':sessoes}
+
+    context['segment'] = 'sessoes'
+
+    html_template = loader.get_template( 'piracicaba_cam_sessoes.html' )
+    return HttpResponse(html_template.render(context, request))
+
+
+
+
+
+
+
 # ---------------------------------------COVID-Casos-------------------------------------------------
 
 @login_required(login_url="/login/")
-def covidcasos(request):
+def piracovidcasos(request):
     parente = pathlib.Path().absolute()
     path_download1 = Path(parente,"notebook/bases/piracicaba/covid.csv")
 
@@ -499,11 +524,6 @@ def covidcasos(request):
 
     valor_casos_acumulados = casos_acumulados[-1]
     pct_casos_acumulados = round((int(casos_acumulados[-1])-int(casos_acumulados[-15]))/int(casos_acumulados[-15])*100)
-
-
-
-
-
 
 
 
