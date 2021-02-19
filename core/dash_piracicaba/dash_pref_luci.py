@@ -35,11 +35,11 @@ app1.layout =  html.Div([
                             {'label': 'Luciano Almeida - Segundo Turno', 'value': 'LUCIANO SANTOS TAVARES DE ALMEIDA'},
                             ],
                         value='Luciano Almeida',
-                        style={'height':'3em','width':'80%',})]),
+                        style={'height':'3em','width':'95%',})]),
             html.Br(),
             html.Br(),
 
-            html.Iframe(id='map',width='90%',height='400')])
+            html.Iframe(id='map',width='95%',height='400')])
 
 @app1.callback(
     Output('map','srcDoc'),

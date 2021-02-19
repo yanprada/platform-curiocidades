@@ -1,0 +1,493 @@
+{% extends "layouts/base_piracicaba.html" %}
+ {% load plotly_dash %}
+{% block title %} Receitas {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">ORÇAMENTO</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="/index.html">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="/piracicaba_resumo.html">Piracicaba</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<p>Câmara - Orçamento</p>
+					</li>
+				</ul>
+			</div>
+
+      <div class="row">
+        <div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">TOP 3 Despesas Câmara (milhões de reais , 2016-2021)</div>
+						</div>
+						<div class="card-body">
+
+							<div class="chart-container">
+								<canvas id="htmlLegendsChart"></canvas>
+							</div>
+							<div id="myChartLegend"></div>
+						</div>
+					</div>
+				</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">TOP 10: Despesas <span class="small2">(milhões de reais , ano 2020)</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="radarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">TOP 3 : Receitas Correntes <span class="small2">(milhões de reais , 2016-2020)</span></div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">TOP 100 despesas <span class="small2">(Somatória dos valores pagos entre Jan2016-Fev2021)</span></h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table id="multi-filter-select" class="display table table-striped table-hover" >
+									<thead>
+										<tr>
+											{% for data in top100 %}
+											<th>{{ data }}</th>
+											{% endfor %}
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											{% for data in top100 %}
+											<th>{{ data }}</th>
+											{% endfor %}
+										</tr>
+									</tfoot>
+									<tbody>
+										{% for _, record in top100.iterrows %}
+										<tr>
+												{% for value in record %}
+													<td>{{ value }}</td>
+												{% endfor %}
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+  <script>
+    $('#lineChart').sparkline([102,109,120,99,110,105,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#177dff',
+      fillColor: 'rgba(23, 125, 255, 0.14)'
+    });
+
+    $('#lineChart2').sparkline([99,125,122,105,110,124,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#f3545d',
+      fillColor: 'rgba(243, 84, 93, .14)'
+    });
+
+    $('#lineChart3').sparkline([105,103,123,100,95,105,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#ffa534',
+      fillColor: 'rgba(255, 165, 52, .14)'
+    });
+
+  </script>
+
+  <script>
+		var
+		multipleLineChart = document.getElementById('multipleLineChart').getContext('2d'),
+		multipleBarChart = document.getElementById('multipleBarChart').getContext('2d'),
+    radarChart = document.getElementById('radarChart').getContext('2d'),
+    pieChart = document.getElementById('pieChart').getContext('2d');
+
+    var myRadarChart = new Chart(radarChart, {
+			type: 'radar',
+			data: {
+				labels: {{top10_name|safe}},
+				datasets: [{
+					data:  {{top10_value|safe}},
+					borderColor: '#54f75a',
+					backgroundColor : 'rgba(84, 247, 90, 0.2)',
+					pointBackgroundColor: "#54f75a",
+					pointHoverRadius: 4,
+					pointRadius: 3,
+					label: '2020'
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend : {
+					position: 'bottom'
+				}
+			}
+		});
+
+
+    var myPieChart = new Chart(pieChart, {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: [50, 35, 2,13],
+					backgroundColor :["#1d7af3","#f3545d","#fdaf4b","#5db84d"],
+					borderWidth: 0
+				}],
+				labels: ['União e suas Entidades', 'Estados, DF e suas Entidades','Municípios e suas Entidades', 'Outras Instituições Públicas']
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position : 'bottom',
+					labels : {
+						fontColor: 'rgb(154, 154, 154)',
+						fontSize: 11,
+						usePointStyle : true,
+						padding: 20
+					}
+				},
+				pieceLabel: {
+					render: 'percentage',
+					fontColor: 'white',
+					fontSize: 14,
+				},
+				tooltips: false,
+				layout: {
+					padding: {
+						left: 20,
+						right: 20,
+						top: 20,
+						bottom: 20
+					}
+				}
+			}
+		});
+
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+			type: 'line',
+			data: {
+				labels: {{data2|safe}},
+				datasets: [{
+					label: "Transf: Estados/União",
+					borderColor: "#1d7af3",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#1d7af3",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{dados_rec_transf_round|safe}}
+				},{
+					label: "Impostos",
+					borderColor: "#59d05d",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#59d05d",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{dados_rec_imp_round|safe}}
+				}, {
+					label: "Receitas Serviços",
+					borderColor: "#f3545d",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#f3545d",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: {{dados_rec_serv_round|safe}}
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+
+		var myMultipleBarChart = new Chart(multipleBarChart, {
+			type: 'bar',
+			data: {
+				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				datasets : [{
+					label: "First time visitors",
+					backgroundColor: '#59d05d',
+					borderColor: '#59d05d',
+					data: [95, 100, 112, 101, 144, 159, 178, 156, 188, 190, 210, 245],
+				},{
+					label: "Visitors",
+					backgroundColor: '#fdaf4b',
+					borderColor: '#fdaf4b',
+					data: [145, 256, 244, 233, 210, 279, 287, 253, 287, 299, 312,356],
+				}, {
+					label: "Pageview",
+					backgroundColor: '#177dff',
+					borderColor: '#177dff',
+					data: [185, 279, 273, 287, 234, 312, 322, 286, 301, 320, 346, 399],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position : 'bottom'
+				},
+				title: {
+					display: true,
+					text: 'Comparativo do ano'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false
+				},
+				responsive: true,
+				scales: {
+					xAxes: [{
+						stacked: true,
+					}],
+					yAxes: [{
+						stacked: true
+					}]
+				}
+			}
+		});
+
+  var htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
+  // Chart with HTML Legends
+
+  var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke.addColorStop(0, '#11c900');
+  gradientStroke.addColorStop(1, '#1bb30c');
+
+  var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill.addColorStop(0, "rgba(21, 166, 7, 0.5)");
+  gradientFill.addColorStop(1, "rgba(21, 166, 7, 0.3)");
+
+  var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke2.addColorStop(0, '#f3545d');
+  gradientStroke2.addColorStop(1, '#ff8990');
+
+  var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
+  gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
+
+  var gradientStroke3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke3.addColorStop(0, '#fdaf4b');
+  gradientStroke3.addColorStop(1, '#ffc478');
+
+  var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+  gradientFill3.addColorStop(1, "rgba(253, 175, 75, 0.7)");
+
+  var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
+    type: 'line',
+    data: {
+      labels: {{data2|safe}},
+      datasets: [  {
+        label: "Receitas Correntes",
+        borderColor: gradientStroke,
+        pointBackgroundColor: gradientStroke,
+        pointRadius: 0,
+        backgroundColor: gradientFill,
+        legendColor: '#11c900',
+        fill: true,
+        borderWidth: 1,
+        data: {{dados_rec_corr_round|safe}}
+      }]
+    },
+    options : {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        bodySpacing: 4,
+        mode:"nearest",
+        intersect: 0,
+        position:"nearest",
+        xPadding:10,
+        yPadding:10,
+        caretPadding:10
+      },
+      layout:{
+        padding:{left:15,right:15,top:15,bottom:15}
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500",
+            beginAtZero: false,
+            maxTicksLimit: 5,
+            padding: 20
+          },
+          gridLines: {
+            drawTicks: false,
+            display: false
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            zeroLineColor: "transparent"
+          },
+          ticks: {
+            padding: 20,
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500"
+          }
+        }]
+      },
+      legendCallback: function(chart) {
+        var text = [];
+        text.push('<ul class="' + chart.id + '-legend html-legend">');
+        for (var i = 0; i < chart.data.datasets.length; i++) {
+          text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+          if (chart.data.datasets[i].label) {
+            text.push(chart.data.datasets[i].label);
+          }
+          text.push('</li>');
+        }
+        text.push('</ul>');
+        return text.join('');
+      }
+    }
+  });
+	</script>
+
+  <script >
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 10,
+				"order": [[ 3, "desc" ]],
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 5,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
+{% endblock javascripts %}

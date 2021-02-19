@@ -32,6 +32,9 @@ urlpatterns = [
     # cam sessoes
     path('pira_cam_sessoes', views.piracamsessoes, name='pira_cam_sessoes'),
 
+    # cam orcamento
+    path('pira_cam_orcamento', views.piracamorcamento, name='pira_cam_orcamento'),
+
     # covid-casos
     path('pira_covid_casos', views.piracovidcasos, name='pira_covid_casos'),
 

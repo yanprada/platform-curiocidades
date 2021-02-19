@@ -433,8 +433,7 @@ def piracamsessoes(request):
     path_download1 = Path(parente,"notebook/bases/piracicaba/sessoes.csv")
 
     sessoes=pd.read_csv(path_download1)
-    sessoes.drop(['Unnamed: 0','Abstenções','Ausentes'],axis=1,inplace=True)
-    
+
 
 
     context = {'sessoes':sessoes}
@@ -446,7 +445,23 @@ def piracamsessoes(request):
 
 
 
+# ---------------------------------------SESSÕES CÂMARA-------------------------------------------------
 
+@login_required(login_url="/login/")
+def piracamorcamento(request):
+    parente = pathlib.Path().absolute()
+    path_download1 = Path(parente,"notebook/bases/piracicaba/top100_cam.xlsx")
+
+    top100=pd.read_excel(path_download1)
+    pd.options.display.float_format = '{:,.2f}'.format
+
+
+    context = {'top100':top100}
+
+    context['segment'] = 'orcamento'
+
+    html_template = loader.get_template( 'piracicaba_cam_orcamento.html' )
+    return HttpResponse(html_template.render(context, request))
 
 
 
