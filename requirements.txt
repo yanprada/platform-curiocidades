@@ -15,3 +15,5 @@ channels_redis
 dpd_static_support
 pandas
 dash_bootstrap_components
+openpyxl
+xrld
