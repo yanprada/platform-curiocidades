@@ -28,20 +28,20 @@
 				<div class="col-md-6">
 					<div class="card full-height">
 						<div class="card-body">
-							<div class="card-title">Câmara Municipal</div>
-							<div class="card-category">Estatísticas da Câmara</div>
+							<div class="card-title">Vacinômetro</div>
+							<div class="card-category">Vacinas no município</div>
 							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
 								<div class="px-2 pb-2 pb-md-0 text-center">
 									<div id="circles-1"></div>
-									<h6 class="fw-bold mt-3 mb-0">Vereadores Reeleitos</h6>
+									<h6 class="fw-bold mt-3 mb-0">Total de aplicações</h6>
 								</div>
 								<div class="px-2 pb-2 pb-md-0 text-center">
 									<div id="circles-2"></div>
-									<h6 class="fw-bold mt-3 mb-0"> Nº Vereadoras</h6>
+									<h6 class="fw-bold mt-3 mb-0">Primeira Dose</h6>
 								</div>
 								<div class="px-2 pb-2 pb-md-0 text-center">
 									<div id="circles-3"></div>
-									<h6 class="fw-bold mt-3 mb-0">Partidos de Esquerda</h6>
+									<h6 class="fw-bold mt-3 mb-0">Segunda dose</h6>
 								</div>
 							</div>
 						</div>
@@ -49,8 +49,20 @@
 				</div>
 				<div class="col-md-6">
 					<div class="card full-height">
+						<div class="card-header">
+							<div class="card-head-row">
+								<div class="card-title">Prefeitura de Piracicaba</div>
+								<div class="card-tools">
+									<button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fas fa-info-circle"></i>
+										</span>
+										Explicação
+									</button>
+								</div>
+							</div>
+						</div>
 						<div class="card-body">
-							<div class="card-title">Prefeitura de Piracicaba</div>
 							<div class="row py-3">
 								<div class="col-md-4 d-flex flex-column justify-content-around">
 									<div>
@@ -79,18 +91,12 @@
 							<div class="card-head-row">
 								<div class="card-title">Gastos Correntes	 (Prefeitura)</div>
 								<div class="card-tools">
-									<a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2">
+									<button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
 										<span class="btn-label">
-											<i class="fa fa-pencil"></i>
+											<i class="fas fa-info-circle"></i>
 										</span>
-										Exportar
-									</a>
-									<a href="#" class="btn btn-info btn-border btn-round btn-sm">
-										<span class="btn-label">
-											<i class="fa fa-print"></i>
-										</span>
-										Imprimir
-									</a>
+										Explicação
+									</button>
 								</div>
 							</div>
 						</div>
@@ -105,8 +111,17 @@
 				<div class="col-md-4">
 					<div class="card card-primary">
 						<div class="card-header">
-							<div class="card-title">COVID-19</div>
-							<div class="card-category">Jan-Dez 2020</div>
+							<div class="card-head-row">
+								<div class="card-title">COVID-19</div>
+								<div class="card-tools">
+									<button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fas fa-info-circle"></i>
+										</span>
+										Explicação
+									</button>
+								</div>
+							</div>
 						</div>
 						<div class="card-body pb-0">
 							<div class="mb-4 mt-2">
@@ -135,14 +150,16 @@
 						<div class="card-header">
 							<div class="card-head-row card-tools-still-right">
 								<h4 class="card-title">Votação Prefeito</h4>
-								<div class="card-tools">
-									<button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-angle-down"></span></button>
-									<button class="btn btn-icon btn-link btn-primary btn-xs btn-refresh-card"><span class="fa fa-sync-alt"></span></button>
-									<button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-times"></span></button>
+								<div class="card-tools" style="padding:1em 3em 0 0;">
+
+									<button onclick="votPref()" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fas fa-info-circle"></i>
+										</span>
+										Explicação
+									</button>
 								</div>
 							</div>
-							<p class="card-category">
-							Sessões eleitorais mais votadas Luciano Almeida</p>
 						</div>
 						<div class="card-body">
 							<div class="{%plotly_class name='Pref_luci'%}" style="height:100: width:100%">
@@ -718,23 +735,23 @@
 		</div>
 	</div>
 
+
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
 	<!-- Atlantis DEMO methods, don't include it in your project! -->
-	<script src="/static/assets/js/setting-demo.js"></script>
-	<script src="/static/assets/js/demo.js"></script>
+
 
 	<script>
 		Circles.create({
 			id:'circles-1',
 			radius:45,
-			value:10,
-			maxValue:23,
+			value:10000,
+			maxValue:500000,
 			width:7,
-			text: 10,
+			text: "10K",
 			colors:['#f1f1f1', '#FF9E27'],
 			duration:400,
 			wrpClass:'circles-wrp',

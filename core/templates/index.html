@@ -9,42 +9,29 @@
 {% block content %}
 {% if request.user.is_authenticated %}
 		<div class="content">
-			<div class="panel-header  bg-info-gradient" >
-				<div class="page-inner py-5">
-					<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-						<div>
-							<h2 class="text-white pb-2 fw-bold big" style="font-size:2.5em;">Bem vindo(a) <br>	{{ request.user.username }} !</h2>
-							<h5 class="text-white op-7 mb-2">Conheça Piracicaba com dados</h5>
+			<div class="panel-header  bg-info-gradient2" >
+					<div class="page-inner ">
+						<div class="centro2">
+							<div class="bubble-circle bubble-circle--left">
+							</div>
 						</div>
-						<div class="ml-md-auto py-2 py-md-0">
-							<a href="#" class="btn btn-white btn-border btn-round mr-2">Saiba Mais</a>
-							<a href="{% url 'pira_resumo' %}" class="btn btn-secondary btn-round">Acessar o Terminal</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="content">
-				<div class="page-inner py-5">
 
-					<div class="container intro">
-							<h1 class='titulo-terminal'>Uma <strong> plataforma</strong> para os <strong>dados</strong> de Piracicaba!</h1>
-					</div>
-					<div class="row">
-		        <div class="col-md-8">
-							<img src="/static/assets/img/piracicaba.jpeg" width="100%" alt="">
-						</div>
-						<div class="col-md-4 center">
+						<div class="centro">
+								<h2 class="text-white pb-2 fw-bold big" style="font-size:2.5em;">Bem vindo(a) <br> <span style="color:black;"></span>	{{ request.user.username }} !</h2>
+								<br>
+							<div class="ml-md-auto py-2 py-md-0">
 								<a href="{%url 'pira_resumo'%}">
-								<button class="btn btn-default btn-lg btn-round">
-									<span class="btn-label">
-										<i class="fa fa-archive"></i>
+								<button class="btn btn-warning btn-lg btn-round">
+									<span class="btn-label  mr-2">
+										<i class="fa fa-rocket"></i>
 									</span>
-									Acessar o Terminal
+									Explorar
 								</button>
 								</a>
+							</div>
 						</div>
+
 					</div>
-				</div>
 			</div>
 		</div>
 
@@ -72,16 +59,108 @@
 				<div class="container intro">
 						<h1 class='titulo-terminal'>Uma <strong> plataforma</strong> para os <strong>dados</strong> de Piracicaba!</h1>
 				</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h1>Quer saber mais sobre:</h1>
+					<br>
+					<ul>
+						<li><h2>a distribuição das vacinas da covid no município?</h2></li>
+						<li><h2>o orçamento da Prefeitura?</h2></li>
+						<li><h2>o mapa das sessões eleitorais mais votadas por candidato?</h2></li>
+						<li><h2>dados econômicos de setores de Piracicaba? </h2></li>
+					</ul>
+					<br><br><br>
+				</div>
 
-				<h1>Quer saber mais sobre:</h1>
-				<br>
-				<ul>
-					<li><h2>a distribuição das vacinas da covid no município?</h2></li>
-					<li><h2>o orçamento da Prefeitura?</h2></li>
-					<li><h2>o mapa das sessões eleitorais mais votadas por candidato?</h2></li>
-					<li><h2>dados econômicos de setores de Piracicaba? </h2></li>
-				</ul>
-				<br><br><br> <hr>
+				<div class="col-md-6">
+						<div class="card">
+								<div class="card-header">
+										<div class="card-title">
+
+												{% if msg %}
+														<span class="text-danger">{{ msg | safe }}</span>
+												{% else %}
+												<span>
+														Cadastre-se:
+												</span>
+												{% endif %}
+
+										</div>
+								</div>
+
+								<form method="post" action="">
+
+										{% csrf_token %}
+
+										<div class="card-body">
+												<div class="row">
+														<div class="col-md-12">
+
+																<div class="form-group">
+																		<div class="input-group mb-3">
+																				<div class="input-group-prepend">
+																						<span class="input-group-text">
+																								<i class="icon-user"></i>
+																						</span>
+																				</div>
+																				{{ form.username }}
+																		</div>
+																</div>
+																<span class="text-danger">{{ form.username.errors }}</span>
+
+																<div class="form-group">
+																		<div class="input-group mb-3">
+																				<div class="input-group-prepend">
+																						<span class="input-group-text">
+																								<i class="icon-envelope"></i>
+																						</span>
+																				</div>
+																				{{ form.email }}
+																		</div>
+																</div>
+																<span class="text-danger">{{ form.email.errors }}</span>
+
+																<div class="form-group">
+																		<div class="input-group mb-3">
+																				<div class="input-group-prepend">
+																						<span class="input-group-text">
+																								<i class="icon-lock"></i>
+																						</span>
+																				</div>
+																				{{ form.password1 }}
+																		</div>
+																</div>
+																<span class="text-danger">{{ form.password1.errors }}</span>
+
+																<div class="form-group">
+																		<div class="input-group mb-3">
+																				<div class="input-group-prepend">
+																						<span class="input-group-text">
+																								<i class="icon-lock"></i>
+																						</span>
+																				</div>
+																				{{ form.password2 }}
+																		</div>
+																</div>
+																<span class="text-danger">{{ form.password2.errors }}</span>
+
+														</div>
+												</div>
+										</div>
+										<div class="card-action">
+												<button type="submit" class="btn btn-success">Enviar</button>
+												&nbsp; &nbsp;
+												<span>Já tem uma conta?</span> <a href="{% url 'login' %}" >Login</a>
+										</div>
+
+								</form>
+
+						</div>
+				</div>
+			</div>
+
+
+				<hr>
 				<h1>Conheça um pouco mais sobre o terminal:</h1>
 				<br><br><br>
 				<img src="/static/assets/media/django-dashboard-atlantis-dark-intro.gif" width="80%" alt="">
@@ -96,8 +175,7 @@
 {% block javascripts %}
 
 	<!-- Atlantis DEMO methods, don't include it in your project! -->
-	<script src="/static/assets/js/setting-demo.js"></script>
-	<script src="/static/assets/js/demo.js"></script>
+
 
 	<script>
 		Circles.create({

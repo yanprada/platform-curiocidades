@@ -39,7 +39,7 @@ app1.layout =  html.Div([
             html.Br(),
             html.Br(),
 
-            html.Iframe(id='map',width='95%',height='400')])
+            html.Iframe(id='map',width='95%',height='500px')])
 
 @app1.callback(
     Output('map','srcDoc'),

@@ -21,17 +21,28 @@
 						<i class="flaticon-right-arrow"></i>
 					</li>
 					<li class="nav-item">
-						<a href="/piracicaba_resumo.html">Piracicaba</a>
+						<a href="{%url 'pira_resumo'%}">Piracicaba</a>
 					</li>
 					<li class="separator">
 						<i class="flaticon-right-arrow"></i>
 					</li>
 					<li class="nav-item">
-						<p>Despesas</p>
+						<p>Despesas Prefeitura</p>
 					</li>
 				</ul>
 			</div>
-      <h2>TOP 6: despesas com maiores variações em absoluto <span class="small2">(6º Bim 2020/2019)</span> :</h2>
+      <div class="row container">
+        <h2>TOP 6. Despesas com maiores variações em absoluto:</h2>
+        <div class="card-tools" style="margin-left: auto; float: right; padding-left: 150px;">
+          <button onclick="top6DespPref()" class="btn btn-info  btn-round btn-sm">
+            <span class="btn-label">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            Explicação
+          </button>
+        </div>
+      </div>
+      <br>
       <div class="row">
         <div class="col-6 col-sm-4 col-lg-2">
           <div class="card">
@@ -152,10 +163,19 @@
         <div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Total Despesas Correntes <span class="small2">(milhões de reais , 2016-2020)</span> </div>
+              <div class="card-head-row">
+								<div class="card-title">Total Despesas Correntes <span class="small2">(milhões de reais , 2016-2020)</span> </div>
+								<div class="card-tools">
+									<button onclick="despPref()" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fas fa-info-circle"></i>
+										</span>
+										Explicação
+									</button>
+								</div>
+							</div>
 						</div>
 						<div class="card-body">
-
 							<div class="chart-container">
 								<canvas id="htmlLegendsChart"></canvas>
 							</div>
@@ -168,7 +188,17 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">TOP 10: Despesas <span class="small2">(milhões de reais , ano 2020)</div>
+              <div class="card-head-row">
+								<div class="card-title">TOP 10 Despesas</div>
+								<div class="card-tools">
+									<button onclick="top10DespPref()" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fas fa-info-circle"></i>
+										</span>
+										Explicação
+									</button>
+								</div>
+							</div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -180,7 +210,17 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">TOP 3 : Despesas Correntes <span class="small2">(milhões de reais , 2016-2020)</span></div>
+              <div class="card-head-row">
+								<div class="card-title">TOP 3 Despesas Correntes</div>
+								<div class="card-tools">
+									<button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fas fa-info-circle"></i>
+										</span>
+                    Explicação
+									</button>
+								</div>
+							</div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -194,7 +234,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Saúde <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+								<div class="card-title">Saúde</div>
+								<div class="card-tools">
+									<button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+										<span class="btn-label">
+											<i class="fas fa-info-circle"></i>
+										</span>
+									</button>
+								</div>
+							</div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -206,7 +255,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Educação <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                  <div class="card-title">Educação</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body ">
               <div class="chart-container">
@@ -218,7 +276,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Saneamento <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Saneamento</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -232,7 +299,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Assistência Social <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Assistência Social</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -244,7 +320,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Gestão Ambiental <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Gestão Ambiental</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -256,7 +341,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Urbanismo <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Urbanismo</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -270,7 +364,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Administração <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Administração</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -282,7 +385,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Segurança Pública <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Segurança Pública</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -294,7 +406,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Trabalho <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Trabalho</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -308,7 +429,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Cultura <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Cultura</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -320,7 +450,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Agricultura <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Agricultura</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -332,7 +471,16 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Desportos <span class="small2">(milhões de reais , 2018-2020)</span></div>
+              <div class="card-head-row">
+                <div class="card-title">Desportos</div>
+                <div class="card-tools">
+                  <button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="chart-container">

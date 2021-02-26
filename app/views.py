@@ -2,7 +2,10 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+from django.shortcuts import render
 
+# Create your views here.
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
@@ -11,9 +14,45 @@ from django import template
 import pandas as pd
 import pathlib
 from pathlib import Path
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.forms.utils import ErrorList
+from django.http import HttpResponse
+
+# Add this line to the beginning of relative.py file
+import sys
+sys.path.append('..')
+
+# Now you can do imports from one directory top cause it is in the sys.path
+import authentication
+
+# And even like this:
+from authentication.forms import LoginForm, SignUpForm
+
 
 def index(request):
-    return render(request, 'index.html')
+    msg     = None
+    success = False
+
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            raw_password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=raw_password)
+
+            msg     = 'Usuário criado! Acesse agora! <a href="/login">login</a>.'
+            success = True
+            login(request, user)
+            return redirect("/")
+
+        else:
+            msg = 'Formulário não é válido'
+    else:
+        form = SignUpForm()
+
+    return render(request, "index.html", {"form": form, "msg" : msg, "success" : success })
 
 
 def modulo(x):

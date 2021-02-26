@@ -1,0 +1,266 @@
+
+
+<!-- ----------------------------------------------------------------RESUMO PIRACICABA ---------------------------------------------------------------------------- -->
+
+
+<!-- RESUMO PIRA --- ORÇAMENTO PREFEITURA -->
+<script>
+function orcPref() {
+	Swal.fire({
+	title: '<strong>Gastos Correntes Prefeitura</strong>',
+	html:
+	'<br>'+
+	'<p align="justify" style="font-size:1em"> ' +
+	'No gráfico encontramos as receitas e despesas da prefeitura dentre 2016 e 2020. Os valores estão em milhões de reais, a preços de janeiro de 2021.'+
+	'<br><br>'+'As despesas da prefeitura apresentam um pico em Nov-Dez,'+
+	' e uma queda em Jan-Fev. Já as receitas tem seu pico em Mar-Abr e queda em Jul-Ago. ' +
+	'</p>',
+	icon:"info",
+	showCloseButton: true,
+	showCancelButton: true,
+	showDenyButton: true,
+	focusConfirm: false,
+	confirmButtonColor: '#42a1fc',
+	cancelButtonColor: '#d33',
+	denyButtonColor: '#0a5ba8',
+	confirmButtonText:
+		'Saber mais',
+	confirmButtonAriaLabel: 'Saber mais',
+	cancelButtonText:
+		'<i class="fa fa-thumbs-down"></i>',
+	cancelButtonAriaLabel: 'Thumbs up, great!',
+	denyButtonText: '<i class="fa fa-thumbs-up"></i> Entendi!',
+ 	denyButtonAriaLabel: 'Thumbs down'
+	})
+	.then((result) => {
+  if (result.isConfirmed) {
+    	Swal.fire({
+		  title: '<strong>Variações</strong>',
+		  html:
+			'<br>'+
+			'<p align="justify" style="font-size:1em"> ' +
+			'<u>Despesas</u>: As despesas sobem em Nov-Dez pelo aumento dos gastos em Saúde (Administração)' +
+			' e em Educação (Infantil e Fundamental).'+
+			'<br><br>' +
+			'<u>Receitas</u>: Já as receitas sobem em Mar-Abr pelo pico dos Impostos e por uma elevada Transferência dos Estados e da União. ' +
+			'</p>',
+		  showCloseButton: true,
+		  showCancelButton: true,
+		  focusConfirm: false,
+			confirmButtonColor: '#42a1fc',
+  		cancelButtonColor: '#d33',
+		  confirmButtonText:
+		    '<i class="fa fa-thumbs-up"></i> Entendi!',
+		  confirmButtonAriaLabel: 'Thumbs up, great!',
+		  cancelButtonText:
+		    '<i class="fa fa-thumbs-down"></i>',
+		  cancelButtonAriaLabel: 'Thumbs down'
+			})
+  }
+});
+}
+</script>
+
+<!-- RESUMO PIRA --- VOTAÇÃO PREFEITO -->
+
+<script>
+function votPref() {
+	Swal.fire({
+	title: '<strong>Votação Prefeito</strong>',
+	html:
+	'<br>'+
+	'<p align="justify" style="font-size:1em"> ' +
+	'No mapa encontramos as sessões mais votadas do atual prefeito, Luciano Almeida, nas eleições de 2020.' +
+	'</p>',
+	icon:"info",
+	showCloseButton: true,
+	showCancelButton: true,
+	showDenyButton: true,
+	focusConfirm: false,
+	confirmButtonColor: '#42a1fc',
+	cancelButtonColor: '#d33',
+	denyButtonColor: '#0a5ba8',
+	confirmButtonText:
+		'Saber mais',
+	confirmButtonAriaLabel: 'Saber mais',
+	cancelButtonText:
+		'<i class="fa fa-thumbs-down"></i>',
+	cancelButtonAriaLabel: 'Thumbs up, great!',
+	denyButtonText: '<i class="fa fa-thumbs-up"></i> Entendi!',
+	denyButtonAriaLabel: 'Thumbs down'
+	})
+	.then((result) => {
+  if (result.isConfirmed) {
+    	Swal.fire({
+		  title: '<strong>Metodologia</strong>',
+		  html:
+			'<br>'+
+			'<p align="justify" style="font-size:1em">' +
+			'Foram selecionadas as 60 sessões eleitorais com maior número percentual de votos no candidato em relação ao total de votos da sessão.' +
+			'<br><br>' +
+			'Os pontos quentes do mapa aparecem ao utilizar a metodologia estatística de _____ ' +
+			'</p>',
+		  showCloseButton: true,
+		  showCancelButton: true,
+		  focusConfirm: false,
+			confirmButtonColor: '#42a1fc',
+  		cancelButtonColor: '#d33',
+		  confirmButtonText:
+		    '<i class="fa fa-thumbs-up"></i> Entendi!',
+		  confirmButtonAriaLabel: 'Thumbs up, great!',
+		  cancelButtonText:
+		    '<i class="fa fa-thumbs-down"></i>',
+		  cancelButtonAriaLabel: 'Thumbs down'
+			})
+  }
+});
+}
+</script>
+
+
+
+<!-- ----------------------------------------------------------------DESPESAS PREF PIRACICABA ---------------------------------------------------------------------------- -->
+
+
+<!---------------------------- DESP PREF PIRA --- TOP6 -->
+<script>
+function top6DespPref() {
+	Swal.fire({
+	title: '<strong>TOP 6 Despesas</strong>',
+	html:
+	'<br>'+
+	'<p align="justify" style="font-size:1em">' +
+	'Selecionamos as 6 maiores variações em absoluto do bimestre passado em comparação com o mesmo bimestre no ano anterior.'+
+	'</p>' +
+	'<p>' +
+	'Ex: Se hoje estamos no 1º bimestre de 2021, os dados serão relativos ao 6º bimestre de 2020 em relação ao 6º bimestre de 2019.'+
+	'</p>',
+	icon:"info",
+	showCloseButton: true,
+	showCancelButton: true,
+	showDenyButton: true,
+	focusConfirm: false,
+	confirmButtonColor: '#42a1fc',
+	cancelButtonColor: '#d33',
+	denyButtonColor: '#0a5ba8',
+	confirmButtonText:
+		'Saber mais',
+	confirmButtonAriaLabel: 'Saber mais',
+	cancelButtonText:
+		'<i class="fa fa-thumbs-down"></i>',
+	cancelButtonAriaLabel: 'Thumbs up, great!',
+	denyButtonText: '<i class="fa fa-thumbs-up"></i> Entendi!',
+	denyButtonAriaLabel: 'Thumbs down'
+	})
+	.then((result) => {
+  if (result.isConfirmed) {
+    	Swal.fire({
+		  title: '<strong>Explicação</strong>',
+		  html:
+			'<br>'+
+			'<p align="justify" style="font-size:1em">' +
+			'Os percentuais em vermelho ou verde no canto superior direito referem-se à variação percentual em relação ao valor da despesa no bimestre do ano anterior.' +
+			'<br><br>' +
+			'Já os valores em R$ representam a variação positiva ou negativa, em absoluto, das desepesas em questão.' +
+			'</p>',
+		  showCloseButton: true,
+		  showCancelButton: true,
+		  focusConfirm: false,
+			confirmButtonColor: '#42a1fc',
+  		cancelButtonColor: '#d33',
+		  confirmButtonText:
+		    '<i class="fa fa-thumbs-up"></i> Entendi!',
+		  confirmButtonAriaLabel: 'Thumbs up, great!',
+		  cancelButtonText:
+		    '<i class="fa fa-thumbs-down"></i>',
+		  cancelButtonAriaLabel: 'Thumbs down'
+			})
+  }
+});
+}
+</script>
+
+<!---------------------------- DESP PREF PIRA --- Desp Correntes -->
+<script>
+function despPref() {
+	Swal.fire({
+	title: '<strong>Despesas Correntes Prefeitura</strong>',
+	html:
+	'<br>'+
+	'<p align="justify" style="font-size:1em">' +
+	'No gráfico encontramos as despesas empenhadas e liquidadas da prefeitura dentre 2016 e 2020. Os valores estão em milhões de reais, a preços de janeiro de 2021.'+
+	'</p>',
+	icon:"info",
+	showCloseButton: true,
+	showCancelButton: true,
+	showDenyButton: true,
+	focusConfirm: false,
+	confirmButtonColor: '#42a1fc',
+	cancelButtonColor: '#d33',
+	denyButtonColor: '#0a5ba8',
+	confirmButtonText:
+		'Saber mais',
+	confirmButtonAriaLabel: 'Saber mais',
+	cancelButtonText:
+		'<i class="fa fa-thumbs-down"></i>',
+	cancelButtonAriaLabel: 'Thumbs up, great!',
+	denyButtonText: '<i class="fa fa-thumbs-up"></i> Entendi!',
+	denyButtonAriaLabel: 'Thumbs down'
+	})
+	.then((result) => {
+  if (result.isConfirmed) {
+    	Swal.fire({
+		  title: '<strong>Explicação</strong>',
+		  html:
+			'<br>'+
+			'<p align="justify" style="font-size:1em">' +
+			'<u>Despesas Empenhadas</u>: correspondem àquelas que criam para o Município a obrigação de pagamento pendente ou não do cumprimento de uma condição.' +
+			' É a garantia de que existe o crédito necessário para a liquidação de um compromisso assumido, sendo este o primeiro estágio da despesa pública.' +
+			'<br><br>' +
+			'<u>Despesas Liquidadas</u>: correspondem àquelas que já foram verificadas o direito adquirido pelo credor, tendo por base os títulos e documentos que comprovem o respectivo crédito,' +
+			' para posterior pagamento.' +
+			'</p>',
+		  showCloseButton: true,
+		  showCancelButton: true,
+		  focusConfirm: false,
+			confirmButtonColor: '#42a1fc',
+  		cancelButtonColor: '#d33',
+		  confirmButtonText:
+		    '<i class="fa fa-thumbs-up"></i> Entendi!',
+		  confirmButtonAriaLabel: 'Thumbs up, great!',
+		  cancelButtonText:
+		    '<i class="fa fa-thumbs-down"></i>',
+		  cancelButtonAriaLabel: 'Thumbs down'
+			})
+  }
+});
+}
+</script>
+
+
+<!---------------------------- DESP PREF PIRA --- Desp Correntes -->
+<script>
+function top10DespPref() {
+	Swal.fire({
+	title: '<strong>TOP 10 Despesas</strong>',
+	html:
+	'<br>'+
+	'<p align="justify" style="font-size:1em">' +
+	'No gráfico encontramos as despesas correntes liquidadas da prefeitura para o 6º Bimestre de 2020, dividas por áreas de gastos. Os valores estão em milhões de reais, a preços de janeiro de 2021.'+
+	'</p>',
+	icon:"info",
+	showCloseButton: true,
+	showCancelButton: true,
+	showDenyButton: false,
+	focusConfirm: false,
+	confirmButtonColor: '#42a1fc',
+	cancelButtonColor: '#d33',
+	denyButtonColor: '#0a5ba8',
+	confirmButtonAriaLabel: 'Saber mais',
+	cancelButtonText:
+		'<i class="fa fa-thumbs-down"></i>',
+	cancelButtonAriaLabel: 'Thumbs up, great!',
+	confirmButtonText: '<i class="fa fa-thumbs-up"></i> Entendi!'
+	});
+}
+</script>
