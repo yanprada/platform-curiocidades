@@ -9061,7 +9061,7 @@ body {
     bottom: 0;;
 }
 
-@media (min-width: 500px) (max-width: 500px) {
+@media (max-width: 500px) {
   .bubble-circle {
     animation: rotating 15s linear infinite;
     background: #47DDFA;
