@@ -51,8 +51,8 @@ def index(request):
             msg = 'Formulário não é válido'
     else:
         form = SignUpForm()
+        return render(request, "index.html", {"form": form, "msg" : msg, "success" : success })
 
-    return render(request, "index.html", {"form": form, "msg" : msg, "success" : success })
 
 
 def modulo(x):
