@@ -1376,21 +1376,22 @@
   		});
 
 
-    var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-    gradientStroke.addColorStop(0, '#177dff');
-    gradientStroke.addColorStop(1, '#80b6f4');
+      var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+      gradientStroke.addColorStop(0, '#11c900');
+      gradientStroke.addColorStop(1, '#1bb30c');
 
-    var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.5)");
-    gradientFill.addColorStop(1, "rgba(128, 182, 244, 0.3)");
+      var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+      gradientFill.addColorStop(0, "rgba(21, 166, 7, 0.6)");
+      gradientFill.addColorStop(1, "rgba(21, 166, 7, 0.3)");
+
 
     var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
     gradientStroke2.addColorStop(0, '#f3545d');
     gradientStroke2.addColorStop(1, '#f3545d');
 
     var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-    gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
-    gradientFill2.addColorStop(1, "rgba(243, 84, 93, 0.7)");
+    gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.6)");
+    gradientFill2.addColorStop(1, "rgba(243, 84, 93, 0.6)");
 
     var gradientStroke3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
     gradientStroke3.addColorStop(0, '#fdaf4b');
@@ -1416,11 +1417,11 @@
           data: {{dados_des_corr_liq|safe}}
         }, {
           label: "Empenhada",
-          borderColor: gradientStroke3,
-          pointBackgroundColor: gradientStroke3,
+          borderColor: gradientStroke,
+          pointBackgroundColor: gradientStroke,
           pointRadius: 0,
-          backgroundColor: gradientFill3,
-          legendColor: '#fdaf4b',
+          backgroundColor: gradientFill,
+          legendColor: '#11c900',
           fill: true,
           borderWidth: 1,
           data: {{dados_des_corr_emp|safe}}

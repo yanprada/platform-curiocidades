@@ -1,0 +1,356 @@
+{% extends "layouts/base_piracicaba.html" %}
+ {% load plotly_dash %}
+{% block title %} Covid - Casos {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">VACINA COVID-19</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="/index.html">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="{%url 'pira_resumo'%}">Piracicaba</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<p>Vacina Coronavírus</p>
+					</li>
+				</ul>
+			</div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Quantidade de Vacinas Aplicadas Diariamente</div>
+						</div>
+						<div class="card-body">
+
+							<div class="chart-container">
+								<canvas id="htmlLegendsChart"></canvas>
+							</div>
+							<div id="myChartLegend"></div>
+						</div>
+					</div>
+				</div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Total de Vacinas Requeridas e Aplicadas</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Novas aplicações da 2ª dose (diárias)</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart2"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+  <script>
+    $('#lineChart').sparkline([102,109,120,99,110,105,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#177dff',
+      fillColor: 'rgba(23, 125, 255, 0.14)'
+    });
+
+    $('#lineChart2').sparkline([99,125,122,105,110,124,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#f3545d',
+      fillColor: 'rgba(243, 84, 93, .14)'
+    });
+
+    $('#lineChart3').sparkline([105,103,123,100,95,105,115], {
+      type: 'line',
+      height: '70',
+      width: '100%',
+      lineWidth: '2',
+      lineColor: '#ffa534',
+      fillColor: 'rgba(255, 165, 52, .14)'
+    });
+
+  </script>
+
+  <script>
+  var
+  multipleLineChart = document.getElementById('multipleLineChart').getContext('2d'),
+  multipleLineChart2 = document.getElementById('multipleLineChart2').getContext('2d');
+
+  var myMultipleLineChart = new Chart(multipleLineChart, {
+    type: 'line',
+    data: {
+      labels: {{data_t|safe}},
+      datasets: [{
+        label: "Total Requerido",
+        borderColor: "#c42da6",
+        pointBorderColor: "#FFF",
+        pointBackgroundColor: "#c42da6",
+        pointBorderWidth: 2,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 1,
+        pointRadius: 3,
+        backgroundColor: 'transparent',
+        fill: true,
+        borderWidth: 2,
+        data: {{numRequerido|safe}}
+      },{
+        label: "Total Aplicado",
+        borderColor: "#11c900",
+        pointBorderColor: "#FFF",
+        pointBackgroundColor: "#11c900",
+        pointBorderWidth: 2,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 1,
+        pointRadius: 3,
+        backgroundColor: 'transparent',
+        fill: true,
+        borderWidth: 2,
+        data: {{vac_t|safe}}
+      }]
+    },
+    options : {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        position: 'top',
+      },
+      tooltips: {
+        bodySpacing: 4,
+        mode:"nearest",
+        intersect: 0,
+        position:"nearest",
+        xPadding:10,
+        yPadding:10,
+        caretPadding:10
+      },
+      layout:{
+        padding:{left:15,right:15,top:15,bottom:15}
+      }
+    }
+  });
+  var myMultipleLineChart2 = new Chart(multipleLineChart2, {
+    type: 'line',
+    data: {
+      labels: {{data_p|safe}},
+      datasets: [{
+        label: "2ª Dose",
+        borderColor: "#11c900",
+        pointBorderColor: "#FFF",
+        pointBackgroundColor: "#11c900",
+        pointBorderWidth: 2,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 1,
+        pointRadius: 0,
+        backgroundColor: 'transparent',
+        fill: true,
+        borderWidth: 2,
+        data: {{segdose|safe}}
+      }]
+    },
+    options : {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        position: 'top',
+      },
+      tooltips: {
+        bodySpacing: 4,
+        mode:"nearest",
+        intersect: 0,
+        position:"nearest",
+        xPadding:10,
+        yPadding:10,
+        caretPadding:10
+      },
+      layout:{
+        padding:{left:15,right:15,top:15,bottom:15}
+      }
+    }
+  });
+
+  </script>
+
+
+
+  <script>
+
+  var htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
+  // Chart with HTML Legends
+
+  var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke.addColorStop(0, '#11c900');
+  gradientStroke.addColorStop(1, '#1bb30c');
+
+  var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill.addColorStop(0, "rgba(21, 166, 7, 0.5)");
+  gradientFill.addColorStop(1, "rgba(21, 166, 7, 0.3)");
+
+  var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke2.addColorStop(0, '#fc2d39');
+  gradientStroke2.addColorStop(1, '#ff8990');
+
+  var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill2.addColorStop(0, "rgba(252, 45, 57, 0.7)");
+  gradientFill2.addColorStop(1, "rgba(252, 45, 57, 0.3)");
+
+  var gradientStroke3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke3.addColorStop(0, '#fdaf4b');
+  gradientStroke3.addColorStop(1, '#ffc478');
+
+  var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+  gradientFill3.addColorStop(1, "rgba(253, 175, 75, 0.3)");
+
+  var gradientStroke4 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientStroke4.addColorStop(0, '#177dff');
+  gradientStroke4.addColorStop(1, '#177dff');
+
+  var gradientFill4 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+  gradientFill4.addColorStop(0, "rgba(23, 125, 255, 0.7)");
+  gradientFill4.addColorStop(1, "rgba(23, 125, 255, 0.3)");
+
+  var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
+    type: 'line',
+    data: {
+      labels: {{data_p|safe}},
+      datasets: [ {
+        label: "2ª Dose",
+        borderColor: gradientStroke4,
+        pointBackgroundColor: gradientStroke4,
+        pointRadius: 0,
+        backgroundColor: gradientFill4,
+        legendColor: '#177dff',
+        fill: true,
+        borderWidth: 1,
+        data: {{segdose|safe}}
+      },{
+        label: "1ª Dose",
+        borderColor: gradientStroke2,
+        pointBackgroundColor: gradientStroke2,
+        pointRadius: 0,
+        backgroundColor: gradientFill2,
+        legendColor: '#f3545d',
+        fill: true,
+        borderWidth: 1,
+        data: {{pridose|safe}}
+      }]
+    },
+    options : {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        bodySpacing: 4,
+        mode:"nearest",
+        intersect: 0,
+        position:"nearest",
+        xPadding:10,
+        yPadding:10,
+        caretPadding:10
+      },
+      layout:{
+        padding:{left:15,right:15,top:15,bottom:15}
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500",
+            beginAtZero: false,
+            maxTicksLimit: 5,
+            padding: 20
+          },
+          gridLines: {
+            drawTicks: false,
+            display: false
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            zeroLineColor: "transparent"
+          },
+          ticks: {
+            padding: 20,
+            fontColor: "rgba(0,0,0,0.5)",
+            fontStyle: "500"
+          }
+        }]
+      },
+      legendCallback: function(chart) {
+        var text = [];
+        text.push('<ul class="' + chart.id + '-legend html-legend">');
+        for (var i = 0; i < chart.data.datasets.length; i++) {
+          text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+          if (chart.data.datasets[i].label) {
+            text.push(chart.data.datasets[i].label);
+          }
+          text.push('</li>');
+        }
+        text.push('</ul>');
+        return text.join('');
+      }
+    }
+  });
+  var myLegendContainer = document.getElementById("myChartLegend");
+
+  // generate HTML legend
+  myLegendContainer.innerHTML = myHtmlLegendsChart.generateLegend();
+
+  // bind onClick event to all LI-tags of the legend
+  var legendItems = myLegendContainer.getElementsByTagName('li');
+  for (var i = 0; i < legendItems.length; i += 1) {
+    legendItems[i].addEventListener("click", legendClickCallback, false);
+  }
+	</script>
+
+{% endblock javascripts %}

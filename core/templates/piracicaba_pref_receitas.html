@@ -100,7 +100,7 @@
           </div>
         </div>
       </div>
-    
+
 
 
 
@@ -430,7 +430,7 @@
 
     var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
     gradientStroke2.addColorStop(0, '#f3545d');
-    gradientStroke2.addColorStop(1, '#ff8990');
+    gradientStroke2.addColorStop(1, '#f3545d');
 
     var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
     gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
@@ -518,6 +518,16 @@
         }
       }
     });
+    var myLegendContainer = document.getElementById("myChartLegend");
+
+    // generate HTML legend
+    myLegendContainer.innerHTML = myHtmlLegendsChart.generateLegend();
+
+    // bind onClick event to all LI-tags of the legend
+    var legendItems = myLegendContainer.getElementsByTagName('li');
+    for (var i = 0; i < legendItems.length; i += 1) {
+      legendItems[i].addEventListener("click", legendClickCallback, false);
+    }
 
 	</script>
 

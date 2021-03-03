@@ -38,6 +38,9 @@ urlpatterns = [
     # covid-casos
     path('pira_covid_casos', views.piracovidcasos, name='pira_covid_casos'),
 
+    # covid-vacina
+    path('pira_covid_vac', views.piracovidvac, name='pira_covid_vac'),
+
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
 

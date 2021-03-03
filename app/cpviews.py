@@ -93,11 +93,7 @@ def piraresumo(request):
     dados_des_corr_liq =['%.2f' % elem for elem in dados_des_corr_liq_temp ]
 
 # -------------Vacinas-------------
-    soma_vac = vacinas.groupby('Data').sum()
-    soma_vac.sort_values('Data',inplace=True)
 
-    vac=soma_vac['Contagem de Id Vacinacao'].tolist()
-    data2=soma_vac.index.tolist()
 
     pdose=vacinas.iloc[-1,2]
     sdose=vacinas.iloc[-2,2]
@@ -661,7 +657,10 @@ def piracovidcasos(request):
 
 
 
+
+
 # ---------------------------------------COVID-Vacina-------------------------------------------------
+
 @login_required(login_url="/login/")
 def piracovidvac(request):
     parente = pathlib.Path().absolute()
@@ -674,22 +673,14 @@ def piracovidvac(request):
     soma_vac = vacinas.groupby('Data').sum()
     soma_vac.sort_values('Data',inplace=True)
 
-    vac_t=soma_vac['Contagem de Id Vacinacao'].tolist()
-    data_t=soma_vac.index.tolist()
+    vac=soma_vac['Contagem de Id Vacinacao'].tolist()
+    data=soma_vac.index.tolist()
 
 
-    vacinas2=vacinas.iloc[5:]
-    prid=vacinas2[vacinas2['Dose']=='1° Dose']
-    sd=vacinas2[vacinas2['Dose']=='2° Dose']
-    sd['DosesDiarias']=sd['Contagem de Id Vacinacao']-sd['Contagem de Id Vacinacao'].shift(1)
-    prid['DosesDiarias']=prid['Contagem de Id Vacinacao']-prid['Contagem de Id Vacinacao'].shift(1)
-    data_p=prid['Data'].tolist()[1:]
-    segdose=sd['DosesDiarias'].tolist()[1:]
-    pridose=prid['DosesDiarias'].tolist()[1:]
-    numRequerido=[407252*2]*len(data_t)
 
-    context = {'data_p':data_p,'data_t':data_t,'vac_t':vac_t,'segdose':segdose,
-    'pridose':pridose,'numRequerido':numRequerido}
+
+
+    context = {'data':data,'vac':vac}
 
     context['segment'] = 'vacina'
 
