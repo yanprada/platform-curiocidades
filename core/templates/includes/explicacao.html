@@ -189,6 +189,10 @@ function despPref() {
 	'<br>'+
 	'<p align="justify" style="font-size:1em">' +
 	'No gráfico encontramos as despesas empenhadas e liquidadas da prefeitura dentre 2016 e 2020. Os valores estão em milhões de reais, a preços de janeiro de 2021.'+
+	'</p>'+
+	'<p align="justify" style="font-size:1em">'+
+	'As despesas são bimestrais, então valores correspondentes a Fev2016 no gráfico representam a somatória dos valores de Jan e Fev 2016. Da mesma forma, valores'+
+	' correspondentes a Abr2016 referem-se à soma dos valores de Mar e Abr 2016, e assim por diante.'+
 	'</p>',
 	icon:"info",
 	showCloseButton: true,
@@ -238,9 +242,9 @@ function despPref() {
 </script>
 
 
-<!---------------------------- DESP PREF PIRA --- Desp Correntes -->
+<!---------------------------- DESP PREF PIRA --- TOP 10 Despesas -->
 <script>
-function top10DespPref() {
+function despPrefTop10() {
 	Swal.fire({
 	title: '<strong>TOP 10 Despesas</strong>',
 	html:
@@ -263,4 +267,37 @@ function top10DespPref() {
 	confirmButtonText: '<i class="fa fa-thumbs-up"></i> Entendi!'
 	});
 }
+</script>
+
+
+<!---------------------------- DESP PREF PIRA --- Desp Correntes -->
+<script>
+function despPrefTop3() {
+	Swal.fire({
+		title: '<strong>TOP 3 Despesas</strong>',
+		html:
+		'<br>'+
+		'<p align="justify" style="font-size:1em">' +
+		'No gráfico encontramos as três maiores despesas liquidadas da prefeitura dentre 2018 e 2020. Os valores estão em milhões de reais, a preços de janeiro de 2021.'+
+		'</p>'+
+		'<p align="justify" style="font-size:1em">'+
+		'As despesas são bimestrais, então valores correspondentes a Fev2018 no gráfico representam a somatória dos valores de Jan e Fev 2018. Da mesma forma,'+
+		' valores correspondentes a Abr2018 referem-se à  soma dos valores de Mar e Abr 2018, e assim por diante.'+
+		'</p>',
+	icon:"info",
+	showCloseButton: true,
+	showCancelButton: true,
+	showDenyButton: false,
+	focusConfirm: false,
+	confirmButtonColor: '#42a1fc',
+	cancelButtonColor: '#d33',
+	denyButtonColor: '#0a5ba8',
+	confirmButtonAriaLabel: 'Saber mais',
+	cancelButtonText:
+		'<i class="fa fa-thumbs-down"></i>',
+	cancelButtonAriaLabel: 'Thumbs up, great!',
+	confirmButtonText: '<i class="fa fa-thumbs-up"></i> Entendi!'
+	});
+}
+
 </script>

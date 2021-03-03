@@ -68,7 +68,7 @@
             </div>
             <div class="card-body">
               <div class="chart-container">
-                <canvas id="multipleLineChart"></canvas>
+                <canvas id="multipleLineChartTop3"></canvas>
               </div>
             </div>
           </div>
@@ -78,11 +78,11 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Composição Impostos (milhões de reais , 2019-2020)</div>
+              <div class="card-title">Composição Impostos (2020)</div>
             </div>
             <div class="card-body">
               <div class="chart-container">
-                <canvas id="multipleBarChart"></canvas>
+                <canvas id="multipleLineChartImpostos"></canvas>
               </div>
             </div>
           </div>
@@ -90,17 +90,17 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Composição das Transferências ( Estados, União etc)</div>
+              <div class="card-title">Composição das Transferências (2020, Estados, União etc)</div>
             </div>
             <div class="card-body">
               <div class="chart-container">
-                <canvas id="pieChart" style="width: 50%; height: 50%"></canvas>
+                <canvas id="multipleLineChartTransf"></canvas>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+    
 
 
 
@@ -145,10 +145,10 @@
 
   <script>
 		var
-		multipleLineChart = document.getElementById('multipleLineChart').getContext('2d'),
-		multipleBarChart = document.getElementById('multipleBarChart').getContext('2d'),
-    radarChart = document.getElementById('radarChart').getContext('2d'),
-    pieChart = document.getElementById('pieChart').getContext('2d');
+		multipleLineChartTop3 = document.getElementById('multipleLineChartTop3').getContext('2d'),
+		multipleLineChartImpostos = document.getElementById('multipleLineChartImpostos').getContext('2d'),
+    multipleLineChartTransf = document.getElementById('multipleLineChartTransf').getContext('2d'),
+    radarChart = document.getElementById('radarChart').getContext('2d');
 
     var myRadarChart = new Chart(radarChart, {
 			type: 'radar',
@@ -174,46 +174,9 @@
 		});
 
 
-    var myPieChart = new Chart(pieChart, {
-			type: 'pie',
-			data: {
-				datasets: [{
-					data: [50, 35, 2,13],
-					backgroundColor :["#1d7af3","#f3545d","#fdaf4b","#5db84d"],
-					borderWidth: 0
-				}],
-				labels: ['União e suas Entidades', 'Estados, DF e suas Entidades','Municípios e suas Entidades', 'Outras Instituições Públicas']
-			},
-			options : {
-				responsive: true,
-				maintainAspectRatio: false,
-				legend: {
-					position : 'bottom',
-					labels : {
-						fontColor: 'rgb(154, 154, 154)',
-						fontSize: 11,
-						usePointStyle : true,
-						padding: 20
-					}
-				},
-				pieceLabel: {
-					render: 'percentage',
-					fontColor: 'white',
-					fontSize: 14,
-				},
-				tooltips: false,
-				layout: {
-					padding: {
-						left: 20,
-						right: 20,
-						top: 20,
-						bottom: 20
-					}
-				}
-			}
-		});
 
-    var myMultipleLineChart = new Chart(multipleLineChart, {
+
+    var myMultipleLineChartTop3 = new Chart(multipleLineChartTop3, {
 			type: 'line',
 			data: {
 				labels: {{data2|safe}},
@@ -279,154 +242,283 @@
 			}
 		});
 
-		var myMultipleBarChart = new Chart(multipleBarChart, {
-			type: 'bar',
-			data: {
-				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-				datasets : [{
-					label: "First time visitors",
-					backgroundColor: '#59d05d',
-					borderColor: '#59d05d',
-					data: [95, 100, 112, 101, 144, 159, 178, 156, 188, 190, 210, 245],
-				},{
-					label: "Visitors",
-					backgroundColor: '#fdaf4b',
-					borderColor: '#fdaf4b',
-					data: [145, 256, 244, 233, 210, 279, 287, 253, 287, 299, 312,356],
-				}, {
-					label: "Pageview",
-					backgroundColor: '#177dff',
-					borderColor: '#177dff',
-					data: [185, 279, 273, 287, 234, 312, 322, 286, 301, 320, 346, 399],
-				}],
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				legend: {
-					position : 'bottom'
-				},
-				title: {
-					display: true,
-					text: 'Comparativo do ano'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false
-				},
-				responsive: true,
-				scales: {
-					xAxes: [{
-						stacked: true,
-					}],
-					yAxes: [{
-						stacked: true
-					}]
-				}
-			}
-		});
 
-  var htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
-  // Chart with HTML Legends
-
-  var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientStroke.addColorStop(0, '#11c900');
-  gradientStroke.addColorStop(1, '#1bb30c');
-
-  var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientFill.addColorStop(0, "rgba(21, 166, 7, 0.5)");
-  gradientFill.addColorStop(1, "rgba(21, 166, 7, 0.3)");
-
-  var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientStroke2.addColorStop(0, '#f3545d');
-  gradientStroke2.addColorStop(1, '#ff8990');
-
-  var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
-  gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
-
-  var gradientStroke3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientStroke3.addColorStop(0, '#fdaf4b');
-  gradientStroke3.addColorStop(1, '#ffc478');
-
-  var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-  gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
-  gradientFill3.addColorStop(1, "rgba(253, 175, 75, 0.7)");
-
-  var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
-    type: 'line',
-    data: {
-      labels: {{data2|safe}},
-      datasets: [  {
-        label: "Receitas Correntes",
-        borderColor: gradientStroke,
-        pointBackgroundColor: gradientStroke,
-        pointRadius: 0,
-        backgroundColor: gradientFill,
-        legendColor: '#11c900',
-        fill: true,
-        borderWidth: 1,
-        data: {{dados_rec_corr_round|safe}}
-      }]
-    },
-    options : {
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: {
-        display: false
-      },
-      tooltips: {
-        bodySpacing: 4,
-        mode:"nearest",
-        intersect: 0,
-        position:"nearest",
-        xPadding:10,
-        yPadding:10,
-        caretPadding:10
-      },
-      layout:{
-        padding:{left:15,right:15,top:15,bottom:15}
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            fontColor: "rgba(0,0,0,0.5)",
-            fontStyle: "500",
-            beginAtZero: false,
-            maxTicksLimit: 5,
-            padding: 20
-          },
-          gridLines: {
-            drawTicks: false,
-            display: false
-          }
-        }],
-        xAxes: [{
-          gridLines: {
-            zeroLineColor: "transparent"
-          },
-          ticks: {
-            padding: 20,
-            fontColor: "rgba(0,0,0,0.5)",
-            fontStyle: "500"
-          }
+    var myMultipleLineChartImpostos = new Chart(multipleLineChartImpostos, {
+      type: 'line',
+      data: {
+        labels: {{data_imposto|safe}},
+        datasets: [{
+          label: "IPTU",
+          borderColor: "#1d7af3",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#1d7af3",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{iptu|safe}}
+        },{
+          label: "ISS",
+          borderColor: "#59d05d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#59d05d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{iss|safe}}
+        },{
+          label: "ITBI",
+          borderColor: "#fdaf4b",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#fdaf4b",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{itbi|safe}}
+        },{
+          label: "IRRF",
+          borderColor: "#f3545d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#f3545d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{irrf|safe}}
         }]
       },
-      legendCallback: function(chart) {
-        var text = [];
-        text.push('<ul class="' + chart.id + '-legend html-legend">');
-        for (var i = 0; i < chart.data.datasets.length; i++) {
-          text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
-          if (chart.data.datasets[i].label) {
-            text.push(chart.data.datasets[i].label);
-          }
-          text.push('</li>');
+      options : {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'top',
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode:"nearest",
+          intersect: 0,
+          position:"nearest",
+          xPadding:10,
+          yPadding:10,
+          caretPadding:10
+        },
+        layout:{
+          padding:{left:15,right:15,top:15,bottom:15}
         }
-        text.push('</ul>');
-        return text.join('');
       }
-    }
-  });
+    });
+
+    var myMultipleLineChartTransf = new Chart(multipleLineChartTransf, {
+      type: 'line',
+      data: {
+        labels: {{data_imposto|safe}},
+        datasets: [{
+          label: "Cota-Parte FPM",
+          borderColor: "#1d7af3",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#1d7af3",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{fpm|safe}}
+        },{
+          label: "Cota-Parte ITR",
+          borderColor: "#fdaf4b",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#fdaf4b",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{itr|safe}}
+        },{
+          label: "Cota-Parte ICMS",
+          borderColor: "#59d05d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#59d05d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{icms|safe}}
+        }, {
+          label: "Cota-Parte IPVA",
+          borderColor: "#f3545d",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#f3545d",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{ipva|safe}}
+        },{
+          label: "Repasses FUNDEB",
+          borderColor: "#c42da6",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#c42da6",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: 'transparent',
+          fill: true,
+          borderWidth: 2,
+          data: {{fundeb|safe}}
+        }]
+      },
+      options : {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'top',
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode:"nearest",
+          intersect: 0,
+          position:"nearest",
+          xPadding:10,
+          yPadding:10,
+          caretPadding:10
+        },
+        layout:{
+          padding:{left:15,right:15,top:15,bottom:15}
+        }
+      }
+    });
+
+
+
+    var htmlLegendsChart = document.getElementById('htmlLegendsChart').getContext('2d');
+
+    // Chart with HTML Legends
+
+    var gradientStroke = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+    gradientStroke.addColorStop(0, '#11c900');
+    gradientStroke.addColorStop(1, '#1bb30c');
+
+    var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+    gradientFill.addColorStop(0, "rgba(21, 166, 7, 0.5)");
+    gradientFill.addColorStop(1, "rgba(21, 166, 7, 0.3)");
+
+    var gradientStroke2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+    gradientStroke2.addColorStop(0, '#f3545d');
+    gradientStroke2.addColorStop(1, '#ff8990');
+
+    var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+    gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
+    gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
+
+    var gradientStroke3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+    gradientStroke3.addColorStop(0, '#fdaf4b');
+    gradientStroke3.addColorStop(1, '#ffc478');
+
+    var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+    gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+    gradientFill3.addColorStop(1, "rgba(253, 175, 75, 0.7)");
+
+    var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
+      type: 'line',
+      data: {
+        labels: {{data2|safe}},
+        datasets: [  {
+          label: "Receitas Correntes",
+          borderColor: gradientStroke,
+          pointBackgroundColor: gradientStroke,
+          pointRadius: 0,
+          backgroundColor: gradientFill,
+          legendColor: '#11c900',
+          fill: true,
+          borderWidth: 1,
+          data: {{dados_rec_corr_round|safe}}
+        }]
+      },
+      options : {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode:"nearest",
+          intersect: 0,
+          position:"nearest",
+          xPadding:10,
+          yPadding:10,
+          caretPadding:10
+        },
+        layout:{
+          padding:{left:15,right:15,top:15,bottom:15}
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              fontColor: "rgba(0,0,0,0.5)",
+              fontStyle: "500",
+              beginAtZero: false,
+              maxTicksLimit: 5,
+              padding: 20
+            },
+            gridLines: {
+              drawTicks: false,
+              display: false
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              zeroLineColor: "transparent"
+            },
+            ticks: {
+              padding: 20,
+              fontColor: "rgba(0,0,0,0.5)",
+              fontStyle: "500"
+            }
+          }]
+        },
+        legendCallback: function(chart) {
+          var text = [];
+          text.push('<ul class="' + chart.id + '-legend html-legend">');
+          for (var i = 0; i < chart.data.datasets.length; i++) {
+            text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+            if (chart.data.datasets[i].label) {
+              text.push(chart.data.datasets[i].label);
+            }
+            text.push('</li>');
+          }
+          text.push('</ul>');
+          return text.join('');
+        }
+      }
+    });
+
 	</script>
 
 {% endblock javascripts %}

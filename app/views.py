@@ -30,6 +30,16 @@ import authentication
 from authentication.forms import LoginForm, SignUpForm
 
 
+
+def modulo(x):
+    if x > 0:
+        return x
+    else:
+        return x*(-1)
+
+# ----------------------------------------------------------INDEX-----------------------------------------------------
+
+
 def index(request):
     msg     = None
     success = False
@@ -55,14 +65,6 @@ def index(request):
 
 
 
-def modulo(x):
-    if x > 0:
-        return x
-    else:
-        return x*(-1)
-
-
-
 # ----------------------------------------------------------PIRACICABA-----------------------------------------------------
 
 # ---------------------------------------RESUMO-------------------------------------------------
@@ -72,15 +74,16 @@ def piraresumo(request):
     parente = pathlib.Path().absolute()
     path_download1 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
     path_download3 = Path(parente,"notebook/bases/piracicaba/despesa_bimestres.csv")
+    path_download19 = Path(parente,"notebook/bases/piracicaba/vacinas.csv")
 
     df=pd.read_csv(path_download3)  #Despesa Corrente
     df_final = pd.read_csv(path_download1)
-
+    vacinas=pd.read_csv(path_download19)
 # -------------Periodo--------------------------
     data_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
-    # -------------Receita corrente--------------------------
+# -------------Receita corrente--------------------------
 
     dados_rec_corr = df_final[df_final['Receitas Orçamentárias']=='RECEITAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
     dados_rec_corr_round=['%.2f' % elem for elem in dados_rec_corr ]
@@ -89,9 +92,27 @@ def piraresumo(request):
     dados_des_corr_liq_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['DESPESAS LIQUIDADAS NO BIMESTRE'].tolist()
     dados_des_corr_liq =['%.2f' % elem for elem in dados_des_corr_liq_temp ]
 
+# -------------Vacinas-------------
+    soma_vac = vacinas.groupby('Data').sum()
+    soma_vac.sort_values('Data',inplace=True)
 
+    vac=soma_vac['Contagem de Id Vacinacao'].tolist()
+    data2=soma_vac.index.tolist()
 
-    context = {'data':data,'dados_rec_corr_round':dados_rec_corr_round,'dados_des_corr_liq':dados_des_corr_liq}
+    pdose=vacinas.iloc[-1,2]
+    sdose=vacinas.iloc[-2,2]
+    sumvac=pdose+sdose
+    if sdose<10000:
+        rpdose=str(pdose)[:2]
+        rsdose=str(sdose)[:1]
+        rsumvac=str(sumvac)[:2]
+    else:
+        rpdose=str(pdose)[:2]
+        rsdose=str(sdose)[:2]
+        rsumvac=str(sumvac)[:2]
+
+    context = {'data':data,'dados_rec_corr_round':dados_rec_corr_round,'dados_des_corr_liq':dados_des_corr_liq,
+    'pdose':pdose,'sdose':sdose,'sumvac':sumvac,'rpdose':rpdose,'rsdose':rsdose,'rsumvac':rsumvac}
     context['segment'] = 'resumo'
 
     html_template = loader.get_template( 'piracicaba_resumo.html' )
@@ -106,9 +127,14 @@ def piraprefrec(request):
 
     path_download1 = Path(parente,"notebook/bases/piracicaba/receita_funcao.csv")
     path_download2 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
+    path_download4_3_1 = Path(parente,"notebook/bases/piracicaba/receita_impostos.csv")
+    path_download4_3_2 = Path(parente,"notebook/bases/piracicaba/receita_transf.csv")
+
 
     df_final = pd.read_csv(path_download1)
     df = pd.read_csv(path_download2)
+    imposto =pd.read_csv(path_download4_3_1,index_col='Unnamed: 0')
+    trans = pd.read_csv(path_download4_3_2,index_col='Unnamed: 0')
 # -------------Periodo--------------------------
     data_temp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
@@ -116,7 +142,7 @@ def piraprefrec(request):
     data2_temp = df[df['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
     data2=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data2_temp ]
 
-
+    data_imposto=imposto.index.tolist()
 # -------------Receita corrente--------------------------
 
     dados_rec_corr = df[df['Receitas Orçamentárias']=='RECEITAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
@@ -144,11 +170,33 @@ def piraprefrec(request):
     top10_name = top10_name_temp[1:]
 
 
+# -------------Impostos e Transferencias--------------------------
+
+    fpm=trans.iloc[:,0].tolist()
+    fpm=['%.2f' % elem for elem in fpm ]
+    icms=trans.iloc[:,1].tolist()
+    icms=['%.2f' % elem for elem in icms ]
+    ipva=trans.iloc[:,2].tolist()
+    ipva=['%.2f' % elem for elem in ipva ]
+    itr=trans.iloc[:,3].tolist()
+    itr=['%.2f' % elem for elem in itr ]
+    fundeb=trans.iloc[:,4].tolist()
+    fundeb=['%.2f' % elem for elem in fundeb ]
+
+    iptu=imposto.iloc[:,0].tolist()
+    iptu=['%.2f' % elem for elem in iptu ]
+    iss=imposto.iloc[:,1].tolist()
+    iss=['%.2f' % elem for elem in iss ]
+    itbi=imposto.iloc[:,2].tolist()
+    itbi=['%.2f' % elem for elem in itbi ]
+    irrf=imposto.iloc[:,3].tolist()
+    irrf=['%.2f' % elem for elem in irrf ]
 
 # -------------Contexto-------------------------
 
     context = {'data':data,'data2':data2,'dados_rec_imp_round':dados_rec_imp_round,'dados_rec_corr_round':dados_rec_corr_round,'dados_rec_transf_round':dados_rec_transf_round,
-    'dados_rec_serv_round':dados_rec_serv_round,'top10_value':top10_value,'top10_name':top10_name}
+    'dados_rec_serv_round':dados_rec_serv_round,'top10_value':top10_value,'top10_name':top10_name,
+    'data_imposto':data_imposto,'iptu':iptu,'iss':iss,'itbi':itbi,'irrf':irrf,'fpm':fpm,'icms':icms,'ipva':ipva,'itr':itr,'fundeb':fundeb,}
 
 
     html_template = loader.get_template( 'piracicaba_pref_receitas.html' )
@@ -559,25 +607,43 @@ def piracovidcasos(request):
     obitos_diarios = ['%.0f' % elem for elem in obitos_diarios_temp ]
     obitos_diarios = obitos_diarios[1:]
 
+    # -------------MEAN obitos diários-------------
+    mobitos_diarios_temp = covid['Média Móvel Óbitos'].tolist()
+    mobitos_diarios = ['%.0f' % elem for elem in mobitos_diarios_temp ]
+    mobitos_diarios = mobitos_diarios[1:]
+
+    # -------------MEAN casos diários--------------------------
+    mcasos_diarios_temp = covid['Média Móvel Casos'].tolist()
+    mcasos_diarios = ['%.0f' % elem for elem in mcasos_diarios_temp ]
+    mcasos_diarios = mcasos_diarios[1:]
+
+    # -------------MEAN Casos tratamentos-------------
+    mcasos_trat_temp = covid['Média Móvel Tratamento'].tolist()
+    mcasos_trat = ['%.0f' % elem for elem in mcasos_trat_temp ]
+    mcasos_trat = mcasos_trat[5:]
+
+    # -------------MEAN Casos suspeitos-------------
+    mcasos_suspeitos_temp = covid['Média Móvel Suspeitos'].tolist()
+    mcasos_suspeitos = ['%.0f' % elem for elem in mcasos_suspeitos_temp ]
 
     # -------------porcentagens/valores-------------
     valor_obt_diarios = obitos_diarios[-1]
-    pct_obt_diarios = round((int(obitos_diarios[-1])-int(obitos_diarios[-15]))/int(obitos_diarios[-15])*100)
+    pct_obt_diarios = round((int(obitos_diarios[-1])-int(mobitos_diarios[-15]))/int(mobitos_diarios[-15])*100)
 
     valor_casos_trat = casos_trat[-1]
-    pct_casos_trat = round((int(casos_trat[-1])-int(casos_trat[-15]))/int(casos_trat[-15])*100)
+    pct_casos_trat = round((int(casos_trat[-1])-int(mcasos_trat[-15]))/int(mcasos_trat[-15])*100)
 
     valor_obitos_acum = obitos_acum[-1]
-    pct_obitos_acum = round((int(obitos_acum[-1])-int(obitos_acum[-15]))/int(obitos_acum[-15])*100)
+    pct_obitos_acum = round((int(obitos_acum[-1])-int(obitos_acum[-8]))/int(obitos_acum[-8])*100)
 
     valor_casos_suspeitos = casos_suspeitos[-1]
-    pct_casos_suspeitos = round((int(casos_suspeitos[-1])-int(casos_suspeitos[-15]))/int(casos_suspeitos[-15])*100)
+    pct_casos_suspeitos = round((int(casos_suspeitos[-1])-int(mcasos_suspeitos[-15]))/int(mcasos_suspeitos[-15])*100)
 
     valor_casos_diarios = casos_diarios[-1]
-    pct_casos_diarios = round((int(casos_diarios[-1])-int(casos_diarios[-15]))/int(casos_diarios[-15])*100)
+    pct_casos_diarios = round((int(casos_diarios[-1])-int(mcasos_diarios[-8]))/int(mcasos_diarios[-8])*100)
 
     valor_casos_acumulados = casos_acumulados[-1]
-    pct_casos_acumulados = round((int(casos_acumulados[-1])-int(casos_acumulados[-15]))/int(casos_acumulados[-15])*100)
+    pct_casos_acumulados = round((int(casos_acumulados[-1])-int(casos_acumulados[-8]))/int(casos_acumulados[-8])*100)
 
 
 

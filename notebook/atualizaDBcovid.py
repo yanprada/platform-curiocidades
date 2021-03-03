@@ -1,3 +1,12 @@
+from selenium import webdriver
+import requests
+import time
+import os
+from pathlib import Path
+import pandas as pd
+from datetime import datetime
+
+import pathlib
 cidade='piracicaba'
 path_download15 = Path(parent,"bases/{}/covid.csv".format(cidade))
 
@@ -37,7 +46,7 @@ for m in meses:
                         casos_confirmados = div.text.split('\n')[i].split()[0]
                 elif div.text.split('\n')[i].split()[-1] =='suspeitos':
                     if len(div.text.split('\n')[i].split()[0])>5:
-                        casos_suspeitos = div.text.split('\n')[i].split()[0][:6]
+                        casos_suspeitos = div.text.split('\n')[i].split()[0][:4]
                     else:
                         casos_suspeitos = div.text.split('\n')[i].split()[0]
                 elif div.text.split('\n')[i].split()[-1] =='descartados':
@@ -52,7 +61,7 @@ for m in meses:
                         casos_recuperados = div.text.split('\n')[i].split()[0]
                 elif div.text.split('\n')[i].split()[-1] =='tratamento':
                     if len(div.text.split('\n')[i].split()[0])>5:
-                        em_tratamento = div.text.split('\n')[i].split()[0][:6]
+                        em_tratamento = div.text.split('\n')[i].split()[0][:4]
                     else:
                         em_tratamento = div.text.split('\n')[i].split()[0]
                 elif div.text.split('\n')[i].split()[-1] =='óbitos':
@@ -98,7 +107,15 @@ for m in meses:
                      'Total Óbitos':int(obitos.replace('.','')),
                      'Homens':int(homens.replace('.','')),
                      'Mulheres':int(mulheres.replace('.','')),'Data':'{}/{}/2021'.format(d,m)}
-        covid = covid.append(dicionario, ignore_index=True)
-        covid['Óbitos Diários'].iloc[-1]=covid['Total Óbitos'].iloc[-1]-covid['Total Óbitos'].iloc[-2]
-        covid['Casos Diários'].iloc[-1]=covid['Total Casos Confirmados'].iloc[-1]-covid['Total Casos Confirmados'].iloc[-2]
+        if covid['Data'].iloc[-1]!=dicionario['Data']:
+            covid = covid.append(dicionario, ignore_index=True)
+            covid['Óbitos Diários'].iloc[-1]=covid['Total Óbitos'].iloc[-1]-covid['Total Óbitos'].iloc[-2]
+            covid['Casos Diários'].iloc[-1]=covid['Total Casos Confirmados'].iloc[-1]-covid['Total Casos Confirmados'].iloc[-2]
+
+        covid['Média Móvel Casos'] = covid['Casos Diários'].rolling(7).mean()
+        covid['Média Móvel Óbitos'] = covid['Óbitos Diários'].rolling(7).mean()
+        covid['Média Móvel Tratamento'] = covid['Total Casos em Tratamento'].rolling(7).mean()
+        covid['Média Móvel Suspeitos'] = covid['Total Casos Suspeitos'].rolling(7).mean()
+
+covid.to_csv(path_download15)
 driver.quit()

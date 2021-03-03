@@ -166,12 +166,7 @@
 								{%plotly_direct name="Pref_luci" %}
 							</div>
 
-							<div class="row">
 
-
-
-
-							</div>
 						</div>
 					</div>
 				</div>
@@ -748,10 +743,10 @@
 		Circles.create({
 			id:'circles-1',
 			radius:45,
-			value:10000,
+			value:{{sumvac | safe}},
 			maxValue:500000,
 			width:7,
-			text: "10K",
+			text: {{rsumvac | safe}}+'K',
 			colors:['#f1f1f1', '#FF9E27'],
 			duration:400,
 			wrpClass:'circles-wrp',
@@ -763,10 +758,10 @@
 		Circles.create({
 			id:'circles-2',
 			radius:45,
-			value:4,
-			maxValue:23,
+			value:{{pdose | safe}},
+			maxValue:500000,
 			width:7,
-			text: 4,
+			text: {{rpdose | safe}}+'K',
 			colors:['#f1f1f1', '#2BB930'],
 			duration:400,
 			wrpClass:'circles-wrp',
@@ -778,10 +773,10 @@
 		Circles.create({
 			id:'circles-3',
 			radius:45,
-			value:3,
-			maxValue:23,
+			value:{{sdose | safe}},
+			maxValue:500000,
 			width:7,
-			text: 3,
+			text: {{rsdose | safe}}+'K',
 			colors:['#f1f1f1', '#F25961'],
 			duration:400,
 			wrpClass:'circles-wrp',
