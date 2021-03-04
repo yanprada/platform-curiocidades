@@ -37,12 +37,12 @@
 
 
 </head>
-<body data-background-color="dark">
+<body data-background-color="bg3">
 	<div class="wrapper">
 
         {% include 'includes/navigation.html' %}
 
-        {% include 'includes/sidebar.html' %}
+        {% include 'includes/sidebar_piracicaba.html' %}
 
 		<div class="main-panel">
 
@@ -54,8 +54,7 @@
 
 		{% if request.user.is_authenticated %}
 
-			<!-- Custom template | don't include it in your project! -->
-			{% include 'includes/configuration-plugin.html' %}
+
 
 		{% endif %}
 
@@ -67,4 +66,5 @@
     {% block javascripts %}{% endblock javascripts %}
 
 </body>
+{% plotly_footer %}
 </html>

@@ -71,18 +71,23 @@ def index(request):
 
 @login_required(login_url="/login/")
 def piraresumo(request):
+
+# ------------CAMINHOS---------------
     parente = pathlib.Path().absolute()
     path_download1 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
     path_download3 = Path(parente,"notebook/bases/piracicaba/despesa_bimestres.csv")
     path_download19 = Path(parente,"notebook/bases/piracicaba/vacinas.csv")
-
+    path_download12 = Path(parente,"notebook/bases/piracicaba/covid.csv")
+# -------------DATABASES-----------
+    covid=pd.read_csv(path_download12)
     df=pd.read_csv(path_download3)  #Despesa Corrente
     df_final = pd.read_csv(path_download1)
     vacinas=pd.read_csv(path_download19)
-# -------------Periodo--------------------------
+# -------------DATAS--------------------------
     data_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
-
+    data2 = covid['Data'].tolist()
+    data_diarios = data2[-40:]
 # -------------Receita corrente--------------------------
 
     dados_rec_corr = df_final[df_final['Receitas Orçamentárias']=='RECEITAS CORRENTES']['Receitas Realizadas no Bimestre (b)'].tolist()
@@ -92,12 +97,27 @@ def piraresumo(request):
     dados_des_corr_liq_temp = df[df['Despesas Orçamentárias']=='DESPESAS CORRENTES']['DESPESAS LIQUIDADAS NO BIMESTRE'].tolist()
     dados_des_corr_liq =['%.2f' % elem for elem in dados_des_corr_liq_temp ]
 
-# -------------Vacinas-------------
+# -------------INFO Vacinas-------------
     soma_vac = vacinas.groupby('Data').sum()
     soma_vac.sort_values('Data',inplace=True)
-
     vac=soma_vac['Contagem de Id Vacinacao'].tolist()
     data2=soma_vac.index.tolist()
+
+# --------------CASOS DE COVID DIARIOS-------------
+    casos_diarios_temp = covid['Casos Diários'].tolist()
+    casos_diarios = ['%.0f' % elem for elem in casos_diarios_temp ]
+    casosHoje = casos_diarios[-1]
+    casosDiarios=casos_diarios[-40:]
+# --------------VACINOMETRO--------------
+    vacinas2=vacinas.iloc[5:]
+    prid=vacinas2[vacinas2['Dose']=='1° Dose']
+    sd=vacinas2[vacinas2['Dose']=='2° Dose']
+    sd['DosesDiarias']=sd['Contagem de Id Vacinacao']-sd['Contagem de Id Vacinacao'].shift(1)
+    prid['DosesDiarias']=prid['Contagem de Id Vacinacao']-prid['Contagem de Id Vacinacao'].shift(1)
+    data_p=prid['Data'].tolist()[1:]
+    segdose=sd['DosesDiarias'].tolist()[-1]
+    pridose=prid['DosesDiarias'].tolist()[-1]
+    vacinadosHoje=round(segdose+pridose)
 
     pdose=vacinas.iloc[-1,2]
     sdose=vacinas.iloc[-2,2]
@@ -111,7 +131,8 @@ def piraresumo(request):
         rsdose=str(sdose)[:2]
         rsumvac=str(sumvac)[:2]
 
-    context = {'data':data,'dados_rec_corr_round':dados_rec_corr_round,'dados_des_corr_liq':dados_des_corr_liq,
+    context = {'data':data,'data_diarios':data_diarios,'dados_rec_corr_round':dados_rec_corr_round,'dados_des_corr_liq':dados_des_corr_liq,
+    'vacinadosHoje':vacinadosHoje,'casosHoje':casosHoje,'casosDiarios':casosDiarios,
     'pdose':pdose,'sdose':sdose,'sumvac':sumvac,'rpdose':rpdose,'rsdose':rsdose,'rsumvac':rsumvac}
     context['segment'] = 'resumo'
 
@@ -123,19 +144,20 @@ def piraresumo(request):
 @login_required(login_url="/login/")
 def piraprefrec(request):
 
-    parente = pathlib.Path().absolute()
 
+# ------------CAMINHOS --------------------
+    parente = pathlib.Path().absolute()
     path_download1 = Path(parente,"notebook/bases/piracicaba/receita_funcao.csv")
     path_download2 = Path(parente,"notebook/bases/piracicaba/receita_bimestres.csv")
     path_download4_3_1 = Path(parente,"notebook/bases/piracicaba/receita_impostos.csv")
     path_download4_3_2 = Path(parente,"notebook/bases/piracicaba/receita_transf.csv")
 
-
+# ------------DATABASES --------------------
     df_final = pd.read_csv(path_download1)
     df = pd.read_csv(path_download2)
     imposto =pd.read_csv(path_download4_3_1,index_col='Unnamed: 0')
     trans = pd.read_csv(path_download4_3_2,index_col='Unnamed: 0')
-# -------------Periodo--------------------------
+# -------------DATAS--------------------------
     data_temp = df_final[df_final['Receitas Orçamentárias']=='Impostos']['Unnamed: 0'].tolist()
     data=[elem.split()[0][:3]+elem.split()[1][-2:] for elem in data_temp ]
 
