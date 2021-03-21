@@ -5,12 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 	<title>
-      CurioCidades- {% block title %}{% endblock %} |
+      CurioCidades- {% block title %}{% endblock %} | Piracicaba
     </title>
 
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" href="/static/assets/img/icon.ico" type="image/x-icon"/>
-
 	<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 
 	<!-- Fonts and icons -->
@@ -35,7 +34,7 @@
     <!-- Specific Page CSS goes HERE  -->
     {% block stylesheets %}{% endblock stylesheets %}
 
-
+{% plotly_header %}
 </head>
 <body data-background-color="bg3">
 	<div class="wrapper">
@@ -52,14 +51,9 @@
 
 		</div>
 
-		{% if request.user.is_authenticated %}
-
-
-
-		{% endif %}
 
 	</div>
-
+	{% include 'includes/explicacao.html' %}
 	{% include 'includes/scripts.html' %}
 
     <!-- Specific Page JS goes HERE  -->

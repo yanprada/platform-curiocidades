@@ -8,26 +8,46 @@ from datetime import datetime
 
 import pathlib
 cidade='piracicaba'
+parent = pathlib.Path().absolute()
 path_download15 = Path(parent,"bases/{}/covid.csv".format(cidade))
+
+def dia_de_ontem(hoje):
+    dist = int(hoje.strftime('%d'))-1
+    if dist < 10:
+        return '0'+str(dist)
+    else:
+        return str(dist)
 
 hoje = datetime.now()
 dhoje = hoje.strftime('%d')
+dontem = dia_de_ontem(hoje)
 mes= hoje.strftime('%m')
+hora = hoje.strftime('%H')
 
 covid = pd.read_csv(path_download15)
 covid.drop('Unnamed: 0',axis=1,inplace=True)
 here = pathlib.Path().absolute()
 path_win = Path(here,"chromedriver_ln")
 driver = webdriver.Chrome(path_win)
-
-dias = ['{}'.format(dhoje)]
-meses =['{}'.format(mes)]
+if int(hora) >=18:
+    dias = ['{}'.format(dhoje)]
+    meses =['{}'.format(mes)]
+else:
+    dias = ['{}'.format(dontem)]
+    meses =['{}'.format(mes)]
 for m in meses:
     for d in dias:
-        link = 'http://www.piracicaba.sp.gov.br/plantao+coronavirus+{}+{}+2021.aspx'.format(d,m)
+        link = 'http://www.piracicaba.sp.gov.br/categoria/principais+noticias.aspx'
         print(link)
         driver.get(link)
-        div = driver.find_element_by_id('imagenet-conteudo')
+        div_prim = driver.find_elements_by_class_name('imagenet-topico')
+        for i in range(len(div_prim)):
+            if div_prim[i].text=='› {}/{}/2021 - PLANTÃO CORONAVÍRUS- {}/{}/2021'.format(d,m,d,m):
+                div_prim[i].click()
+                break
+            else:
+                continue
+        div= driver.find_element_by_id('imagenet-conteudo')
         novos_obitos = 'NA'
         casos_confirmados = 'NA'
         casos_suspeitos = 'NA'

@@ -41,27 +41,7 @@ def modulo(x):
 
 
 def index(request):
-    msg     = None
-    success = False
-
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
-
-            msg     = 'Usuário criado! Acesse agora! <a href="/login">login</a>.'
-            success = True
-            login(request, user)
-            return redirect("/")
-
-        else:
-            msg = 'Formulário não é válido'
-    else:
-        form = SignUpForm()
-        return render(request, "index.html", {"form": form, "msg" : msg, "success" : success })
+    return render(request, "index.html")
 
 
 
@@ -69,7 +49,7 @@ def index(request):
 
 # ---------------------------------------RESUMO-------------------------------------------------
 
-@login_required(login_url="/login/")
+
 def piraresumo(request):
 
 # ------------CAMINHOS---------------
@@ -78,6 +58,7 @@ def piraresumo(request):
     path_download3 = Path(parente,"notebook/bases/piracicaba/despesa_bimestres.csv")
     path_download19 = Path(parente,"notebook/bases/piracicaba/vacinas.csv")
     path_download12 = Path(parente,"notebook/bases/piracicaba/covid.csv")
+    path_topo= Path(parente,"notebook/bases/piracicaba/1.csv")
 # -------------DATABASES-----------
     covid=pd.read_csv(path_download12)
     df=pd.read_csv(path_download3)  #Despesa Corrente
@@ -119,8 +100,8 @@ def piraresumo(request):
     pridose=prid['DosesDiarias'].tolist()[-1]
     vacinadosHoje=round(segdose+pridose)
 
-    pdose=vacinas.iloc[-1,2]
-    sdose=vacinas.iloc[-2,2]
+    pdose=vacinas.iloc[-1,1]
+    sdose=vacinas.iloc[-2,1]
     sumvac=pdose+sdose
     if sdose<10000:
         rpdose=str(pdose)[:2]
@@ -131,7 +112,64 @@ def piraresumo(request):
         rsdose=str(sdose)[:2]
         rsumvac=str(sumvac)[:2]
 
+# -------------Elementos soltos do inicio-------------
+    df_topo = pd.read_csv(path_topo)
+    df_last_year = df_topo[df_topo['Unnamed: 0']==df_topo['Unnamed: 0'].iloc[-7]]
+    df_now = df_topo[df_topo['Unnamed: 0']==df_topo['Unnamed: 0'].iloc[-1]]
+
+    df_now.set_index('Despesas Orçamentárias',inplace=True)
+    df_last_year.set_index('Despesas Orçamentárias',inplace=True)
+
+    df_pct = pd.DataFrame()
+    df_pct['Valor']= df_now['DESPESAS LIQUIDADAS NO BIMESTRE']
+    df_pct['Diferença']  = df_now['DESPESAS LIQUIDADAS NO BIMESTRE'] - df_last_year['DESPESAS LIQUIDADAS NO BIMESTRE']
+    df_pct['Diferença Absoluto'] = df_pct['Diferença'].apply(modulo)
+    df_pct['Porcentagem']  = (100*(df_now['DESPESAS LIQUIDADAS NO BIMESTRE'] - df_last_year['DESPESAS LIQUIDADAS NO BIMESTRE']))/df_last_year['DESPESAS LIQUIDADAS NO BIMESTRE']
+    df_pct['Porcentagem Absoluto'] = df_pct['Porcentagem'].apply(modulo)
+    df_pct.sort_values('Diferença Absoluto',inplace=True,ascending=False)
+    df_pct.drop(['Porcentagem Absoluto','Diferença Absoluto'],axis=1,inplace=True)
+
+    df_valor_temp1 = df_pct.sort_values('Valor',ascending=False)
+    df_valor_temp1['Valor_round'] = ['%.2f' % elem for elem in df_valor_temp1['Valor'] ]
+    # -------------radius-------------
+    lst_valor = df_valor_temp1[:10]['Valor_round'].tolist()
+    lst_nome = df_valor_temp1[:10].index.tolist()
+    # -------------------------
+    nome_1 = df_pct.index.tolist()[0]
+
+    pct_1 = round(df_pct['Porcentagem'].tolist()[0])
+    valor_1 = round(df_pct['Diferença'].tolist()[0])
+
+    nome_2 = df_pct.index.tolist()[1]
+
+    pct_2= round(df_pct['Porcentagem'].tolist()[1])
+    valor_2= round(df_pct['Diferença'].tolist()[1])
+
+    nome_3 = df_pct.index.tolist()[2]
+
+    pct_3= round(df_pct['Porcentagem'].tolist()[2])
+    valor_3= round(df_pct['Diferença'].tolist()[2])
+
+    nome_4 = df_pct.index.tolist()[3]
+
+    pct_4 = round(df_pct['Porcentagem'].tolist()[3])
+    valor_4 = round(df_pct['Diferença'].tolist()[3])
+
+    nome_5 = df_pct.index.tolist()[4]
+
+    pct_5 = round(df_pct['Porcentagem'].tolist()[4])
+    valor_5 = round(df_pct['Diferença'].tolist()[4])
+
+    nome_6 = df_pct.index.tolist()[5]
+
+    pct_6 = round(df_pct['Porcentagem'].tolist()[5])
+    valor_6 = round(df_pct['Diferença'].tolist()[5])
+
+
     context = {'data':data,'data_diarios':data_diarios,'dados_rec_corr_round':dados_rec_corr_round,'dados_des_corr_liq':dados_des_corr_liq,
+    'nome_1':nome_1 ,'nome_2':nome_2 ,'nome_3':nome_3 ,'nome_4':nome_4 ,'nome_5':nome_5 ,'nome_6':nome_6,
+    'pct_1':pct_1 ,'pct_2':pct_2 ,'pct_3':pct_3 ,'pct_4':pct_4 ,'pct_5':pct_5,'pct_6':pct_6,
+    'valor_1':valor_1 ,'valor_2':valor_2 ,'valor_3':valor_3 ,'valor_4':valor_4 ,'valor_5':valor_5,'valor_6':valor_6,
     'vacinadosHoje':vacinadosHoje,'casosHoje':casosHoje,'casosDiarios':casosDiarios,
     'pdose':pdose,'sdose':sdose,'sumvac':sumvac,'rpdose':rpdose,'rsdose':rsdose,'rsumvac':rsumvac}
     context['segment'] = 'resumo'
@@ -141,7 +179,7 @@ def piraresumo(request):
 
 # ---------------------------------------RECEITAS PREFEITURA-------------------------------------------------
 
-@login_required(login_url="/login/")
+
 def piraprefrec(request):
 
 
@@ -226,7 +264,7 @@ def piraprefrec(request):
 
 # ---------------------------------------DESPESAS PREFEITURA-------------------------------------------------
 
-@login_required(login_url="/login/")
+
 def piraprefdes(request):
 
     parente = pathlib.Path().absolute()
@@ -536,7 +574,7 @@ def piraprefdes(request):
 
 # ---------------------------------------SESSÕES CÂMARA-------------------------------------------------
 
-@login_required(login_url="/login/")
+
 def piracamsessoes(request):
     parente = pathlib.Path().absolute()
     path_download1 = Path(parente,"notebook/bases/piracicaba/sessoes.csv")
@@ -556,7 +594,7 @@ def piracamsessoes(request):
 
 # ---------------------------------------SESSÕES CÂMARA-------------------------------------------------
 
-@login_required(login_url="/login/")
+
 def piracamorcamento(request):
     parente = pathlib.Path().absolute()
     path_download1 = Path(parente,"notebook/bases/piracicaba/top100_cam.xlsx")
@@ -576,7 +614,7 @@ def piracamorcamento(request):
 
 # ---------------------------------------COVID-Casos-------------------------------------------------
 
-@login_required(login_url="/login/")
+
 def piracovidcasos(request):
     parente = pathlib.Path().absolute()
     path_download1 = Path(parente,"notebook/bases/piracicaba/covid.csv")
@@ -684,7 +722,7 @@ def piracovidcasos(request):
 
 
 # ---------------------------------------COVID-Vacina-------------------------------------------------
-@login_required(login_url="/login/")
+
 def piracovidvac(request):
     parente = pathlib.Path().absolute()
 
@@ -705,9 +743,9 @@ def piracovidvac(request):
     sd=vacinas2[vacinas2['Dose']=='2° Dose']
     sd['DosesDiarias']=sd['Contagem de Id Vacinacao']-sd['Contagem de Id Vacinacao'].shift(1)
     prid['DosesDiarias']=prid['Contagem de Id Vacinacao']-prid['Contagem de Id Vacinacao'].shift(1)
-    data_p=prid['Data'].tolist()[1:]
+    data_p=prid['Data'].tolist()[2:]
     segdose=sd['DosesDiarias'].tolist()[1:]
-    pridose=prid['DosesDiarias'].tolist()[1:]
+    pridose=prid['DosesDiarias'].tolist()[2:]
     numRequerido=[407252*2]*len(data_t)
 
     context = {'data_p':data_p,'data_t':data_t,'vac_t':vac_t,'segdose':segdose,
@@ -719,7 +757,7 @@ def piracovidvac(request):
     return HttpResponse(html_template.render(context, request))
 
 # --------------------------------------DEMAIS PÁGINAS---------------------------------------------------------
-@login_required(login_url="/login/")
+
 def pages(request):
     context = {}
     # All resource paths end in .html.

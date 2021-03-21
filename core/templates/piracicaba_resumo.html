@@ -1,4 +1,4 @@
-{% extends "layouts/base1.html" %}
+{% extends "layouts/base_piracicaba.html" %}
 {%load static%}
 {%load plotly_dash%}
 {% block title %} Dashboard {% endblock %}
@@ -85,11 +85,61 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-md-4">
+					<div class="card card-post card-round">
+						<a href="{%url 'pira_covid_vac'%}"><img class="card-img-top" src="/static/assets/img/vacina2.jpg" alt="Card image cap" ></a>
+						<div class="card-body">
+							<div class="separator-solid"></div>
+							<p class="card-category text-info mb-1"><a href="{%url 'pira_covid_vac'%}">Vacinas</a></p>
+							<h3 class="card-title">
+								<a href="{%url 'pira_covid_vac'%}">
+									Acompanhe a vacinação no município
+								</a>
+							</h3>
+							<p class="card-text">Informe-se sobre as aplicações diárias da primeira e da segunda dose da vacina no município.</p>
+							<a href="{%url 'pira_covid_vac'%}" class="btn btn-primary btn-rounded btn-sm">Veja Mais</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card card-post card-round">
+						<a href="#"><img class="card-img-top" src="/static/assets/img/mascara.jpg" alt="Card image cap"></a>
+						<div class="card-body">
+							<div class="separator-solid"></div>
+							<p class="card-category text-info mb-1"><a href="#">Máscaras</a></p>
+							<h3 class="card-title">
+								<a href="#">
+									Saiba quais máscara protegem
+								</a>
+							</h3>
+							<p class="card-text">Existem máscaras adequadas para cada ambiente. Confira as mais adequadas para sua rotina.</p>
+							<a href="#" class="btn btn-primary btn-rounded btn-sm">Veja Mais</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card card-post card-round">
+						<a href="{%url 'pira_cam_sessoes'%}"><img class="card-img-top" src="/static/assets/img/camara.jpg" alt="Card image cap"></a>
+						<div class="card-body">
+							<div class="separator-solid"></div>
+							<p class="card-category text-info mb-1"><a href="{%url 'pira_cam_sessoes'%}">Câmara dos Vereadores</a></p>
+							<h3 class="card-title">
+								<a href="{%url 'pira_cam_sessoes'%}">
+									Verifique as ementas votadas
+								</a>
+							</h3>
+							<p class="card-text">O que os nossos vereadores têm votado nesse momento tão crítico para a população? </p>
+							<a href="{%url 'pira_cam_sessoes'%}" class="btn btn-primary btn-rounded btn-sm">Veja Mais</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-8">
 					<div class="card">
 						<div class="card-header">
 							<div class="card-head-row">
-								<div class="card-title">Gastos Correntes	 (Prefeitura)</div>
+								<div class="card-title">Orçamento Corrente Prefeitura</div>
 								<div class="card-tools">
 									<button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
 										<span class="btn-label">
@@ -112,7 +162,7 @@
 					<div class="card card-primary">
 						<div class="card-header">
 							<div class="card-head-row">
-								<div class="card-title">COVID-19</div>
+								<div class="card-title">Gastos com Saúde</div>
 								<div class="card-tools">
 									<button onclick="orcPref()" class="btn btn-info btn-border btn-round btn-sm">
 										<span class="btn-label">
@@ -144,6 +194,134 @@
 					</div>
 				</div>
 			</div>
+			<div class="row container">
+        <h2>Despesas da Prefeitura com maiores variações em absoluto:</h2>
+        <div class="card-tools" style="float: right; padding-left: 100px;">
+          <button onclick="top6DespPref()" class="btn btn-info  btn-round btn-sm">
+            <span class="btn-label">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            Explicação
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_1 <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_1|safe}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_1 > 0 %}
+              <div class="text-right text-success">
+                {{pct_1|safe}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">R$ {{valor_1|safe}} mi</div>
+              <div class="text-muted2 mb-3">{{nome_1|safe}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_2 <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_2}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_2 > 0 %}
+              <div class="text-right text-success">
+                {{pct_2}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">R$ {{valor_2}} mi</div>
+              <div class="text-muted2 mb-3">{{nome_2}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_3 <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_3}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_3 > 0 %}
+              <div class="text-right text-success">
+                {{pct_3}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">R$ {{valor_3}} mi</div>
+              <div class="text-muted2 mb-3">{{nome_3}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_4 <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_4}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_4 > 0 %}
+              <div class="text-right text-success">
+                {{pct_4}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">R$ {{valor_4}} mi</div>
+              <div class="text-muted2 mb-3">{{nome_4}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_5 <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_5}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_5 > 0 %}
+              <div class="text-right text-success">
+                {{pct_5}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">R$ {{valor_5}} mi</div>
+              <div class="text-muted2 mb-3">{{nome_5}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+          <div class="card">
+            <div class="card-body p-3 text-center">
+              {% if pct_6 <= 0 %}
+              <div class="text-right text-danger">
+                {{pct_6}}%
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              {% elif pct_6 > 0 %}
+              <div class="text-right text-success">
+                {{pct_6}}%
+                <i class="fa fa-chevron-up"></i>
+              </div>
+              {%endif%}
+              <div class="h1 m-0">R$ {{valor_6}} mi</div>
+              <div class="text-muted2 mb-3">{{nome_6}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
 			<div class="row row-card-no-pd">
 				<div class="col-md-12">
 					<div class="card">
@@ -741,7 +919,7 @@
 			id:'circles-1',
 			radius:45,
 			value:{{sumvac | safe}},
-			maxValue:500000,
+			maxValue:900000,
 			width:7,
 			text: {{rsumvac | safe}}+'K',
 			colors:['#f1f1f1', '#FF9E27'],
@@ -756,7 +934,7 @@
 			id:'circles-2',
 			radius:45,
 			value:{{pdose | safe}},
-			maxValue:500000,
+			maxValue:450000,
 			width:7,
 			text: {{rpdose | safe}}+'K',
 			colors:['#f1f1f1', '#2BB930'],
@@ -771,7 +949,7 @@
 			id:'circles-3',
 			radius:45,
 			value:{{sdose | safe}},
-			maxValue:500000,
+			maxValue:450000,
 			width:7,
 			text: {{rsdose | safe}}+'K',
 			colors:['#f1f1f1', '#F25961'],

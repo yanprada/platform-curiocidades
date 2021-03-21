@@ -44,15 +44,15 @@
 	<div class="content">
 		<div class="panel-header  bg-info-gradient " >
 			<div class="page-inner py-5">
+				<input type="text" autofocus="autofocus" style="display:none" />
 				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 					<div>
-						<input type="text" autofocus="autofocus" style="display:none" />
 						<h2 class="text-white pb-1 fw-bold big" style="font-size:4.5em;">Curio<span style="color:#70c8ff;">cidades</span></h2>
 						<h5 class="text-white op-7 mb-2">Conheça Piracicaba com dados</h5>
 					</div>
 					<div class="ml-md-auto py-2 py-md-0">
-						<a href="#" class="btn btn-white btn-border btn-round mr-2">Saber Mais</a>
-						<a href="{% url 'login' %}" class="btn btn-secondary btn-round">Entrar</a>
+						<a href="#" class="btn btn-secondary btn-round">Terminal</a>
+						<a href="{% url 'login' %}" class="btn btn-primary btn-round">Perfil Cidadão</a>
 					</div>
 				</div>
 			</div>
@@ -60,114 +60,107 @@
 		<div class="content">
 			<div class="page-inner py-5">
 
-				<div class="container intro">
-						<h1 class='titulo-terminal'>Uma <strong> plataforma</strong> para os <strong>dados</strong> de Piracicaba!</h1>
-				</div>
-			<div class="row">
-				<div class="col-md-6">
-					<h1>Quer saber mais sobre:</h1>
-					<br>
-					<ul>
-						<li><h2>a distribuição das vacinas da covid no município?</h2></li>
-						<li><h2>o orçamento da Prefeitura?</h2></li>
-						<li><h2>o mapa das sessões eleitorais mais votadas por candidato?</h2></li>
-						<li><h2>dados econômicos de setores de Piracicaba? </h2></li>
-					</ul>
-					<br><br><br>
-				</div>
-				<div class="col-md-6">
-						<div class="card">
-								<div class="card-header">
-										<div class="card-title">
 
-												{% if msg %}
-														<span class="text-danger">{{ msg | safe }}</span>
-												{% else %}
-												<span>
-														Cadastre-se:
-												</span>
-												{% endif %}
-
-										</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="card card-info card-annoucement card-round">
+							<div class="card-body text-center">
+								<div class="card-opening">Bem Vindo(a),</div>
+								<div class="card-desc">
+									Aqui você encontra gráficos sobre Piracicaba,
+									ou então ferramentas úteis para economizar no seu dia a dia!
 								</div>
-
-								<form method="post" action="">
-
-										{% csrf_token %}
-
-										<div class="card-body">
-												<div class="row">
-														<div class="col-md-12">
-
-																<div class="form-group">
-																		<div class="input-group mb-3">
-																				<div class="input-group-prepend">
-																						<span class="input-group-text">
-																								<i class="icon-user"></i>
-																						</span>
-																				</div>
-																				{{ form.username }}
-																		</div>
-																</div>
-																<span class="text-danger">{{ form.username.errors }}</span>
-
-																<div class="form-group">
-																		<div class="input-group mb-3">
-																				<div class="input-group-prepend">
-																						<span class="input-group-text">
-																								<i class="icon-envelope"></i>
-																						</span>
-																				</div>
-																				{{ form.email }}
-																		</div>
-																</div>
-																<span class="text-danger">{{ form.email.errors }}</span>
-
-																<div class="form-group">
-																		<div class="input-group mb-3">
-																				<div class="input-group-prepend">
-																						<span class="input-group-text">
-																								<i class="icon-lock"></i>
-																						</span>
-																				</div>
-																				{{ form.password1 }}
-																		</div>
-																</div>
-																<span class="text-danger">{{ form.password1.errors }}</span>
-
-																<div class="form-group">
-																		<div class="input-group mb-3">
-																				<div class="input-group-prepend">
-																						<span class="input-group-text">
-																								<i class="icon-lock"></i>
-																						</span>
-																				</div>
-																				{{ form.password2 }}
-																		</div>
-																</div>
-																<span class="text-danger">{{ form.password2.errors }}</span>
-
-														</div>
-												</div>
+								<div class="card-detail">
+									<div class="btn btn-light btn-sm btn-rounded">Saber Mais</div>
+								</div>
+							</div>
+						</div>
+						<div class="card card-round">
+							<div class="card-body">
+								<div class="card-title fw-mediumbold">Últimas atualizações</div>
+								<div class="card-list">
+									<div class="item-list">
+										<div class="avatar">
+											<img src="/static/assets/img/covid.jpg" alt="..." class="avatar-img rounded-circle">
 										</div>
-										<div class="card-action">
-												<button type="submit" class="btn btn-success">Enviar</button>
-												&nbsp; &nbsp;
-												<span>Já tem uma conta?</span> <a href="{% url 'login' %}" >Login</a>
+										<div class="info-user ml-3">
+											<div class="username">COVID-19</div>
+											<div class="status">Graphic Designer</div>
 										</div>
+										<button class="btn btn-icon btn-primary btn-round btn-xs">
+											<i class="fa fa-plus"></i>
+										</button>
+									</div>
+									<div class="item-list">
+										<div class="avatar">
+											<img src="/static/assets/img/vacina.jpg" alt="..." class="avatar-img rounded-circle">
+										</div>
+										<div class="info-user ml-3">
+											<div class="username">Vacinas</div>
+											<div class="status">CEO Zeleaf</div>
+										</div>
+										<button class="btn btn-icon btn-primary btn-round btn-xs">
+											<i class="fa fa-plus"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-profile">
+							<div class="card-header" style="background: url('/static/assets/img/blogpost.png')">
+								<div class="profile-picture">
+									<div class="avatar avatar-xl">
+									<a href="{%url 'pira_resumo'%}"><img src="/static/assets/img/terminal.jpg" alt="..." class="avatar-img rounded-circle"></a>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="user-profile text-center">
+									<div class="name">Terminal dos Dados</div>
+									<div class="job">Gráficos de Piracicaba</div>
+									<div class="desc"><br>Informações visuais de Piracicaba que não são encontradas em nenhum outro lugar da internet! Você não pode deixar de conferir. Temos dados sobre
+										a prefeitura de Piracicaba, sobre a vacinação no município e os números de casos de Covid, além de informações sobre as Eleições, entre outros.<br><br></div>
 
-								</form>
+									<div class="view-profile">
+										<a href="{%url 'pira_resumo'%}" class="btn btn-secondary btn-block">Terminal</a>
+									</div>
+								</div>
+							</div>
 
 						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-profile">
+							<div class="card-header" style="background-image: url('/static/assets/img/blogpost3.png')">
+								<div class="profile-picture">
+									<div class="avatar avatar-xl">
+										<a class='h-avatar'href="{%url 'pira_resumo'%}"><img src="/static/assets/img/terminal2.jpg" alt="..." class="avatar-img rounded-circle imagem"></a>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="user-profile text-center">
+									<div class="name">Perfil Cidadão</div>
+									<div class="job">Ferramentas</div>
+									<div class="desc"><br>Informações úteis para quem vive em Piracicaba! Aqui você pode encontrar um ranking para economizar no supermercado! Te
+										informamos os supermercados mais baratos para comprar baseado numa lista de pordutos. Se você ou alguém está vivendo no aperto, indique o supermercado mais barato
+										para adquirir cesta básica.<br><br></div>
+
+									<div class="view-profile">
+										<a href="#" class="btn btn-primary btn-block">Perfil Cidadão</a>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
 				</div>
 
-			</div>
 
 
-				<hr>
-				<h1>Conheça um pouco mais sobre o terminal:</h1>
-				<br><br><br>
-				<img src="/static/assets/media/django-dashboard-atlantis-dark-intro.gif" width="80%" alt="">
+
 			</div>
 		</div>
 

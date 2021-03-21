@@ -31,8 +31,10 @@
                 </li>
             </ul>
         </div>
+        <h1>Não precisa fazer login, basta clicar em "Entrar como Convidado"</h1>
+        <br>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -41,7 +43,7 @@
                                 <span class="text-danger">{{ msg | safe }}</span>
                             {% else %}
                             <span>
-                                Use a credencial padrão: <strong>Convidado / informa1234</strong>
+                                <strong>Entre como Convidado</strong>
                             </span>
                             {% endif %}
 
@@ -54,7 +56,7 @@
 
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6 col-lg-4">
+                                <div class="col-md-10 col-lg-10">
 
                                     <div class="form-group">
                                         <div class="input-group mb-3">
@@ -82,9 +84,10 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button type="submit" class="btn btn-success">Entrar</button>
+
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-laptop"></i> Entrar como Convidado</button>
                             &nbsp; &nbsp;
-                            <span>Quer seu próprio login?</span> Por favor <a href="{% url 'register' %}" >Registre-se</a>
+                            <span>Quer ter seu próprio login?</span> Por favor <a href="{% url 'register' %}" >Registre-se</a>
                         </div>
 
                     </form>

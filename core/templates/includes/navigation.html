@@ -27,7 +27,7 @@
 				{% if request.user.is_authenticated %}
 				<div class="container-fluid">
 					<div class="collapse" id="search-nav">
-						<form class="navbar-left navbar-form nav-search mr-md-3">
+						<!-- <form class="navbar-left navbar-form nav-search mr-md-3">
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<button type="submit" class="btn btn-search pr-1">
@@ -36,10 +36,10 @@
 								</div>
 								<input type="text" placeholder="Search ..." class="form-control">
 							</div>
-						</form>
+						</form> -->
 					</div>
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						<li class="nav-item toggle-nav-search hidden-caret">
+						<!-- <li class="nav-item toggle-nav-search hidden-caret">
 							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
 								<i class="fa fa-search"></i>
 							</a>
@@ -224,7 +224,7 @@
 									</div>
 								</div>
 							</div>
-						</li>
+						</li> -->
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<div class="avatar-sm">
@@ -240,17 +240,17 @@
 												<h4>
 													{{ request.user.username }}
 												</h4>
-												<p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+												<p class="text-muted">{{ request.user.email }}</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">Ver Perfil</a>
 											</div>
 										</div>
 									</li>
 									<li>
-										<div class="dropdown-divider"></div>
+										<!-- <div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="#">My Profile</a>
 										<a class="dropdown-item" href="#">My Balance</a>
 										<a class="dropdown-item" href="#">Inbox</a>
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Account Setting</a>
+										<a class="dropdown-item" href="#">Account Setting</a> -->
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
 									</li>
