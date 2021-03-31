@@ -106,7 +106,7 @@ for item in lista:
         noite=True
         data_str = hoje.strftime('%y-%m-%d')
         data= datetime.strptime(data_str, '%y-%m-%d')
-        data = '{}-{}-{}'.format(data.year, data.month, data.day)
+        data = '{}-0{}-{}'.format(data.year, data.month, data.day)
         if (item == 'isolamento'):
             driver.get(link1)
             driver.implicitly_wait(10)
@@ -201,11 +201,23 @@ for item in lista:
             df = df[df.iloc[:,0] == 'PIRACICABA']
             df['Data'] = data
         if vacinas['Data'].iloc[-1]!= data:
-            vacinas = vacinas.append(df,ignore_index=True)
+            if len(df)<2:
+                    if df.Dose.iloc[0]=='1° Dose':
+                        linha=df[df.Dose=='1° Dose']
+                        linha['Dose']='2° Dose'
+                        linha['Contagem de Id Vacinacao']=vacinas['Contagem de Id Vacinacao'].iloc[-2]
+                        vacinas = vacinas.append(linha,ignore_index=True)
+                        vacinas = vacinas.append(df,ignore_index=True)
+                    else:
+                        vacinas = vacinas.append(df,ignore_index=True)
+                        linha=df[df.Dose=='2° Dose']
+                        linha['Dose']='1° Dose'
+                        linha['Contagem de Id Vacinacao']=vacinas['Contagem de Id Vacinacao'].iloc[-1]
+                        vacinas = vacinas.append(linha,ignore_index=True)
+            else:
+                vacinas = vacinas.append(df,ignore_index=True)
         else:
             continue
         vacinas.to_csv(path_download19,index=False)
     else:
         continue
-
-    

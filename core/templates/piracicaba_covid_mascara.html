@@ -1,0 +1,101 @@
+{% extends "layouts/base_piracicaba.html" %}
+ {% load plotly_dash %}
+{% block title %} Covid - Casos {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">MÁSCARAS</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="/index.html">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="{%url 'pira_resumo'%}">Piracicaba</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<p>Máscaras</p>
+					</li>
+				</ul>
+			</div>
+      <div class="row">
+        <div class="col-md-12">
+					<div class="card card-annoucement card-round">
+						<div class="card-body text-center">
+							<div class="card-opening">Qual máscara utilizar?</div>
+                <div class="card-desc">
+                  Trazemos aqui algumas imagens informativas sobre as máscaras, baseadas em dois sites, o <a target="_blank" href="https://www.poder360.com.br/coronavirus/mascara-n95-pff2-como-usar-reutilizar-e-porque-e-uma-das-mais-seguras/">Poder360</a> e o <a target="_blank" href="https://www.telessaude.unifesp.br/index.php/dno/opiniao/229-que-mascara-usar">Telesaúde da Unifesp</a>.
+                </div>
+						</div>
+					</div>
+				</div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Informações úteis</div>
+						</div>
+						<div class="card-body">
+              <img src="/static/assets/img/mask.png" alt="Unifesp" width="80%">
+              <img src="/static/assets/img/mask1.png" alt="Poder360" width="90%">
+              <img src="/static/assets/img/mask2.png" alt="Poder360" width="90%">
+              <img src="/static/assets/img/mask3.png" alt="Poder360" width="90%">
+              <img src="/static/assets/img/mask4.png" alt="Poder360" width="90%">
+              <img src="/static/assets/img/mask5.png" alt="Poder360" width="90%">
+
+
+						</div>
+					</div>
+				</div>
+      </div>
+
+      <!-- <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Total de Vacinas Requeridas e Aplicadas</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Novas aplicações da 2ª dose (diárias)</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="multipleLineChart2"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+
+
+
+		</div>
+	</div>
+
+{% endblock content %}

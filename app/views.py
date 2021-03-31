@@ -688,19 +688,19 @@ def piracovidcasos(request):
 
     # -------------porcentagens/valores-------------
     valor_obt_diarios = obitos_diarios[-1]
-    pct_obt_diarios = round((int(obitos_diarios[-1])-int(mobitos_diarios[-15]))/int(mobitos_diarios[-15])*100)
+    pct_obt_diarios = round((int(mobitos_diarios[-1])-int(mobitos_diarios[-15]))/int(mobitos_diarios[-15])*100)
 
     valor_casos_trat = casos_trat[-1]
-    pct_casos_trat = round((int(casos_trat[-1])-int(mcasos_trat[-15]))/int(mcasos_trat[-15])*100)
+    pct_casos_trat = round((int(mcasos_trat[-1])-int(mcasos_trat[-15]))/int(mcasos_trat[-15])*100)
 
     valor_obitos_acum = obitos_acum[-1]
     pct_obitos_acum = round((int(obitos_acum[-1])-int(obitos_acum[-8]))/int(obitos_acum[-8])*100)
 
     valor_casos_suspeitos = casos_suspeitos[-1]
-    pct_casos_suspeitos = round((int(casos_suspeitos[-1])-int(mcasos_suspeitos[-15]))/int(mcasos_suspeitos[-15])*100)
+    pct_casos_suspeitos = round((int(mcasos_suspeitos[-1])-int(mcasos_suspeitos[-15]))/int(mcasos_suspeitos[-15])*100)
 
     valor_casos_diarios = casos_diarios[-1]
-    pct_casos_diarios = round((int(casos_diarios[-1])-int(mcasos_diarios[-8]))/int(mcasos_diarios[-8])*100)
+    pct_casos_diarios = round((int(mcasos_diarios[-1])-int(mcasos_diarios[-8]))/int(mcasos_diarios[-8])*100)
 
     valor_casos_acumulados = casos_acumulados[-1]
     pct_casos_acumulados = round((int(casos_acumulados[-1])-int(casos_acumulados[-8]))/int(casos_acumulados[-8])*100)
@@ -746,10 +746,11 @@ def piracovidvac(request):
     data_p=prid['Data'].tolist()[2:]
     segdose=sd['DosesDiarias'].tolist()[1:]
     pridose=prid['DosesDiarias'].tolist()[2:]
+    tdoses=pridose+segdose
     numRequerido=[407252*2]*len(data_t)
 
     context = {'data_p':data_p,'data_t':data_t,'vac_t':vac_t,'segdose':segdose,
-    'pridose':pridose,'numRequerido':numRequerido}
+    'pridose':pridose,'tdoses':tdoses,'numRequerido':numRequerido}
 
     context['segment'] = 'vacina'
 

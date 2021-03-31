@@ -51,8 +51,8 @@
 						<h5 class="text-white op-7 mb-2">Conheça Piracicaba com dados</h5>
 					</div>
 					<div class="ml-md-auto py-2 py-md-0">
-						<a href="#" class="btn btn-secondary btn-round">Terminal</a>
-						<a href="{% url 'login' %}" class="btn btn-primary btn-round">Perfil Cidadão</a>
+						<a href="{% url 'pira_resumo' %}" class="btn btn-secondary btn-round">Terminal</a>
+						<a href="" class="btn btn-primary btn-round">Perfil Cidadão</a>
 					</div>
 				</div>
 			</div>
@@ -70,9 +70,9 @@
 									Aqui você encontra gráficos sobre Piracicaba,
 									ou então ferramentas úteis para economizar no seu dia a dia!
 								</div>
-								<div class="card-detail">
+								<!-- <div class="card-detail">
 									<div class="btn btn-light btn-sm btn-rounded">Saber Mais</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<div class="card card-round">
@@ -85,11 +85,11 @@
 										</div>
 										<div class="info-user ml-3">
 											<div class="username">COVID-19</div>
-											<div class="status">Graphic Designer</div>
+
 										</div>
-										<button class="btn btn-icon btn-primary btn-round btn-xs">
+										<a href="{%url 'pira_covid_casos'%}"><button  class="btn btn-icon btn-primary btn-round btn-xs">
 											<i class="fa fa-plus"></i>
-										</button>
+										</button></a>
 									</div>
 									<div class="item-list">
 										<div class="avatar">
@@ -97,11 +97,11 @@
 										</div>
 										<div class="info-user ml-3">
 											<div class="username">Vacinas</div>
-											<div class="status">CEO Zeleaf</div>
+
 										</div>
-										<button class="btn btn-icon btn-primary btn-round btn-xs">
+										<a href="{%url 'pira_covid_vac'%}"><button class="btn btn-icon btn-primary btn-round btn-xs">
 											<i class="fa fa-plus"></i>
-										</button>
+										</button></a>
 									</div>
 								</div>
 							</div>
@@ -153,7 +153,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
