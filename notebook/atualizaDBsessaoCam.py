@@ -39,7 +39,7 @@ hora = hoje.strftime('%H')
 
 
 # -----------set dias and meses------------------
-dias = ['{}'.format(dhoje)]
+dias = ['{}'.format(dontem)]
 meses =['{}'.format(mes)]
 
 
@@ -109,4 +109,4 @@ for m in meses:
                     driver.quit()
                 else:
                     continue
-base_df.to_csv(path_download15,index=False)                    
+base_df.to_csv(path_download15,index=False)

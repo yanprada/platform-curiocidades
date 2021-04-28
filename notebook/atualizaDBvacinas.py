@@ -196,10 +196,13 @@ for item in lista:
         vacinas = pd.read_csv(path_download19)
         try:
             df = df[df['Municipio'] == 'PIRACICABA']
+            df.columns=['Municipio','Dose','Contagem de Id Vacinacao']
             df['Data'] = data
         except:
             df = df[df.iloc[:,0] == 'PIRACICABA']
+            df.columns=['Municipio','Dose','Contagem de Id Vacinacao']
             df['Data'] = data
+
         if vacinas['Data'].iloc[-1]!= data:
             if len(df)<2:
                     if df.Dose.iloc[0]=='1° Dose':

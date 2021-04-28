@@ -45,6 +45,9 @@ for m in meses:
             if div_prim[i].text=='› {}/{}/2021 - PLANTÃO CORONAVÍRUS- {}/{}/2021'.format(d,m,d,m):
                 div_prim[i].click()
                 break
+            elif item.text=='› {}/{}/2021 - PLANTÃO CORONAVÍRUS - {}/{}/2021'.format(d,m,d,m):
+                item.click()
+                break
             else:
                 continue
         div= driver.find_element_by_id('imagenet-conteudo')
@@ -94,6 +97,16 @@ for m in meses:
                         obitos = div.text.split('\n')[i].split()[0][:3]
                     else:
                         obitos = div.text.split('\n')[i].split()[0]
+                elif div.text.split('\n')[i].split()[0] =='Óbitos-':
+                    if len(div.text.split('\n')[i].split()[0])>5:
+                        obitos = div.text.split('\n')[i].split()[-1]
+                    else:
+                        obitos = div.text.split('\n')[i].split()[-1]
+                elif div.text.split('\n')[i].split()[0] =='Óbitos':
+                    if len(div.text.split('\n')[i].split()[0])>5:
+                        obitos = div.text.split('\n')[i].split()[-1]
+                    else:
+                        obitos = div.text.split('\n')[i].split()[-1]
             elif len(div.text.split('\n')[i].split())>1:
                 if div.text.split('\n')[i].split()[1] =='homens:':
                     homens = div.text.split('\n')[i].split()[0]
